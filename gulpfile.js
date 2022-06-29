@@ -92,9 +92,10 @@ const copyFiles = () => {
     "public/manifest.json",
     "public/settings.json",
     "public/icon.svg",
-    "public/icon-192.png",
-    "public/icon-512.png",
+    "public/icon192.png",
+    "public/icon512.png",
     "public/service-worker.js",
+    "public/offline.html",
   ]).pipe(dest("dist/"));
 };
 
