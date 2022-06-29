@@ -92,6 +92,9 @@ const copyFiles = () => {
     "public/loading_bar.svg",
     "public/manifest.json",
     "public/settings.json",
+    "public/icon.svg",
+    "public/icon-192.png",
+    "public/icon-512.png",
   ]).pipe(dest("dist/"));
 };
 
