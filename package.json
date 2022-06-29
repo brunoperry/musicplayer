@@ -4,8 +4,8 @@
   "description": "Javascript music player",
   "main": "gulpfile.js",
   "scripts": {
+    "push_all": "git add --all && git commit -m 'update' && git push -u origin main",
     "dev": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "gulp && git add dist && git commit -m 'update deploy' &&"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-each": "^0.5.0",
+    "gulp-rename": "^2.0.0",
     "gulp-source-injector": "^1.0.1",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-string-replace": "^1.1.2",

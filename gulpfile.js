@@ -6,6 +6,7 @@ const strReplace = require("gulp-string-replace");
 const each = require("gulp-each");
 const inlinesource = require("gulp-source-injector");
 const cleanCSS = require("gulp-clean-css");
+const rename = require("gulp-rename");
 
 //PROPS
 let scriptName = "script.js";
@@ -34,36 +35,31 @@ const terser_config = {
 };
 
 const modules = [
-  "./src/Utils.js",
-  "./src/components/Component.js",
-  "./src/components/Controls.js",
-  "./src/components/Info.js",
-  "./src/components/List.js",
-  "./src/components/Locker.js",
-  "./src/components/Menu.js",
-  "./src/components/Player.js",
-  "./src/components/Settings.js",
-  "./src/components/buttons/Button.js",
-  "./src/components/buttons/IconButton.js",
-  "./src/components/buttons/LabelButton.js",
-  "./src/components/buttons/ListButton.js",
-  "./src/components/buttons/ToggleButton.js",
-  "./src/components/inputs/Breadcrumb.js",
-  "./src/components/inputs/RangeSlider.js",
-  "./src/components/Splash.js",
-  "./src/backend.js",
-  "./src/main.js",
+  "./public/src/Utils.js",
+  "./public/src/components/Component.js",
+  "./public/src/components/Controls.js",
+  "./public/src/components/Info.js",
+  "./public/src/components/List.js",
+  "./public/src/components/Locker.js",
+  "./public/src/components/Menu.js",
+  "./public/src/components/Player.js",
+  "./public/src/components/Settings.js",
+  "./public/src/components/buttons/Button.js",
+  "./public/src/components/buttons/IconButton.js",
+  "./public/src/components/buttons/LabelButton.js",
+  "./public/src/components/buttons/ListButton.js",
+  "./public/src/components/buttons/ToggleButton.js",
+  "./public/src/components/inputs/Breadcrumb.js",
+  "./public/src/components/inputs/RangeSlider.js",
+  "./public/src/components/Splash.js",
+  "./public/src/backend.js",
+  "./public/src/main.js",
 ];
 
 //METHODS
-const watchTask = () => {
-  watch("src/*.js", minifyJS);
-};
-
 const minifyCSS = () => {
-  return src("styles.css").pipe(cleanCSS()).pipe(dest("dist/css/"));
+  return src("public/styles.css").pipe(cleanCSS()).pipe(dest("dist/css/"));
 };
-
 const minifyJS = () => {
   return (
     src(modules)
@@ -91,8 +87,9 @@ const minifyJS = () => {
 
 const inject2HTML = () => {
   return src("index_deploy.html")
+    .pipe(rename("index.html"))
     .pipe(inlinesource())
-    .pipe(dest("./dist/index.html"));
+    .pipe(dest("./dist/"));
 };
 
 exports.default = series(minifyJS, minifyCSS, inject2HTML);
