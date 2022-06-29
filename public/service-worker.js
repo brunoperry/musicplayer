@@ -1,11 +1,14 @@
 const OFFLINE_VERSION = 1;
 const CACHE_NAME = "offline";
 const OFFLINE_URL = "offline.html";
-const assets = ["offline.html"];
+const offlineAssets = ["offline.html"];
+const ONLINE_URL = "index.html";
+const onlineAssets = ["index.html"];
+
 self.addEventListener("install", (installEvent) => {
   installEvent.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      cache.addAll(assets);
+      cache.addAll(offlineAssets);
     })
   );
 });
@@ -20,6 +23,7 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 self.addEventListener("fetch", (event) => {
+  console.log("fetching sw");
   if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
