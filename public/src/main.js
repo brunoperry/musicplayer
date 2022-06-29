@@ -7,7 +7,7 @@ import Utils from "./Utils.js";
 import Locker from "./components/Locker.js";
 import Settings from "./components/Settings.js";
 import Splash from "./components/Splash.js";
-import { getDB, updateDB } from "./backend.js";
+import { getDB, updateDB, getAllData } from "./backend.js";
 
 const mainContainer = document.querySelector("#main-container");
 const uiContainer = document.querySelector("#ui");
@@ -29,9 +29,9 @@ const doSplash = async () => {
   await new Splash().doSplash(mainContainer);
 };
 
-// const data = await getAllData('music');
+// const data = await getAllData("music");
 // doSplash();
-// const f = JSON.stringify(data)
+// const f = JSON.stringify(data);
 // console.log(f);
 
 const req = await fetch("data.json");
@@ -127,6 +127,10 @@ menu.addEventListener(Menu.ACTION, async (ev) => {
         player.play(files, 0);
         menu.close();
       });
+      break;
+    case "exit":
+      console.log("closing app");
+      window.close();
       break;
     default:
       break;
