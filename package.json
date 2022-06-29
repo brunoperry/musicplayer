@@ -1,0 +1,37 @@
+{
+  "name": "musicplayer",
+  "version": "1.0.0",
+  "description": "Javascript music player",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunoperry/musicplayer.git"
+  },
+  "keywords": [
+    "music",
+    "player",
+    "web",
+    "js",
+    "es6"
+  ],
+  "author": "brunoperry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brunoperry/musicplayer/issues"
+  },
+  "homepage": "https://github.com/brunoperry/musicplayer#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-each": "^0.5.0",
+    "gulp-source-injector": "^1.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-string-replace": "^1.1.2",
+    "gulp-terser": "^2.1.0"
+  }
+}
