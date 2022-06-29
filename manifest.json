@@ -18,8 +18,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/musicplayer",
-  "id": "/musicplayer",
+  "start_url": "/musicplayer/",
+  "id": "/musicplayer/",
   "background_color": "#031E3C",
   "display": "fullscreen",
   "scope": "/",
