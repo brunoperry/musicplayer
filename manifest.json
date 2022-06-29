@@ -18,8 +18,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/?source=pwa",
-  "id": "/?source=pwa",
+  "start_url": "/",
+  "id": "/",
   "background_color": "#031E3C",
   "display": "fullscreen",
   "scope": "/",
