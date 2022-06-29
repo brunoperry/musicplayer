@@ -18,8 +18,7 @@ window.onload = async () => {
   document.body.style.opacity = 1;
 
   if ("serviceWorker" in navigator) {
-    console.log("here");
-    navigator.serviceWorker.register("/service-worker.js");
+    navigator.serviceWorker.register("service-worker.js");
   }
 };
 
