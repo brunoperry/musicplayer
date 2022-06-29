@@ -44,7 +44,7 @@
       // Listen to changes in the network state, reload when online.
       // This handles the case when the device is completely offline.
       window.addEventListener("online", () => {
-        window.location.reload();
+        // window.location.reload();
       });
 
       // Check if the server is responding and reload the page if it is.
@@ -64,7 +64,7 @@
         window.setTimeout(checkNetworkAndReload, 2500);
       }
 
-      checkNetworkAndReload();
+      // checkNetworkAndReload();
     </script>
   </body>
 </html>
