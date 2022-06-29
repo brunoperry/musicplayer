@@ -94,6 +94,7 @@ const copyFiles = () => {
     "public/icon.svg",
     "public/icon-192.png",
     "public/icon-512.png",
+    "public/service-worker.js",
   ]).pipe(dest("dist/"));
 };
 
