@@ -88,7 +88,6 @@ const minifyJS = () => {
 const copyFiles = () => {
   return src([
     "public/data.json",
-    "public/favicon.svg",
     "public/loading_bar.svg",
     "public/manifest.json",
     "public/settings.json",

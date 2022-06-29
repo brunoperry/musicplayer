@@ -1,6 +1,6 @@
 {
   "short_name": "musicapp",
-  "name": "Music App",
+  "name": "Music Apps",
   "icons": [
     {
       "src": "/icon.svg",
@@ -20,15 +20,8 @@
   ],
   "start_url": "/?source=pwa",
   "background_color": "#031E3C",
-  "display": "standalone",
+  "display": "fullscreen",
   "scope": "/",
   "theme_color": "#053160",
-  "description": "Javascript music player",
-  "screenshots": [
-    {
-      "src": "/images/screenshot.png",
-      "type": "image/png",
-      "sizes": "540x720"
-    }
-  ]
+  "description": "Javascript music player"
 }
