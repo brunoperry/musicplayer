@@ -4,7 +4,9 @@
   "description": "Javascript music player",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "gulp && git add dist && git commit -m 'update deploy' &&"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,7 @@
   },
   "homepage": "https://github.com/brunoperry/musicplayer#readme",
   "devDependencies": {
+    "express": "^4.18.1",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-clean-css": "^4.3.0",
