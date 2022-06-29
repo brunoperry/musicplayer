@@ -1,0 +1,10 @@
+[{
+    "user_id": "0",
+    "data": [
+        {
+            "type": "playmode",
+            "name": "play mode",
+            "value": "repeat_all"
+        }
+    ]
+}]

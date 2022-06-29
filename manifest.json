@@ -1,0 +1,10 @@
+{
+    "theme_color" : "#053160",
+    "background_color" : "#031E3C",
+    "display" : "fullscreen",
+    "scope" : "/",
+    "id": "/musicplayer/dist/",
+    "start_url" : "https://brunoperry.github.io/",
+    "name" : "Music Players",
+    "description" : "Music Player webapp"
+}

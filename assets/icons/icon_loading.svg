@@ -1,0 +1,5 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="var(--blue-b)">
+  <rect x="0" y="24" width="16" height="16"/>
+  <rect x="24" y="24" width="16" height="16"/>
+  <rect x="48" y="24" width="16" height="16"/>
+</svg>
