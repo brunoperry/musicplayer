@@ -4,6 +4,6 @@
   "display": "fullscreen",
   "scope": "/",
   "start_url": "https://brunoperry.github.io/",
-  "name": "Music Players",
+  "name": "Music Player",
   "description": "Music Player webapp"
 }
