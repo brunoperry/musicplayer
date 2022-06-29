@@ -7,6 +7,7 @@ const each = require("gulp-each");
 const inlinesource = require("gulp-source-injector");
 const cleanCSS = require("gulp-clean-css");
 const rename = require("gulp-rename");
+const copy = require("gulp-copy");
 
 //PROPS
 let scriptName = "script.js";
@@ -84,6 +85,15 @@ const minifyJS = () => {
       .pipe(dest("dist/js"))
   );
 };
+const copyFiles = () => {
+  return src([
+    "public/data.json",
+    "public/favicon.svg",
+    "public/loading_bar.svg",
+    "public/manifest.json",
+    "public/settings.json",
+  ]).pipe(dest("dist/"));
+};
 
 const inject2HTML = () => {
   return src("index_deploy.html")
@@ -92,4 +102,4 @@ const inject2HTML = () => {
     .pipe(dest("./dist/"));
 };
 
-exports.default = series(minifyJS, minifyCSS, inject2HTML);
+exports.default = series(copyFiles, minifyJS, minifyCSS, inject2HTML);
