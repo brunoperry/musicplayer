@@ -6,7 +6,7 @@
   "scripts": {
     "push_all": "git add --all && git commit -m 'update' && git push -u origin main",
     "dev": "node server.js",
-    "compile": "gulp && git add dist && git commit -m 'update deploy' &&"
+    "deploy": "gulp && git add dist && git commit -m 'update deploy' && git subtree push --prefix dist origin gh-pages"
   },
   "repository": {
     "type": "git",
