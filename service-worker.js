@@ -27,24 +27,9 @@ self.addEventListener("install", (installEvent) => {
   installEvent.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       cache.addAll(assets);
-      console.log("one");
     })
   );
 });
-
-// self.addEventListener("install", (event) => {
-//   event.waitUntil(
-//     (async () => {
-//       const cache = await caches.open(CACHE_NAME);
-//       // Setting {cache: 'reload'} in the new request ensures that the
-//       // response isn't fulfilled from the HTTP cache; i.e., it will be
-//       // from the network.
-//       if (cache) await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
-//     })()
-//   );
-//   // Force the waiting service worker to become the active service worker.
-//   self.skipWaiting();
-// });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
