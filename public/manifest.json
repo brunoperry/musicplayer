@@ -34,7 +34,7 @@
   "id": "/musicplayer/",
   "background_color": "#031E3C",
   "display": "fullscreen",
-  "scope": "/",
+  "scope": "/musicplayer/",
   "theme_color": "#053160",
   "description": "Javascript music player"
 }
