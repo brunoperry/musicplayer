@@ -16,6 +16,18 @@
       "src": "icon512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "iconmask512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "iconmask192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
     }
   ],
   "start_url": "/musicplayer/",
