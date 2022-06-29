@@ -4,9 +4,9 @@
   "description": "Javascript music player",
   "main": "gulpfile.js",
   "scripts": {
-    "push_all": "git add --all && git commit -m 'update' && git push -u origin main",
+    "pushall": "git add --all && git commit -m 'update' && git push -u origin main",
     "dev": "node server.js",
-    "deploy": "gulp && git add dist && git commit -m 'update deploy' && git subtree push --prefix dist origin gh-pages"
+    "deploy": "gulp"
   },
   "repository": {
     "type": "git",
