@@ -19,7 +19,7 @@ class Utils {
     };
   }
 
-  static getIcon(iconName, animName = null) {
+  static getIcon(iconName, animName = null, props = null) {
     let icons = [
       ...document.querySelector("#icons-template").content.cloneNode(true)
         .children,
@@ -30,6 +30,10 @@ class Utils {
     animName
       ? ico.setAttribute("class", `icon-${iconName} ${animName} icon`)
       : ico.setAttribute("class", `icon-${iconName} icon`);
+
+    if (props) {
+      if (props.display) props.display;
+    }
     return ico;
   }
   static getButton(buttonType) {
@@ -41,6 +45,16 @@ class Utils {
       (btn) => `${buttonType}-button` === `${btn.className}`
     );
     return btn;
+  }
+  static getForm(formName) {
+    const forms = [
+      ...document.querySelector("#forms-template").content.cloneNode(true)
+        .children,
+    ];
+    const form = forms.find(
+      (form) => `form-${formName}` === `${form.className}`
+    );
+    return form;
   }
   static getBrowserPath() {
     const out = new Proxy(new URLSearchParams(window.location.search), {
@@ -170,6 +184,22 @@ class Utils {
   }
 
   //TRANSFORMS
+  static Width(elem, val) {
+    elem.style.height = `${val}`;
+    return new Promise((resolve, reject) =>
+      setTimeout(() => {
+        resolve("width done");
+      }, this.SPEED)
+    );
+  }
+  static Height(elem, val) {
+    elem.style.height = `${val}`;
+    return new Promise((resolve, reject) =>
+      setTimeout(() => {
+        resolve("height done");
+      }, this.SPEED)
+    );
+  }
   static Opacity(elem, val) {
     elem.style.opacity = val;
     return new Promise((resolve, reject) =>
@@ -205,7 +235,13 @@ class Utils {
     return this.#doTransform(elem, `rotate3D(0,0,${val}deg)`);
   }
   static Scale(elem, val) {
-    return this.#doTransform(elem, `scale3D(${val},${val},1)`);
+    return this.#doTransform(elem, `scale3D(${val},${val},${val})`);
+  }
+  static ScaleX(elem, val) {
+    return this.#doTransform(elem, `scaleX(${val})`);
+  }
+  static ScaleY(elem, val) {
+    return this.#doTransform(elem, `scaleY(${val})`);
   }
   static #doTransform(elem, val) {
     elem.style.transform = val;

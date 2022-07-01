@@ -1,8 +1,8 @@
-import Utils from '../Utils.js';
-import ExpandableButton from './buttons/ExpandableButton.js';
-import IconButton from './buttons/IconButton.js';
-import ToggleButton from './buttons/ToggleButton.js';
-import Component from './Component.js';
+import Utils from "../Utils.js";
+import ExpandableButton from "./buttons/ExpandableButton.js";
+import IconButton from "./buttons/IconButton.js";
+import ToggleButton from "./buttons/ToggleButton.js";
+import Component from "./Component.js";
 
 export default class Settings extends Component {
   #settingsData = null;
@@ -10,8 +10,8 @@ export default class Settings extends Component {
 
   #playmodeButton;
   constructor(data = null) {
-    super(document.querySelector('#settings'));
-    this.#container = this.element.querySelector('#settings-container');
+    super(document.querySelector("#settings"));
+    this.#container = this.element.querySelector("#settings-container");
 
     this.#settingsData = data;
 
@@ -19,15 +19,15 @@ export default class Settings extends Component {
   }
 
   buildView() {
-    const ulElem = document.createElement('ul');
+    const ulElem = document.createElement("ul");
 
-    let liElem = document.createElement('li');
+    let liElem = document.createElement("li");
 
-    const pmData = this.#settingsData.find((sett) => sett.type === 'playmode');
+    const pmData = this.#settingsData.find((sett) => sett.type === "playmode");
     this.#playmodeButton = new ToggleButton(pmData.name, pmData.value, [
-      'repeat_all',
-      'repeat_current',
-      'shuffle',
+      "repeat_all",
+      "repeat_current",
+      "shuffle",
     ]);
     this.#playmodeButton.addEventListener(ToggleButton.CLICK, (ev) => {
       this.#settingsData[0].value = ev.detail.value;
@@ -36,17 +36,40 @@ export default class Settings extends Component {
     liElem.appendChild(this.#playmodeButton.element);
     ulElem.appendChild(liElem);
 
-    const closeButton = new IconButton(['check'], 'settings-close-button');
-    closeButton.addEventListener('click', () => {
+    //LOGIN
+    liElem = document.createElement("li");
+    const loginForm = Utils.getForm("login");
+    loginForm.onsubmit = (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      console.log("submited");
+    };
+    const loginButton = new ExpandableButton({
+      title: "login",
+      expandContent: loginForm,
+    });
+    loginButton.addEventListener(ExpandableButton.Actions.ON_ACTION, (ev) => {
+      switch (ev.detail) {
+        case ExpandableButton.Actions.EXPANDED:
+          break;
+        case ExpandableButton.Actions.COLLAPSED:
+          break;
+        default:
+          break;
+      }
+    });
+    liElem.appendChild(loginButton.element);
+    //LOGIN END
+
+    ulElem.appendChild(liElem);
+
+    const closeButton = new IconButton(["check"], "settings-close-button");
+    closeButton.addEventListener("click", () => {
       this.hide();
     });
 
-    const loginButton = new ExpandableButton({
-      title: 'login',
-      expandContent: '',
-    });
-
-    const listContainer = this.element.querySelector('.list-container');
+    const listContainer = this.element.querySelector(".list-container");
     listContainer.prepend(ulElem);
 
     // this.#container.appendChild(ulElem);
@@ -69,10 +92,10 @@ export default class Settings extends Component {
 
   #updateButtonsStatus(type, value) {
     switch (type) {
-      case 'playmode':
+      case "playmode":
         this.#playmodeButton.setEnabled(value, this.#settingsData[0].value);
         break;
-      case 'theme':
+      case "theme":
         break;
     }
   }
@@ -87,9 +110,9 @@ export default class Settings extends Component {
         detail: { type: Settings.Actions.OPENING },
       })
     );
-    this.element.style.display = 'flex';
-    requestAnimationFrame(() => (this.element.style.transform = 'scale(1)'));
-    this.#container.style.display = 'grid';
+    this.element.style.display = "flex";
+    requestAnimationFrame(() => (this.element.style.transform = "scale(1)"));
+    this.#container.style.display = "grid";
     await Utils.Wait();
     requestAnimationFrame(() => Utils.Opacity(this.#container, 1));
   }
@@ -99,21 +122,21 @@ export default class Settings extends Component {
         detail: { type: Settings.Actions.CLOSING },
       })
     );
-    this.#container.style.display = 'none';
+    this.#container.style.display = "none";
     Utils.Opacity(this.#container, 0);
-    this.element.style.transform = 'scale(0)';
+    this.element.style.transform = "scale(0)";
     await Utils.Wait();
-    this.element.style.display = 'none';
+    this.element.style.display = "none";
   }
 
   static get ACTION() {
-    return 'settingsaction';
+    return "settingsaction";
   }
   static get Actions() {
     return {
-      OPENING: 'settingsctionsopening',
-      CLOSING: 'settingsactionsclosing',
-      HAS_CHANGED: 'settingsactionshaschanged',
+      OPENING: "settingsctionsopening",
+      CLOSING: "settingsactionsclosing",
+      HAS_CHANGED: "settingsactionshaschanged",
     };
   }
 }
