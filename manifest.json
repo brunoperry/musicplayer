@@ -1,6 +1,6 @@
 {
-  "short_name": "musicapp",
-  "name": "Music App",
+  "short_name": "musicaplayer",
+  "name": "Music Player",
   "icons": [
     {
       "src": "icon.svg",
