@@ -21,6 +21,11 @@
   padding: 0;
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 *:focus,
 *:active {
@@ -28,13 +33,6 @@
   outline: none;
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Opera and Firefox */
 }
 ::-webkit-scrollbar {
   width: 0px;
