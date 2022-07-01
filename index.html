@@ -27,7 +27,6 @@
               <p class="type"></p>
               <h2>Duration</h2>
               <p class="duration"></p>
-              <!-- <button class="">touch me</button> -->
             </div>
           </div>
         </section>
@@ -63,6 +62,25 @@
     <div id="settings">
       <div id="settings-container">
         <h2>settings</h2>
+        <div class="list-container">
+          <label>LOGIN</label>
+          <form id="form-login" action="doLogin" method="post">
+            <label for="username-input">username</label>
+            <input
+              id="username-input"
+              type="text"
+              value=""
+              placeholder="Type your username"
+            />
+            <label for="password-input">password</label>
+            <input
+              id="password-input"
+              type="password"
+              value=""
+              placeholder="Type your password"
+            />
+          </form>
+        </div>
       </div>
     </div>
 
@@ -109,6 +127,11 @@
       <button class="toggle-button" aria-label="toggle">
         <label></label>
         <div class="icons-container"></div>
+      </button>
+      <button class="expandable-button" aria-label="expand collapse">
+        <label></label>
+        <div class="icons-container"></div>
+        <div class="expand-container"></div>
       </button>
     </template>
     <template id="icons-template">
