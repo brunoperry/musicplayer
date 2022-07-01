@@ -27,7 +27,7 @@ export default class Info extends Component {
       this.dispatchEvent(Info.States.ON_ACTION, {
         detail: Info.States.COPY_2_CLIPBOARD,
       });
-      this.#shareButton.showSubText("link copied!", 22000);
+      this.#shareButton.showSubText("link copied!", 2000);
     });
   }
 
