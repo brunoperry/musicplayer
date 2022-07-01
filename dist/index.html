@@ -29,7 +29,6 @@
               <p class="type"></p>
               <h2>Duration</h2>
               <p class="duration"></p>
-              <!-- <button class="">touch me</button> -->
             </div>
           </div>
         </section>
@@ -65,6 +64,7 @@
     <div id="settings">
       <div id="settings-container">
         <h2>settings</h2>
+        <div class="list-container"></div>
       </div>
     </div>
 
@@ -92,6 +92,28 @@
       </div>
     </div>
 
+    <template id="forms-template">
+      <form class="form-login" action="doLogin" method="post">
+        <label for="username-input">username</label>
+        <input
+          id="username-input"
+          type="text"
+          value=""
+          autocomplete="on"
+          placeholder="Type your username"
+        />
+        <label for="password-input">password</label>
+        <input
+          id="password-input"
+          type="password"
+          value=""
+          autocomplete="on"
+          placeholder="Type your password"
+        />
+        <button type="submit">SUBMIT</button>
+      </form>
+    </template>
+
     <template id="buttons-template">
       <button class="labeled-button">
         <label></label><span></span>
@@ -112,6 +134,13 @@
         <label></label>
         <div class="icons-container"></div>
       </button>
+      <div class="expandable-button" aria-label="expand collapse">
+        <button class="button-container">
+          <label></label>
+          <div class="icons-container"></div>
+        </button>
+        <div class="expand-container"></div>
+      </div>
     </template>
     <template id="icons-template">
       <svg
@@ -390,6 +419,30 @@
         <path
           transform="rotate(45)"
           d="m 40.406399,-11.31327 h 9.697374 v 22.627592 h -9.697374 z"
+        />
+      </svg>
+
+      <svg
+        class="icon-expand"
+        width="100%"
+        height="100%"
+        viewBox="0 0 64 64"
+        fill="var(--yellow-b)"
+      >
+        <path
+          d="M 12.000014,9.5198346 32.000008,29.957084 52.000015,9.5198346 64.000011,21.782184 31.999999,54.481785 1.063846e-5,21.782184 Z"
+          id="path2899"
+        />
+      </svg>
+      <svg
+        class="icon-collapse"
+        width="100%"
+        height="100%"
+        viewBox="0 0 64 64"
+        fill="var(--yellow-b)"
+      >
+        <path
+          d="M 52.000008,54.481785 32.000014,34.044536 12.000007,54.481785 1.063846e-5,42.219436 32.000023,9.5198346 64.000011,42.219436 Z"
         />
       </svg>
     </template>
