@@ -592,6 +592,10 @@ li {
   height: var(--icon-size-h);
 }
 
+.labeled-button {
+  height: var(--button-height);
+}
+
 .toggle-button {
   justify-content: space-between;
 }

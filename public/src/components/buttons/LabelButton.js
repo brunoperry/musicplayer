@@ -19,7 +19,9 @@ export default class LabelButton extends Button {
 
     if (inline) {
       this.#btnLabel.style.display = "initial";
+      this.#btnLabel.style.textAlign = "left";
       this.#icon.style.display = "flex";
+      this.#icon.style.maxWidth = "var(--button-height)";
     }
   }
 

@@ -2,6 +2,7 @@ import Utils from "../Utils.js";
 import ExpandableButton from "./buttons/ExpandableButton.js";
 import IconButton from "./buttons/IconButton.js";
 import ToggleButton from "./buttons/ToggleButton.js";
+import LabelButton from "./buttons/LabelButton.js";
 import Component from "./Component.js";
 
 export default class Settings extends Component {
@@ -9,6 +10,8 @@ export default class Settings extends Component {
   #container = null;
 
   #playmodeButton;
+  #loginButton;
+  #reloadButton;
   constructor(data = null) {
     super(document.querySelector("#settings"));
     this.#container = this.element.querySelector("#settings-container");
@@ -45,23 +48,45 @@ export default class Settings extends Component {
 
       console.log("submited");
     };
-    const loginButton = new ExpandableButton({
+    this.#loginButton = new ExpandableButton({
       title: "login",
       expandContent: loginForm,
     });
-    loginButton.addEventListener(ExpandableButton.Actions.ON_ACTION, (ev) => {
-      switch (ev.detail) {
-        case ExpandableButton.Actions.EXPANDED:
-          break;
-        case ExpandableButton.Actions.COLLAPSED:
-          break;
-        default:
-          break;
+    this.#loginButton.addEventListener(
+      ExpandableButton.Actions.ON_ACTION,
+      (ev) => {
+        switch (ev.detail) {
+          case ExpandableButton.Actions.EXPANDED:
+            break;
+          case ExpandableButton.Actions.COLLAPSED:
+            break;
+          default:
+            break;
+        }
       }
-    });
-    liElem.appendChild(loginButton.element);
+    );
+    liElem.appendChild(this.#loginButton.element);
+
+    ulElem.appendChild(liElem);
     //LOGIN END
 
+    liElem = document.createElement("li");
+    this.#reloadButton = new LabelButton(
+      "reload",
+      Utils.getIcon("reload"),
+      true
+    );
+    this.#reloadButton.addEventListener("click", () => {
+      this.dispatchEvent(Settings.ACTION, {
+        detail: {
+          type: Settings.Actions.HAS_CHANGED,
+          data: {
+            type: "reload",
+          },
+        },
+      });
+    });
+    liElem.appendChild(this.#reloadButton.element);
     ulElem.appendChild(liElem);
 
     const closeButton = new IconButton(["check"], "settings-close-button");
@@ -117,6 +142,7 @@ export default class Settings extends Component {
     requestAnimationFrame(() => Utils.Opacity(this.#container, 1));
   }
   async hide() {
+    this.#loginButton.collapse();
     this.element.dispatchEvent(
       new CustomEvent(Settings.ACTION, {
         detail: { type: Settings.Actions.CLOSING },

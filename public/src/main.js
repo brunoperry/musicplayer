@@ -163,14 +163,19 @@ settings.addEventListener(Settings.ACTION, async (ev) => {
       case "theme":
         player.playmode = data.value;
         break;
+      case "reload":
+        location.reload(true);
+        console.log("flush and reload page now");
+        break;
     }
   };
 
   switch (ev.detail.type) {
     case Settings.Actions.HAS_CHANGED:
-      const res = await updateDB("settings", ev.detail.data);
-      settings.unlock(res);
-
+      if (ev.detail.data.type !== "reload") {
+        const res = await updateDB("settings", ev.detail.data);
+        settings.unlock(res);
+      }
       doSettingUpdate(ev.detail.data);
       break;
     case Settings.Actions.OPENING:
