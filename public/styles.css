@@ -10,7 +10,8 @@
   --icon-size-w: 10vh;
   --icon-size-h: 10vh;
   --font: Arial, Verdana;
-  --font-size: calc(30px + (100 - 30) * ((100vw - 300px) / (1600 - 300)));
+  --font-size: clamp(1rem, 10vw, 5rem);
+  /* --font-size: calc(30px + (100 - 30) * ((100vw - 300px) / (1600 - 300))); */
   --tag-font-size: 0.6rem;
   --h2-size: 1.7rem;
   --speed: 0.2s;
