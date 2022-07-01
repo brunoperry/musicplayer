@@ -174,6 +174,8 @@ li {
 }
 #info-content {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   inset: 0;
   top: var(--button-height);
   bottom: var(--button-height);
@@ -183,7 +185,30 @@ li {
     opacity var(--speed) ease-in-out;
   z-index: 999;
 }
-.info-container {
+
+#info-content .labeled-button {
+  max-height: var(--button-height);
+  justify-content: space-between;
+  padding: 0 10px;
+  opacity: 0;
+  transition: opacity var(--speed) ease-out;
+}
+
+#info-content .labeled-button span {
+  font-size: calc(var(--font-size) / 2);
+  font-weight: 400;
+  padding-left: 10px;
+  color: var(--yellow-a);
+  transition: opacity var(--speed) ease-out;
+}
+
+#info-content .labeled-button label,
+#info-content .labeled-button .icons-container {
+  width: initial;
+  flex: none;
+  padding: 0;
+}
+.info-details {
   flex: 1;
   position: relative;
   display: block;
@@ -197,12 +222,12 @@ li {
   transition: transform var(--speed) ease-in-out,
     opacity var(--speed) ease-in-out;
 }
-.info-container h2 {
+.info-details h2 {
   font-size: var(--h2-size);
   color: var(--blue-a);
   padding: 0;
 }
-.info-container p {
+.info-details p {
   color: var(--yellow-a);
   font-size: calc(var(--h2-size) / 1.5);
   padding: 0;
@@ -527,6 +552,14 @@ li {
   }
   100% {
     transform: scale(1.17);
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 

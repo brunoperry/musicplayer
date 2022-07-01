@@ -45,7 +45,6 @@ const data = await req.json();
 const sets = await fetch("settings.json");
 const settingsData = await sets.json();
 doSplash();
-// console.log(data);
 
 const info = new Info();
 info.addEventListener(Info.States.ON_ACTION, (ev) => {
@@ -55,6 +54,10 @@ info.addEventListener(Info.States.ON_ACTION, (ev) => {
       break;
     case Info.States.CLOSING:
       Utils.PeekY(subUI, "0");
+      break;
+    case Info.States.COPY_2_CLIPBOARD:
+      const url = window.location;
+      Utils.copyTextToClipboard(url);
       break;
     default:
       break;

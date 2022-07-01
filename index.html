@@ -20,13 +20,14 @@
       <div id="ui">
         <section id="info">
           <div id="info-content">
-            <div class="info-container">
+            <div class="info-details">
               <h2>Title</h2>
               <p class="title"></p>
               <h2>Type</h2>
               <p class="type"></p>
               <h2>Duration</h2>
               <p class="duration"></p>
+              <!-- <button class="">touch me</button> -->
             </div>
           </div>
         </section>
@@ -91,7 +92,7 @@
 
     <template id="buttons-template">
       <button class="labeled-button">
-        <label></label>
+        <label></label><span></span>
         <div class="icons-container"></div>
       </button>
       <button class="icon-button">
@@ -369,6 +370,24 @@
         />
         <path
           d="m 17.99998,-2e-5 h -18 v 64 h 64 v -64 h -18.444 v 12 h 6.444 v 40 h -40 v -40 h 6 z"
+        />
+      </svg>
+      <svg
+        class="icon-link"
+        width="100%"
+        height="100%"
+        viewBox="0 0 64 64"
+        fill="var(--yellow-b)"
+      >
+        <path
+          d="M 13.714272,36.571458 23.382279,26.903451 16.525131,20.046303 -2.4e-5,36.571458 27.428568,64.00005 43.953723,47.474895 37.096575,40.617747 27.428568,50.285754 Z"
+        />
+        <path
+          d="m 36.571432,13.714298 13.714296,13.714296 -9.668007,9.668007 6.857148,6.857148 L 64.000024,27.428594 36.571432,2e-6 20.046277,16.525157 l 6.857148,6.857148 z"
+        />
+        <path
+          transform="rotate(45)"
+          d="m 40.406399,-11.31327 h 9.697374 v 22.627592 h -9.697374 z"
         />
       </svg>
     </template>
