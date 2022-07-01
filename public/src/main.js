@@ -165,7 +165,6 @@ settings.addEventListener(Settings.ACTION, async (ev) => {
         break;
       case "reload":
         location.reload(true);
-        console.log("flush and reload page now");
         break;
     }
   };
