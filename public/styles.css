@@ -202,6 +202,10 @@ li {
   transition: opacity var(--speed) ease-out;
 }
 
+#info-content .icons-container {
+  margin-left: auto;
+}
+
 #info-content .labeled-button label,
 #info-content .labeled-button .icons-container {
   width: initial;
