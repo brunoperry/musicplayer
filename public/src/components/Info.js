@@ -21,7 +21,6 @@ export default class Info extends Component {
       this.#isInfoOpened ? this.close() : this.open()
     );
 
-    // START
     this.#shareButton = new LabelButton("share", Utils.getIcon("link"), true);
     this.#contentElem.appendChild(this.#shareButton.element);
     this.#shareButton.addEventListener("click", () => {
@@ -30,7 +29,6 @@ export default class Info extends Component {
       });
       this.#shareButton.showSubText("link copied!", 22000);
     });
-    // END
   }
 
   async open() {
@@ -51,6 +49,7 @@ export default class Info extends Component {
     this.#isInfoOpened = this.#infoButton.iconed = false;
     this.#infoDetails.style.display = this.#shareButton.element.style.display =
       "none";
+    this.#shareButton.resetAnim();
 
     await Utils.TranslateY(this.#contentElem, "-100%");
 

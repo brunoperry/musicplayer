@@ -28,6 +28,13 @@ export default class Component {
     }
     this.#events = newEvents;
   }
+  resetAnim() {
+    if (this.animID) {
+      clearInterval(this.animID);
+      this.animID = null;
+    }
+  }
+
   /* FX */
   async translate(elem, vec) {
     Utils.Translate(elem, vec);
