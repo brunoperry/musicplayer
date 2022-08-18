@@ -29,9 +29,9 @@ const doSplash = async () => {
   await new Splash().doSplash(mainContainer);
 };
 
-// const data = await getAllData("music");
-// doSplash();
-// const f = JSON.stringify(data);
+// const mmm = await getAllData("music");
+// // doSplash();
+// const f = JSON.stringify(mmm);
 // console.log(f);
 
 const req = await fetch("data.json");
