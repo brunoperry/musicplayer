@@ -6,6 +6,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getStorage, listAll, ref, getDownloadURL } from "firebase/storage";
 
+import https from "https";
 import express from "express";
 import cors from "cors";
 import compression from "compression";
@@ -28,7 +29,7 @@ const firebase_app = initializeApp(firebaseConfig);
 const database = getFirestore(firebase_app);
 const storage = getStorage();
 
-const PORT = 3000;
+const PORT = 443;
 let APP_DATA = null;
 
 const app = express();
@@ -57,15 +58,29 @@ app.get("/seek_stream/:url", async (req, res) => {
   console.log(url_to_seek);
 });
 
-app.listen(PORT, async () => {
+const options = {
+  key: fs.readFileSync("/app/privkey.pem"),
+  cert: fs.readFileSync("/app/fullchain.pem"),
+};
+
+https.createServer(options, app).listen(PORT, () => {
   try {
     let rawdata = fs.readFileSync("public/app_data.json");
     APP_DATA = JSON.parse(rawdata);
   } catch (error) {
     console.error("Error", error);
   }
-  console.log(`Server listening on port ${PORT}`);
+  console.log("Server listening on port 443");
 });
+// app.listen(PORT, async () => {
+//   try {
+//     let rawdata = fs.readFileSync("public/app_data.json");
+//     APP_DATA = JSON.parse(rawdata);
+//   } catch (error) {
+//     console.error("Error", error);
+//   }
+//   console.log(`Server listening on port ${PORT}`);
+// });
 
 const reset = async () => {
   const radios = await getRadios();

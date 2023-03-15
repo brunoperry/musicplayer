@@ -7,6 +7,7 @@
   "scripts": {
     "pushall": "git add --all && git commit -m 'update' && git push -u origin v2",
     "dev": "node server.js",
+    "clear": "docker rmi musicplayer && docker rmi brunoperry/musicplayer:latest",
     "build_frontend": "gulp --gulpfile frontend/deploy/gulpfile.js && cp frontend/app_logo.svg public/ && cp frontend/manifest.json public/ && cp frontend/service-worker.js public/ && cp -R frontend/images/ public/images/",
     "production": "pm2 start server.js && pm2 log 0",
     "build": "docker build -t musicplayer . && docker tag musicplayer brunoperry/musicplayer:latest",
