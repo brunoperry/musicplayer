@@ -28,18 +28,21 @@ const firebase_app = initializeApp(firebaseConfig);
 const database = getFirestore(firebase_app);
 const storage = getStorage();
 
-const PORT = 3100;
+const PORT = 3000;
 let APP_DATA = null;
-let visitors = [];
 
 const app = express();
 
 app.use(compression());
 app.use(cors());
+app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
   setVisitor(req.socket.remoteAddress);
+  res.sendFile(path.join(__dirname + "/public/index.html"));
+});
 
+app.get("/data", async (req, res) => {
   if (!APP_DATA) {
     APP_DATA = await reset();
   }
@@ -130,17 +133,3 @@ const getMusic = async (ref) => {
   await Promise.all([...itemsPromises, ...prefixesPromises]);
   return resultObj;
 };
-// const setVisitor = async (ip) => {
-//   let properIP = ip;
-//   if (ip.includes("::")) {
-//     const ipv4Regex = /^::ffff:(\d+\.\d+\.\d+\.\d+)$/;
-//     const match = ip.match(ipv4Regex);
-//     if (match) {
-//       properIP = match[1];
-//     }
-//   }
-//   visitors.push({
-//     ip: properIP,
-//     date: Date.now(),
-//   });
-// };

@@ -121,7 +121,7 @@ const inject2HTML = () => {
   return src(`index_deploy.html`)
     .pipe(rename("index.html"))
     .pipe(inlinesource())
-    .pipe(dest("../"));
+    .pipe(dest("../../public/"));
 };
 const cleanup = () => {
   return deleteAsync([`${headName}`, `${bodyName}`, `${stylesName}`, `${scriptName}`], {

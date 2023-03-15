@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="JavaScript PWA Music Player">
+  <meta name="theme-color" content="#053160" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="app_logo.svg" />
+  <link rel="apple-touch-icon" href="app_logo.svg" />
+  <title>PWA Music Player</title>
+
+
+    <style>
+        :root{--primary-color:#ffc80b;--secondary-color:#053160;--terciary-color:#031e3c;--quadriary-color:#FFE96D;--success-color:#2ca105;--warning-color:#ff9e03;--error-color:#d40a0a;--speed:150ms;--font-size:clamp(2.5rem, 3vw, 3.5rem);--font-bold:600;--font-light:300;--button-height:92px;--nav-height:env(safe-area-inset-bottom)}::-webkit-scrollbar{width:0;opacity:0}*{padding:0;margin:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent}body,html{background-color:var(--terciary-color);max-width:100%;height:100%;max-height:calc(100vh - var(--nav-height));overscroll-behavior-y:contain;overflow:hidden}body{position:relative;display:flex;flex-direction:column;justify-content:space-between;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;background-color:var(--secondary-color);max-width:800px;height:100%;margin:0 auto;row-gap:10px;overscroll-behavior-y:contain}h2{color:var(--primary-color)}label{color:var(--primary-color);font-size:var(--font-size);font-weight:var(--font-bold);text-transform:uppercase;font-weight:700;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}li label{color:var(--secondary-color)}p{font-weight:500;font-size:18px;color:var(--quadriary-color)}button{display:flex;align-items:center;justify-content:center;border:none;background-color:transparent;cursor:pointer;max-width:100%;flex:1;padding:10px}button:active>*,li:active>*{transform:scale3d(.9,.9,1)}input[type=range]{position:absolute;inset:0;opacity:0}input[type=file]{position:absolute;top:0;left:0;visibility:hidden;pointer-events:none}#info{display:flex;max-height:var(--button-height);flex:1}#info-button{transition:transform var(--speed) ease}#info-container{display:flex;flex-direction:column;position:absolute;inset:0;padding:10px;row-gap:10px;top:var(--button-height);bottom:var(--button-height);overflow-x:hidden;overflow-y:scroll;background-color:var(--terciary-color);transform:scaleY(0);transform-origin:top;transition:transform var(--speed) ease;z-index:100}#info-container>*{visibility:hidden;opacity:0;transition:opacity var(--speed) ease}#controller{display:flex;justify-content:space-between;align-items:center;gap:10px;flex:1;transition:var(--speed) ease;transition-property:transform}#scrub{flex:1;max-height:16px;display:none;transition:var(--speed) ease;transition-property:transform}#volume{flex:1;transition:var(--speed) ease;transition-property:transform}.range{position:relative;display:flex;background-color:var(--terciary-color)}.range-bar{flex:1;transform-origin:left;transform:scaleX(.5);background-color:var(--primary-color);pointer-events:none;width:100%}#menu{display:flex;max-height:var(--button-height);flex:1;justify-self:end}#menu-container{position:absolute;inset:0;bottom:var(--button-height);display:flex;overflow-x:hidden;overflow-y:scroll;background-color:var(--quadriary-color);transform:scaleY(0);transform-origin:bottom;transition:transform var(--speed) ease;z-index:101}#menu-back-button{display:none}#menu-container ul{position:absolute;inset:0;display:flex;flex-direction:column;flex:1;list-style:none;background-color:var(--quadriary-color);transform:translateX(100%);transition:transform var(--speed) ease}#menu-container li{display:grid;grid-template-columns:auto 45px;max-height:72px;cursor:pointer;gap:10px;padding:10px;flex:1}#menu-container li.leaf{display:flex}li .toggle{justify-content:flex-end}#peek-a-boo{display:flex;justify-content:center;align-items:center;position:absolute;inset:0;max-height:32px;color:#fff;font-weight:500;font-size:12px;z-index:200;transform:translateY(-100%);animation-duration:var(--speed);animation-fill-mode:forwards;pointer-events:none}#splash{position:absolute;display:flex;flex-direction:column;inset:0;row-gap:10px;background-color:var(--secondary-color);align-items:center;justify-content:center}#splash img{transform:scale(.9)}#splash img,#splash p{transition:var(--speed) cubic-bezier(.25,.1,.76,1.52);transition-property:transform,opacity}#splash p{height:24px;width:100%;text-align:center;animation-duration:var(--speed);animation-direction:alternate;animation-iteration-count:infinite}.toggle{display:flex;align-items:center}.toggle>*{display:none}.highlight{background-color:var(--secondary-color)}.highlight label{color:var(--primary-color)}.highlight svg{fill:var(--primary-color)}.update{background-color:var(--success-color)}.retry label,.update label{color:#fff}.retry{background-color:var(--error-color)}@keyframes peekaboo{0%{transform:translateY(-100%)}100%{transform:translateY(0)}}@keyframes pulse{0%{transform:scale3d(1,1,1)}100%{transform:scale3d(1.1,1.1,1)}}
+    </style>
+    <script>
+        class AudioPlayer{#e;#t=[];#s=0;currentState="pause";callback;constructor(e){this.#e=new Audio,this.callback=e,this.#n()}#n(){this.#e.onended=()=>{this.currentState="ended",this.callback(this.currentState),this.next()},this.#e.onpause=()=>{this.currentState="pause",this.callback(this.currentState)},this.#e.onerror=e=>{e.preventDefault(),this.currentState="error",this.callback(this.currentState,this.#e.error)},this.#e.onloadstart=()=>{this.currentState="loading",this.callback(this.currentState)},this.#e.onplaying=()=>{this.currentState="play",this.callback(this.currentState)},this.#e.ontimeupdate=()=>{this.currentState="progress",this.callback(this.currentState)}}previous(){this.#s--,this.#s<0&&(this.#s=this.#t.length-1),this.play(this.#t[this.#s],this.#t)}async play(e=null,t=null){this.#t=t||this.#t,this.currentTrack=e||this.currentTrack,this.#e.paused||this.#e.pause();try{return this.#e.src=this.#t[this.#s].url,await this.#e.play(),!0}catch(e){return this.currentState="error",!1}}pause(){this.#e.pause()}next(){this.#s++,this.#s>=this.#t.length&&(this.#s=0),this.play(this.#t[this.#s],this.#t)}scrub(e){this.#e.currentTime=this.#e.duration*e/100}get currentTrack(){return this.#t[this.#s]}set currentTrack(e){for(let t=0;t<this.#t.length;t++)if(this.#t[t].id===e.id){this.#s=t;break}}get volume(){return this.#e.volume}set volume(e){this.#e.volume=e/100}get duration(){return this.#e.duration}get currentTime(){return this.#e.currentTime}}class Component{element;callback;SPEED=0;constructor(e=null,t=(()=>{})){this.element=document.querySelector(e),this.callback=t,this.SPEED=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--speed").replace(/(ms|s)/g,""))}setElement(e){this.element=e}scale(e){this.element.style.transform=`scale3d(${e},${e},1)`}translateY(e){this.element.style.transform=`translateY(${e}px)`}transform(e){this.element.style.transform=e}get displayed(){return"initial"===this.element.style.display}set displayed(e){let t;t=e?"initial":"none",this.element.style.display=t}}class List extends Component{#i=null;#a=[];constructor(e,t){super(null,t),this.#i=e;const s=document.createElement("ul");this.#i.forEach((e=>{const t=new ListButton(e,(()=>this.callback(e)));"update"===e.type&&(t.className="update"),"retry"===e.type&&(t.className="retry"),this.#a.push(t),s.appendChild(t.element)})),this.setElement(s)}highlight(e){this.#a.forEach((t=>{t.highlight=e.includes(t.data.id)}))}}class Button extends Component{#l=!1;constructor(e,t){super(e,t),this.element&&this.#n()}#n(){this.element.onclick=()=>{this.#l||(this.callback(),this.#l=!0,setTimeout((()=>{this.#l=!1}),this.SPEED))}}setElement(e){super.setElement(e),this.#n()}get text(){return this.element.querySelector("label").innerText}set text(e){this.element.querySelector("label").innerText=e}get color(){return this.element.querySelector("label").style.color}set color(e){this.element.querySelector("label").style.color=e}}class ToggleButton extends Button{#r;#o=0;constructor(e,t){super(e,t),this.#r=this.element.children,this.toggle(0)}toggle(e=null){this.#r[this.#o].style.display="none",null!==e?this.#o=e:(this.#o++,this.#o>=this.#r.length&&(this.#o=0)),this.#r[this.#o].style.display="block"}}class ListButton extends Button{#c;constructor(e,t){super(null,t),this.#c=e;const s=document.createElement("div"),n=document.querySelector(".list-item").content.cloneNode(!0);n.querySelector("label").textContent=this.#c.name,s.appendChild(n),this.setElement(s.children[0]);const i=s.querySelector(".toggle");"folder"===e.type?i.children[0].style.display="initial":(this.element.className="leaf",this.element.removeChild(i))}get data(){return this.#c}get highlight(){this.element.className.includes(" hightlight")}set highlight(e){e?this.element.className+=" highlight":this.element.className=this.element.className.replace(" highlight","")}get className(){return this.element.className}set className(e){this.element.className=e}}class PeekABoo extends Component{#h=null;#u=2500;constructor(e){super(e)}show(e="",t="success"){this.#h&&this.hide();let s="transparent";switch(this.element.style.backgroundColor="transparent",t){case"success":s="var(--success-color)";break;case"warning":s="var(--warning-color)";break;case"error":s="var(--error-color)"}this.element.style.backgroundColor=s,requestAnimationFrame((()=>{this.element.innerText=e,this.element.style.animationName="peekaboo",this.#h=setTimeout((()=>{this.hide()}),this.#u)}))}hide(){this.#h&&clearTimeout(this.#h),this.#h=null,this.element.innerText="",this.element.style.animationName=""}}class Info extends Component{#p;#m;#d=!1;#y;#g;constructor(e,t){super(e,t),this.#p=this.element.querySelector("#info-container"),this.#y=this.#p.querySelector(".name"),this.#g=this.#p.querySelector(".type"),this.#m=new ToggleButton("#info-button",(()=>{this.#d?this.close():this.open()}))}update(e){let t;switch(this.#m.text=e.name,this.#y.innerText=e.name,this.#g.innerText=e.type,e.type){case"error":t="var(--error-color)";break;case"loading":t="var(--terciary-color)";break;default:t="var(--primary-color)"}this.#m.color=t}open(){this.#d||(this.#p.style.transform="scaleY(1)",this.#m.toggle(1),this.#d=!0,this.callback({type:"opening"}),setTimeout((()=>{for(let e=0;e<this.#p.children.length;e++){const t=this.#p.children[e];t.style.visibility="visible",t.style.opacity=1}}),this.SPEED))}close(){if(this.#d){this.callback({type:"closing"});for(let e=0;e<this.#p.children.length;e++){const t=this.#p.children[e];t.style.visibility="hidden",t.style.opacity=0}this.#p.style.transform="scaleY(0)",this.#m.toggle(0),this.#d=!1}}translateY(e){this.#m.translateY(e)}scale(e){this.#m.scale(e)}}class Controller extends Component{currentState="pause";#b;constructor(e,t){super(e,t);new Button("#previous-button",(()=>{this.callback("previous")}));this.#b=new ToggleButton("#action-button",(()=>{"loading"!==this.currentState&&("pause"===this.currentState?this.callback("play"):this.callback("pause"))}));new Button("#next-button",(()=>{this.callback("next")}))}setState(e){this.currentState=e;let t=0;switch(this.currentState){case"play":t=1;break;case"pause":t=0;break;case"loading":t=2;break;case"error":t=3}this.#b.toggle(t)}}class RangeBar extends Component{#k;#f;constructor(e,t){super(e,t),this.#k=this.element.querySelector("input[type='range']"),this.#f=this.element.querySelector(".range-bar"),this.#k.oninput=()=>{this.value=this.#k.value,this.callback(this.value)},this.value=parseFloat(this.#k.value)}get value(){return parseFloat(this.#k.value)}set value(e){this.#f.style.transform=`scaleX(${e/100})`}}class Splash{#S;#v;#x=["Loading, please wait...","Still loading, hang on!","Loading, zzzz..."];#w=null;#T;constructor(){this.#S=document.querySelector("#splash"),this.#v=this.#S.querySelector("p"),this.#T=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--speed").replace(/(ms|s)/g,""));let e=0;this.#v.innerText=this.#x[e],this.#w=setInterval((()=>{e++,e>=this.#x.length&&(e=0),this.#v.innerText=this.#x[e]}),5e3)}error(){clearInterval(this.#w),this.#w=null,this.#v.innerText="Error connecting to server.",this.#v.style.color="var(--error-color)";const e=this.#S.querySelector("img");e.style.transform="scale(1)",setTimeout((()=>{this.#S.removeChild(this.#v),e.style.transform="translateY(50px)",e.style.opacity=0,setTimeout((()=>{document.body.removeChild(this.#S)}),3*this.#T)}),2e3)}delete(){clearInterval(this.#w),this.#w=null,this.#v.innerText="App loaded!",this.#v.style.animationName="pulse";const e=this.#S.querySelector("img");e.style.transform="scale(1)",setTimeout((()=>{this.#S.removeChild(this.#v),e.style.transform="translateY(50px)",e.style.opacity=0,setTimeout((()=>{document.body.removeChild(this.#S)}),3*this.#T)}),2e3)}static OFFLINE(){const e=document.querySelector("#splash");if(!e)return;const t=e.querySelector("p");t.style.animationName="pulse",t.innerText="Offline...",setTimeout((()=>{document.body.removeChild(e)}),3e3)}}class Menu extends Component{#E;#I;#B;#C;#L=[];#D=null;#q=!1;#O=null;constructor(e,t){super(e,t),this.#B=new ToggleButton("#menu-button",(()=>{this.#q?this.close():this.open()})),this.#C=new Button("#menu-back-button",(()=>{const e=this.#I.children.length-1;this.#Y(e)})),this.#I=this.element.querySelector("#menu-container")}#N(e){const t=new List(e,(e=>{"folder"===e.type?this.#N(e.children):this.callback(e)}));this.#O&&t.highlight(this.#O),this.#D&&this.#D.transform("translateX(-100%)"),this.#L.push(t),this.#I.appendChild(t.element),this.#D=t,setTimeout((()=>{this.#D.transform("translateX(0)")}),100),this.#C.displayed=this.#I.children.length>1}#Y(e=null){if(null!==e){const t=this.#L[e];t.transform("translateX(100%)"),this.#D=this.#L[e-1],this.#D.transform("translateX(0)"),this.#I.children.length-1>1?this.#C.displayed=!0:this.#C.displayed=!1,setTimeout((()=>{this.#I.removeChild(t.element);for(let t=e;t<this.#L.length-1;t++)this.#L[t]=this.#L[t+1];this.#L.length=this.#L.length-1}),this.SPEED)}else this.#I.innerHTML="",this.#D=null,this.#L=[],this.#C.displayed=!1}open(){this.#B.toggle(1),this.#I.style.transform="scaleY(1)",this.callback({type:"opening"}),this.#N(this.#E),this.#q=!0}close(){this.#B.toggle(0),this.#Y(),this.#I.style.transform="scaleY(0)",this.#q=!1,this.callback({type:"closing"})}setTrail(e){this.#O=e,this.#q&&this.#O&&this.#L.forEach((t=>t.highlight(e)))}get data(){return this.#E}set data(e){this.#q?(this.close(),setTimeout((()=>this.#E=e),this.SPEED)):this.#E=e}}let e,t,s,n,i,a,l,r,o;const c="https://musicplayer.brunoperry.net/";let h=navigator.onLine,u=null;window.onload=async()=>{p()&&await m(c,!0),h||(Splash.OFFLINE(),e=[{type:"open",name:"open..."},{type:"exit",name:"exit"}]),d(),y(),u&&b(u)};const p=()=>"serviceWorker"in navigator?(navigator.serviceWorker.register("service-worker.js"),navigator.serviceWorker.addEventListener("message",(e=>{if("update"===e.data.type)n?b(e.data.message):u=e.data.message})),f()&&screen.orientation.lock("portrait"),window.ononline=async()=>{h=!0,n.show("You are online"),await m(),o.data=e},window.onoffline=async()=>{h=!1,n.show("You are offline","warning"),await m(),o.data=e},!0):(alert("Your browser does not support this app..."),!1),m=async(t=c,i=!1)=>{if(i&&(s=new Splash),h)try{const n=await fetch(t,{headers:{"Accept-Encoding":"gzip"}}),a=await n.json();e=[...a,{type:"open",name:"open..."},{type:"reset",name:"reset"},{type:"exit",name:"exit"}],i&&s.delete()}catch(e){i?s.error():n.show("Something went wrong...","error"),k()}else e=[{type:"open",name:"open..."},{type:"exit",name:"exit"}]},d=()=>{n=new PeekABoo("#peek-a-boo"),i=new Info("#info",(e=>{switch(e.type){case"opening":a.translateY(20),l.translateY(20),r.translateY(10);break;case"closing":a.translateY(0),l.translateY(0),r.translateY(0)}})),a=new Controller("#controller",(e=>{switch(e){case"play":t.currentTrack?t.play():o.open();break;case"pause":t.pause();break;case"next":t.next();break;case"previous":t.previous()}})),l=new RangeBar("#scrub",(e=>{t.scrub(e)})),r=new RangeBar("#volume",(e=>{t.volume=e})),o=new Menu("#menu",(async s=>{switch(s.type){case"opening":i.close(),i.scale(.9),a.scale(.9),r.scale(.9),l.scale(.9);break;case"closing":i.scale(1),a.scale(1),r.scale(1),l.scale(1);break;case"music":case"radio":case"file":o.close(),await t.play(s,g(e,s.id));break;case"open":document.querySelector("#file-input").click();break;case"reset":o.close(),await m(`${c}reset`),o.data=e,n.show("Data updated!");break;case"exit":window.close();break;case"retry":case"update":location.reload()}})),o.data=e;const s=document.querySelector("#file-input");s.onchange=async()=>{const e=[];Array.from(s.files).forEach((t=>{e.push({id:t.name,name:t.name,type:"file",url:URL.createObjectURL(t)})})),o.close(),await t.play(e[0],e)}},y=()=>{t=new AudioPlayer(((e,s=null)=>{switch("progress"!==e&&a.setState(e),e){case"loading":i.update({name:t.currentTrack.name,type:"loading"});break;case"error":i.update({name:t.currentTrack.name,type:"error",error:s});break;case"play":l.element.style.display=t.duration===1/0?"none":"flex",i.update(t.currentTrack),o.setTrail(t.currentTrack.id);break;case"pause":o.setTrail(null);break;case"progress":l.value=t.currentTime/t.duration*100}})),t.volume=r.value},g=(e,t)=>{let s=null;for(let n=0;n<e.length;n++){const i=e[n];if(i.children?s=g(i.children,t):i.id===t&&(s=e),s)break}return s},b=t=>{n.show(t),e.push({type:"update",name:"update"}),o.data=e},k=()=>{e=[{type:"open",name:"open..."},{type:"exit",name:"exit"},{type:"retry",name:"retry"}],o&&(o.data=e)},f=()=>void 0!==window.orientation||-1!==navigator.userAgent.indexOf("IEMobile");
+    </script>
+</head>
+
+<body>
+    
+  <div id="info">
+    <div id="info-container">
+      <h2>Name</h2>
+      <p class="name">Music Player PWA</p>
+      <h2>Type</h2>
+      <p class="type">JavaScript PWA audio player</p>
+    </div>
+    <button id="info-button" class="toggle" aria-label="Info">
+      <label>MUSIC PLAYER</label>
+      <svg width="45px" height="45px" viewBox="0 0 6 6" fill="var(--primary-color)">
+        <path
+          d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z" />
+      </svg>
+    </button>
+  </div>
+  <div id="controller">
+    <button id="previous-button" aria-label="Previous">
+      <svg width="30%" height="40%" viewBox="0 0 9 12" fill="var(--primary-color)">
+        <path d="M1.899,6.024l0,4.961l-1.899,-0l0,-10.985l1.899,0l0,4.996l7,-4.978l-0,10.984l-7,-4.978Z" />
+      </svg>
+    </button>
+    <button id="action-button" class="toggle" aria-label="Action">
+      <svg width="90%" height="100%" viewBox="0 0 23 23" fill="var(--primary-color)">
+        <path d="M22.164,11.082l-22.164,11.082l0,-22.164l22.164,11.082Z" />
+      </svg>
+      <svg width="90%" height="100%" viewBox="0 0 23 23" fill="var(--primary-color)">
+        <rect x="-0" y="0" width="9.339" height="22.166" />
+        <rect x="12.825" y="0" width="9.339" height="22.166" />
+      </svg>
+
+      <svg width="90%" height="100%" viewBox="0 0 23 23" fill="var(--terciary-color)">
+        <rect x="0" y="8.29" width="5.585" height="5.585" />
+        <rect x="8.29" y="8.29" width="5.585" height="5.585" />
+        <rect x="16.58" y="8.29" width="5.585" height="5.585" />
+      </svg>
+      <svg width="90%" height="100%" viewBox="0 0 6 6" fill="var(--error-color)">
+        <path
+          d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z" />
+      </svg>
+
+    </button>
+    <button id="next-button" aria-label="Next">
+      <svg width="30%" height="40%" viewBox="0 0 9 12" fill="var(--primary-color)">
+        <path d="M7,4.978l-0,-4.96l1.899,-0l-0,10.984l-1.899,0l-0,-4.995l-7,4.978l-0,-10.985l7,4.978Z" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="scrub" class="range">
+    <div class="range-bar"></div>
+    <input type="range" min="0" max="100" value="10" aria-label="Srcub" />
+  </div>
+
+  <div id="volume" class="range">
+    <div class="range-bar"></div>
+    <input type="range" min="0" max="100" value="10" aria-label="Volume" />
+  </div>
+
+  <div id="menu">
+    <div id="menu-container"></div>
+    <button id="menu-back-button" class="back-button" aria-label="Menu Back">
+      <svg width="100%" height="45px" viewBox="0 0 7 5" fill="var(--primary-color)">
+        <path d="M3.083,0.855l-0.832,-0.855l-2.251,2.251l2.221,2.279l0.844,-0.844l-1.377,-1.435l1.395,-1.396Z" />
+        <path d="M6.247,0.855l-0.832,-0.855l-2.251,2.251l2.221,2.279l0.844,-0.844l-1.377,-1.435l1.395,-1.396Z" />
+      </svg>
+    </button>
+    <button id="menu-button" class="toggle" aria-label="Menu">
+      <svg width="45" height="45" viewBox="0 0 11 11" fill="var(--primary-color)">
+        <rect x="0" y="0" width="10.355" height="3.876" />
+        <rect x="0" y="6.485" width="10.355" height="3.87" />
+      </svg>
+      <svg width="45px" height="45px" viewBox="0 0 6 6" fill="var(--primary-color)">
+        <path
+          d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z" />
+      </svg>
+    </button>
+  </div>
+
+  <input type="file" id="file-input" multiple accept="audio/*" class="hidden" aria-label="Files">
+
+  <div id="peek-a-boo">peekaboo</div>
+
+  <div id="splash">
+    <img src="images/icons-vector.svg" width="330px" height="330px" alt="" srcset="">
+    <p></p>
+  </div>
+
+  <template class="list-item">
+    <li>
+      <label>Item default</label>
+      <div class="toggle">
+        <svg width="31px" height="45px" viewBox="0 0 6 8" fill="var(--secondary-color)">
+          <path d="M1.403,0l3.613,3.64l-3.661,3.641l-1.355,-1.374l2.27,-2.243l-2.24,-2.308l1.373,-1.356Z" />
+        </svg>
+        <svg width="31" height="31" viewBox="0 0 6 6" fill="var(--error-color)">
+          <rect x="-0" y="0" width="5.016" height="5.016" />
+        </svg>
+      </div>
+    </li>
+  </template>
+</body>
+
+</html>
+</body>
+
+</html>

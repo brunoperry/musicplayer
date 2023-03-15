@@ -15,6 +15,5 @@ export const setVisitor = async (ip) => {
   if (!exists) {
     IPS.push(properIP);
   }
-
   console.log("req ip", IPS);
 };

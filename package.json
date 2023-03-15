@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "Javascript music player",
   "main": "gulpfile.js",
+  "type": "module",
   "scripts": {
-    "pushall": "git add --all && git commit -m 'update' && git push -u origin main",
-    "dev": "node backend/server.js"
+    "pushall": "git add --all && git commit -m 'update' && git push -u origin v2",
+    "dev": "node server.js",
+    "build_frontend": "gulp --gulpfile frontend/deploy/gulpfile.js && cp frontend/app_logo.svg public/ && cp frontend/manifest.json public/ && cp frontend/service-worker.js public/ && cp -R frontend/images/ public/images/",
+    "production": "pm2 start server.js && pm2 log 0",
+    "build": "docker build -t musicplayer . && docker tag musicplayer brunoperry/musicplayer:latest",
+    "deploy": "docker login && docker push brunoperry/musicplayer:latest"
   },
   "repository": {
     "type": "git",
@@ -31,6 +36,7 @@
     "firebase": "^9.16.0"
   },
   "devDependencies": {
+    "del": "^7.0.0",
     "express": "^4.18.1",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
