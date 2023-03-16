@@ -10,7 +10,7 @@ import rename from "gulp-rename";
 import { deleteAsync } from "del";
 
 //PROPS
-let INDEX_DEV = "../index_dev.html";
+let INDEX_DEV = "../public/index_dev.html";
 let headName = "head.html";
 let bodyName = "body.html";
 let stylesName = "styles.css";
@@ -41,19 +41,20 @@ const terser_config = {
 };
 
 const modules = [
-  "../components/AudioPlayer.js",
-  "../components/Component.js",
-  "../components/List.js",
-  "../components/Button.js",
-  "../components/ToggleButton.js",
-  "../components/ListButton.js",
-  "../components/PeekABoo.js",
-  "../components/Info.js",
-  "../components/Controller.js",
-  "../components/RangeBar.js",
-  "../components/Splash.js",
-  "../components/Menu.js",
-  "../main.js",
+  "../public/components/AudioPlayer.js",
+  "../public/components/Component.js",
+  "../public/components/List.js",
+  "../public/components/Button.js",
+  "../public/components/Modal.js",
+  "../public/components/ToggleButton.js",
+  "../public/components/ListButton.js",
+  "../public/components/PeekABoo.js",
+  "../public/components/Info.js",
+  "../public/components/Controller.js",
+  "../public/components/RangeBar.js",
+  "../public/components/Splash.js",
+  "../public/components/Menu.js",
+  "../public/main.js",
 ];
 
 //METHODS
@@ -97,7 +98,10 @@ const minifyBody = () => {
 };
 
 const minifyCSS = () => {
-  return src("../styles.css").pipe(cleanCSS()).pipe(concat(stylesName)).pipe(dest(`./`));
+  return src("../public/styles.css")
+    .pipe(cleanCSS())
+    .pipe(concat(stylesName))
+    .pipe(dest(`./`));
 };
 const minifyJS = () => {
   return src(modules)
@@ -121,7 +125,7 @@ const inject2HTML = () => {
   return src(`index_deploy.html`)
     .pipe(rename("index.html"))
     .pipe(inlinesource())
-    .pipe(dest("../../public/"));
+    .pipe(dest("../public/"));
 };
 const cleanup = () => {
   return deleteAsync([`${headName}`, `${bodyName}`, `${stylesName}`, `${scriptName}`], {

@@ -246,6 +246,66 @@ li .toggle {
   justify-content: flex-end;
 }
 
+/* MODAL */
+#modal {
+  position: absolute;
+  display: none;
+  inset: 0;
+  justify-content: center;
+  transform: scaleY(0);
+  transition: transform var(--speed) ease;
+  background-color: var(--secondary-color);
+  z-index: 200;
+}
+
+#modal form {
+  position: relative;
+  display: none;
+  justify-self: center;
+  max-width: 375px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition-duration: var(--speed);
+  transition-timing-function: ease;
+  transition-property: transform, opacity;
+  opacity: 0;
+  transform: translateY(20px);
+  padding: 10px;
+}
+
+#modal label {
+  width: 100%;
+}
+
+#modal input {
+  font-size: var(--font-size);
+  padding: 10px;
+  border: none;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+#modal button {
+  width: 100%;
+  max-height: 72px;
+  background-color: var(--primary-color);
+}
+
+#modal button label {
+  text-transform: uppercase;
+  font-size: var(--font-size);
+  font-weight: bold;
+  color: var(--secondary-color);
+  pointer-events: none;
+}
+
+#modal button.cancel {
+  margin-top: 20px;
+  color: var(--terciary-color);
+  background-color: var(--secondary-color);
+}
 
 /* PEEKABOO */
 #peek-a-boo {

@@ -1,150 +1,259 @@
 import fs from "fs";
 import util from "util";
+import express from "express";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import session from "express-session";
+import bodyParser from "body-parser";
+import { config } from "./config.js";
+import { reset_firebase } from "./routes/firebase_route.js";
 import path from "path";
 
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
-import { getStorage, listAll, ref, getDownloadURL } from "firebase/storage";
-
-import https from "https";
-import express from "express";
-import cors from "cors";
-import compression from "compression";
-
-const __dirname = path.resolve();
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const writeFileAsync = util.promisify(fs.writeFile);
-
-import { setVisitor } from "./utils.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBrSNn0x-C5VIKVyP4DKS8soMrbnH90zSw",
-  authDomain: "eticmobile-24b6e.firebaseapp.com",
-  projectId: "eticmobile-24b6e",
-  storageBucket: "eticmobile-24b6e.appspot.com",
-  messagingSenderId: "317745299408",
-  appId: "1:317745299408:web:ee58f77844b2f83c5983d5",
-};
-// Initialize Firebase
-const firebase_app = initializeApp(firebaseConfig);
-const database = getFirestore(firebase_app);
-const storage = getStorage();
-
-const PORT = 443;
-let APP_DATA = null;
-
 const app = express();
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const PORT = config.PORT || 3000;
 
-app.use(compression());
-app.use(cors());
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+};
+
+let APP_DATA = null;
+let AUTH_DATA = null;
+
+// Set up passport with a local strategy
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    if (username === config.USER && password === config.USER_PASS) {
+      return done(null, { id: 1, username: config.USER });
+    } else {
+      return done(null, false);
+    }
+  })
+);
+
+// Set up session handling
+app.use(
+  session({
+    secret: config.SESSION_SECRET, // Replace this with a random secret key
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Initialize passport and session middleware
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static("public"));
 
-app.get("/", async (req, res) => {
-  setVisitor(req.socket.remoteAddress);
-  res.sendFile(path.join(__dirname + "/public/index.html"));
+// Set up serialization and deserialization of user object
+passport.serializeUser((user, done) => {
+  done(null, user.id);
 });
 
+passport.deserializeUser((id, done) => {
+  // Replace this with actual database lookup
+  if (id === 1) {
+    done(null, { id: 1, username: config.USER });
+  } else {
+    done(new Error("User not found"));
+  }
+});
+
+// Set up home page
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
+  // res.sendFile(__dirname + "/public/index_dev.html");
+});
 app.get("/data", async (req, res) => {
-  if (!APP_DATA) {
-    APP_DATA = await reset();
+  let data_out;
+  if (req.isAuthenticated()) {
+    if (!AUTH_DATA) AUTH_DATA = await reset(true);
+    data_out = AUTH_DATA;
+  } else {
+    if (!APP_DATA) APP_DATA = await reset(false);
+    data_out = APP_DATA;
   }
-  res.json(APP_DATA);
+  res.json(data_out);
 });
-app.get("/reset", async (req, res) => {
-  APP_DATA = await reset();
-  res.json(APP_DATA);
-});
-app.get("/seek_stream/:url", async (req, res) => {
-  const url_to_seek = req.params.url;
-  console.log(url_to_seek);
+app.get("/reset", isAuthenticated, async (req, res) => {
+  AUTH_DATA = await reset(true);
+  APP_DATA = await reset(false);
+  res.json(AUTH_DATA);
 });
 
-const options = {
-  key: fs.readFileSync("/app/privkey.pem"),
-  cert: fs.readFileSync("/app/fullchain.pem"),
-};
-
-https.createServer(options, app).listen(PORT, () => {
-  try {
-    let rawdata = fs.readFileSync("public/app_data.json");
-    APP_DATA = JSON.parse(rawdata);
-  } catch (error) {
-    console.error("Error", error);
-  }
-  console.log("Server listening on port 443");
+// Set up login and logout routes
+app.post(
+  "/do_login",
+  urlencodedParser,
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/",
+  })
+);
+app.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error("Error logging out:", err);
+      return next(err);
+    }
+    res.redirect("/");
+  });
 });
-// app.listen(PORT, async () => {
-//   try {
-//     let rawdata = fs.readFileSync("public/app_data.json");
-//     APP_DATA = JSON.parse(rawdata);
-//   } catch (error) {
-//     console.error("Error", error);
-//   }
-//   console.log(`Server listening on port ${PORT}`);
-// });
 
-const reset = async () => {
-  const radios = await getRadios();
-  const music = await getMusic(ref(storage, ""));
-  const dataOut = [
+const reset = async (isAuthenticated, andSave = false) => {
+  const firebase_data = await reset_firebase();
+  let data_out = [
     {
       id: "radios",
       type: "folder",
       name: "radios",
-      children: radios,
+      children: firebase_data.radios,
     },
     {
       id: "music",
       type: "folder",
       name: "music",
-      children: music.children,
+      children: firebase_data.music,
+    },
+    {
+      id: "open",
+      type: "open",
+      name: "open...",
     },
   ];
-
-  try {
-    const publicDirPath = path.join(__dirname, "public");
-    const filePath = path.join(publicDirPath, "/app_data.json");
-    await writeFileAsync(filePath, JSON.stringify(dataOut));
-    return dataOut;
-  } catch (error) {
-    return [{ error: error }];
-  }
-};
-//API Firebase
-const getRadios = async () => {
-  const querySnapshot = await getDocs(collection(database, "music"));
-  const radios = [];
-  querySnapshot.forEach((doc) => {
-    radios.push({ ...doc.data(), id: `radios/${doc.data().name}`, type: "radio" });
-  });
-  return radios;
-};
-const getMusic = async (ref) => {
-  let resultObj = {
-    children: [],
-  };
-  const result = await listAll(ref);
-  const itemsPromises = result.items.map(async (itemRef) => {
-    const url = await getDownloadURL(itemRef);
-    const itemID = itemRef.fullPath.split("/");
-    itemID.pop();
-    resultObj.children.push({
-      id: `music/${itemRef.fullPath}`,
-      type: "music",
-      name: itemRef.name.replace(".mp3", ""),
-      url: url,
-    });
-  });
-  const prefixesPromises = result.prefixes.map(async (subfolderRef) => {
-    const subfolderObj = await getMusic(subfolderRef);
-    const deconstruct = subfolderRef.fullPath.split("/");
-    resultObj.children.push({
-      id: `music/${subfolderRef.fullPath}`,
+  if (isAuthenticated) {
+    data_out.push({
+      id: "settings",
       type: "folder",
-      name: deconstruct[deconstruct.length - 1],
-      children: subfolderObj.children.length > 0 ? subfolderObj.children : subfolderObj,
+      name: "settings",
+      children: [
+        {
+          id: "logout",
+          type: "logout",
+          name: "logout",
+        },
+        {
+          id: "reset",
+          type: "reset",
+          name: "reset",
+        },
+      ],
     });
+  } else {
+    data_out.push({
+      id: "settings",
+      type: "folder",
+      name: "settings",
+      children: [
+        {
+          id: "login",
+          type: "login",
+          name: "login",
+        },
+      ],
+    });
+  }
+
+  data_out.push({
+    id: "exit",
+    type: "exit",
+    name: "exit",
   });
 
-  await Promise.all([...itemsPromises, ...prefixesPromises]);
-  return resultObj;
-};
+  isAuthenticated ? (AUTH_DATA = data_out) : (APP_DATA = data_out);
+
+  if (andSave) {
+    try {
+      const fileName = isAuthenticated ? "/auth_data.json" : "/app_data.json";
+      const publicDirPath = path.join(__dirname, "public");
+      const app_data_path = path.join(publicDirPath, fileName);
+      await writeFileAsync(app_data_path, JSON.stringify(data_out));
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  return data_out;
+}; // Start the server
+
+app.listen(PORT, async () => {
+  try {
+    AUTH_DATA = await reset(true, true);
+    APP_DATA = await reset(false, true);
+    let rawdata = fs.readFileSync("public/app_data.json");
+    APP_DATA = JSON.parse(rawdata);
+    rawdata = fs.readFileSync("public/auth_data.json");
+    AUTH_DATA = JSON.parse(rawdata);
+  } catch (error) {
+    console.error("Error", error);
+  }
+
+  console.log(`Server listening at port ${PORT}`);
+});
+
+// const writeFileAsync = util.promisify(fs.writeFile);
+
+// // const options = {
+// //   key: fs.readFileSync("/app/privkey.pem"),
+// //   cert: fs.readFileSync("/app/fullchain.pem"),
+// // };
+
+// // https.createServer(options, app).listen(PORT, () => {
+// //   try {
+// //     let rawdata = fs.readFileSync("public/app_data.json");
+// //     APP_DATA = JSON.parse(rawdata);
+// //   } catch (error) {
+// //     console.error("Error", error);
+// //   }
+// //   console.log(`Server listening on port ${PORT}`);
+// // });
+// app.listen(PORT, async () => {
+// try {
+//   let rawdata = fs.readFileSync("public/app_data.json");
+//   APP_DATA = JSON.parse(rawdata);
+// } catch (error) {
+//   console.error("Error", error);
+// }
+// console.log(`Server listening on port ${PORT}`);
+// });
+
+// const reset = async () => {
+//   const radios = await getRadios();
+//   const music = await getMusic(ref(storage, ""));
+//   const dataOut = [
+//     {
+//       id: "radios",
+//       type: "folder",
+//       name: "radios",
+//       children: radios,
+//     },
+//     {
+//       id: "music",
+//       type: "folder",
+//       name: "music",
+//       children: music.children,
+//     },
+//     {
+//       type: "settings",
+//       name: "settings",
+//     },
+//     {
+//       type: "exit",
+//       name: "exit",
+//     },
+//   ];
+
+// try {
+//   const publicDirPath = path.join(__dirname, "public");
+//   const filePath = path.join(publicDirPath, "/app_data.json");
+//   await writeFileAsync(filePath, JSON.stringify(dataOut));
+//   return dataOut;
+// } catch (error) {
+//   return [{ error: error }];
+// }
+// };

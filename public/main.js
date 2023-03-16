@@ -2,6 +2,7 @@ import AudioPlayer from "./components/AudioPlayer.js";
 import Controller from "./components/Controller.js";
 import Info from "./components/Info.js";
 import Menu from "./components/Menu.js";
+import Modal from "./components/Modal.js";
 import PeekABoo from "./components/PeekABoo.js";
 import RangeBar from "./components/RangeBar.js";
 import Splash from "./components/Splash.js";
@@ -11,14 +12,15 @@ let audioPlayer;
 
 let splash;
 let peekaboo;
+let modal;
 let info;
 let controller;
 let scrub;
 let volumeBar;
 let menu;
 
-// const API_URL = "https://shrouded-fire-liver.glitch.me/";
-const API_URL = "https://musicplayer.brunoperry.net/";
+// const API_URL = "https://musicplayer.brunoperry.net/data/";
+const API_URL = "http://localhost:3000";
 
 let isOnline = navigator.onLine;
 let peekabooMessage = null;
@@ -27,7 +29,7 @@ window.onload = async () => {
   // if (!setupPWA()) return;
 
   if (setupPWA()) {
-    await initialize(API_URL, true);
+    await initialize(`${API_URL}/data`, true);
   }
 
   if (!isOnline) {
@@ -68,7 +70,9 @@ const setupPWA = () => {
           break;
       }
     });
-    if (isMobileDevice()) screen.orientation.lock("portrait");
+    if (isMobileDevice()) {
+      // screen.orientation.lock("portrait");
+    }
   } else {
     alert("Your browser does not support this app...");
     return false;
@@ -76,13 +80,14 @@ const setupPWA = () => {
   window.ononline = async () => {
     isOnline = true;
     peekaboo.show("You are online");
-    await initialize();
+    console.log("api_url");
+    await initialize(`${API_URL}/data`);
     menu.data = appData;
   };
   window.onoffline = async () => {
     isOnline = false;
     peekaboo.show("You are offline", "warning");
-    await initialize();
+    await initialize(`${API_URL}/data`);
     menu.data = appData;
   };
   return true;
@@ -105,30 +110,17 @@ const initialize = async (api_url = API_URL, withSplash = false) => {
     return;
   }
   try {
+    console.log(api_url);
     const req = await fetch(api_url, {
       headers: {
         "Accept-Encoding": "gzip",
       },
     });
     const apiData = await req.json();
-    appData = [
-      ...apiData,
-      {
-        type: "open",
-        name: "open...",
-      },
-      {
-        type: "reset",
-        name: "reset",
-      },
-      {
-        type: "exit",
-        name: "exit",
-      },
-    ];
+    appData = apiData;
+
     if (withSplash) splash.delete();
   } catch (error) {
-    console.log("ERROR", error);
     withSplash ? splash.error() : peekaboo.show("Something went wrong...", "error");
 
     addRetryButton();
@@ -137,6 +129,10 @@ const initialize = async (api_url = API_URL, withSplash = false) => {
 
 const setupLayout = () => {
   peekaboo = new PeekABoo("#peek-a-boo");
+
+  modal = new Modal("#modal", (value) => {
+    console.log("modal", value);
+  });
 
   info = new Info("#info", (value) => {
     switch (value.type) {
@@ -204,9 +200,15 @@ const setupLayout = () => {
         break;
       case "reset":
         menu.close();
-        await initialize(`${API_URL}reset`);
+        await initialize(`${API_URL}/reset`);
         menu.data = appData;
         peekaboo.show("Data updated!");
+        break;
+      case "login":
+        modal.show("login");
+        break;
+      case "logout":
+        window.location = "/logout";
         break;
       case "exit":
         window.close();

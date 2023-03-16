@@ -97,6 +97,22 @@
 
   <input type="file" id="file-input" multiple accept="audio/*" class="hidden" aria-label="Files">
 
+
+  <div id="modal">
+    <form id="login" action="do_login" method="post">
+      <label for="username">Username</label>
+      <input type="text" name="username" autocomplete="username">
+      <label for="password">Password</label>
+      <input type="password" name="password" autocomplete="current-password">
+      <button><label>Login</label></button>
+      <button class="cancel">
+        <svg width="45px" height="45px" viewBox="0 0 6 6" fill="var(--terciary-color)">
+          <path
+            d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z" />
+        </svg>
+      </button>
+    </form>
+  </div>
   <div id="peek-a-boo">peekaboo</div>
 
   <div id="splash">

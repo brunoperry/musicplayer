@@ -5,9 +5,16 @@ RUN apk add --update nodejs npm
 RUN npm install pm2 -g
 
 # Setup project structure
-COPY public /app/public
+COPY public/index.html /app/public/index.html
+COPY public/manifest.json /app/public/manifest.json
+COPY public/service-worker.js /app/public/service-worker.js
+COPY public/app_logo.svg /app/public/app_logo.svg
+COPY public/images /app/public/images
 COPY package.json /app/package.json
 COPY package-lock.json /app/package-lock.json
+COPY .env /app/.env
+COPY config.js /app/config.js
+COPY routes/firebase_route.js /app/routes/firebase_route.js
 COPY server.js /app/server.js
 COPY utils.js /app/utils.js
 WORKDIR /app

@@ -28,6 +28,8 @@ export default class Splash {
     clearInterval(this.#intervalID);
     this.#intervalID = null;
 
+    console.log("wqhjkd");
+
     this.#label.innerText = "Error connecting to server.";
     this.#label.style.color = "var(--error-color)";
 
@@ -58,7 +60,7 @@ export default class Splash {
       setTimeout(() => {
         document.body.removeChild(this.#element);
       }, this.#SPEED * 3);
-    }, 2000);
+    }, 1000);
   }
 
   static OFFLINE() {
@@ -69,6 +71,6 @@ export default class Splash {
     p.innerText = "Offline...";
     setTimeout(() => {
       document.body.removeChild(elem);
-    }, 3000);
+    }, 2000);
   }
 }
