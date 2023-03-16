@@ -12,4 +12,5 @@ export const config = {
   USER: process.env.USER,
   USER_PASS: process.env.USER_PASS,
   SESSION_SECRET: process.env.SESSION_SECRET,
+  PORT: 443,
 };

@@ -14,9 +14,8 @@ COPY package.json /app/package.json
 COPY package-lock.json /app/package-lock.json
 COPY .env /app/.env
 COPY config.js /app/config.js
-COPY routes/firebase_route.js /app/routes/firebase_route.js
+COPY firebase.js /app/firebase.js
 COPY server.js /app/server.js
-COPY utils.js /app/utils.js
 WORKDIR /app
 
 # Build project code (in the image itself)

@@ -19,15 +19,13 @@ let scrub;
 let volumeBar;
 let menu;
 
-// const API_URL = "https://musicplayer.brunoperry.net/data/";
+// const API_URL = "https://musicplayer.brunoperry.net";
 const API_URL = "http://localhost:3000";
 
 let isOnline = navigator.onLine;
 let peekabooMessage = null;
 
 window.onload = async () => {
-  // if (!setupPWA()) return;
-
   if (setupPWA()) {
     await initialize(`${API_URL}/data`, true);
   }
@@ -45,7 +43,6 @@ window.onload = async () => {
       },
     ];
   }
-  // await initialize(API_URL, true);
   setupLayout();
   setupAudio();
   if (peekabooMessage) {

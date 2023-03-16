@@ -7,7 +7,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import session from "express-session";
 import bodyParser from "body-parser";
 import { config } from "./config.js";
-import { reset_firebase } from "./routes/firebase_route.js";
+import { reset_firebase } from "./firebase.js";
 import path from "path";
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -67,6 +67,7 @@ passport.deserializeUser((id, done) => {
 
 // Set up home page
 app.get("/", (req, res) => {
+  console.log("getting home");
   res.sendFile(__dirname + "/public/index.html");
   // res.sendFile(__dirname + "/public/index_dev.html");
 });
@@ -180,30 +181,17 @@ const reset = async (isAuthenticated, andSave = false) => {
   }
 
   return data_out;
-}; // Start the server
+};
 
-// app.listen(PORT, async () => {
-//   try {
-//     AUTH_DATA = await reset(true, true);
-//     APP_DATA = await reset(false, true);
-//     let rawdata = fs.readFileSync("public/app_data.json");
-//     APP_DATA = JSON.parse(rawdata);
-//     rawdata = fs.readFileSync("public/auth_data.json");
-//     AUTH_DATA = JSON.parse(rawdata);
-//   } catch (error) {
-//     console.error("Error", error);
-//   }
-
-//   console.log(`Server listening at port ${PORT}`);
-// });
-
-// const writeFileAsync = util.promisify(fs.writeFile);
-
+// Start the server
 const options = {
   key: fs.readFileSync("/app/privkey.pem"),
   cert: fs.readFileSync("/app/fullchain.pem"),
 };
-
+// const options = {
+//   key: fs.readFileSync("localhost.key"),
+//   cert: fs.readFileSync("localhost.crt"),
+// };
 https.createServer(options, app).listen(PORT, async () => {
   try {
     AUTH_DATA = await reset(true, true);
@@ -218,48 +206,3 @@ https.createServer(options, app).listen(PORT, async () => {
 
   console.log(`Server listening at port ${PORT}`);
 });
-// app.listen(PORT, async () => {
-// try {
-//   let rawdata = fs.readFileSync("public/app_data.json");
-//   APP_DATA = JSON.parse(rawdata);
-// } catch (error) {
-//   console.error("Error", error);
-// }
-// console.log(`Server listening on port ${PORT}`);
-// });
-
-// const reset = async () => {
-//   const radios = await getRadios();
-//   const music = await getMusic(ref(storage, ""));
-//   const dataOut = [
-//     {
-//       id: "radios",
-//       type: "folder",
-//       name: "radios",
-//       children: radios,
-//     },
-//     {
-//       id: "music",
-//       type: "folder",
-//       name: "music",
-//       children: music.children,
-//     },
-//     {
-//       type: "settings",
-//       name: "settings",
-//     },
-//     {
-//       type: "exit",
-//       name: "exit",
-//     },
-//   ];
-
-// try {
-//   const publicDirPath = path.join(__dirname, "public");
-//   const filePath = path.join(publicDirPath, "/app_data.json");
-//   await writeFileAsync(filePath, JSON.stringify(dataOut));
-//   return dataOut;
-// } catch (error) {
-//   return [{ error: error }];
-// }
-// };

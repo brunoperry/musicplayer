@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getStorage, listAll, ref, getDownloadURL } from "firebase/storage";
-import { config } from "../config.js";
+import { config } from "./config.js";
 
 //API Firebase
 const firebase_app = initializeApp(config);
