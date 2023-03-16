@@ -19,8 +19,8 @@ let scrub;
 let volumeBar;
 let menu;
 
-// const API_URL = "https://musicplayer.brunoperry.net";
-const API_URL = "http://localhost:3000";
+const API_URL = "https://musicplayer.brunoperry.net";
+// const API_URL = "http://localhost:3000";
 
 let isOnline = navigator.onLine;
 let peekabooMessage = null;

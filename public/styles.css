@@ -302,7 +302,10 @@ li .toggle {
 }
 
 #modal button.cancel {
-  margin-top: 20px;
+  position: absolute;
+  align-self: flex-end;
+  top: 10px;
+  width: auto;
   color: var(--terciary-color);
   background-color: var(--secondary-color);
 }

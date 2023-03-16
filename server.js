@@ -14,7 +14,10 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const writeFileAsync = util.promisify(fs.writeFile);
 const app = express();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
-const PORT = config.PORT || 3000;
+const PORT = config.PORT;
+// const PORT = 3000;
+const INDEX = __dirname + "/public/index.html";
+// const INDEX = __dirname + "/public/index_dev.html";
 
 const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -67,9 +70,7 @@ passport.deserializeUser((id, done) => {
 
 // Set up home page
 app.get("/", (req, res) => {
-  console.log("getting home");
-  res.sendFile(__dirname + "/public/index.html");
-  // res.sendFile(__dirname + "/public/index_dev.html");
+  res.sendFile(INDEX);
 });
 app.get("/data", async (req, res) => {
   let data_out;
@@ -183,16 +184,7 @@ const reset = async (isAuthenticated, andSave = false) => {
   return data_out;
 };
 
-// Start the server
-const options = {
-  key: fs.readFileSync("/app/privkey.pem"),
-  cert: fs.readFileSync("/app/fullchain.pem"),
-};
-// const options = {
-//   key: fs.readFileSync("localhost.key"),
-//   cert: fs.readFileSync("localhost.crt"),
-// };
-https.createServer(options, app).listen(PORT, async () => {
+app.listen(PORT, async () => {
   try {
     AUTH_DATA = await reset(true, true);
     APP_DATA = await reset(false, true);
@@ -201,8 +193,28 @@ https.createServer(options, app).listen(PORT, async () => {
     rawdata = fs.readFileSync("public/auth_data.json");
     AUTH_DATA = JSON.parse(rawdata);
   } catch (error) {
-    console.error("Error", error);
+    console.error("DEV Error", error);
   }
 
-  console.log(`Server listening at port ${PORT}`);
+  console.log(`DEV Server listening at port ${PORT}`);
 });
+
+// Start the server
+// const options = {
+//   key: fs.readFileSync("/app/privkey.pem"),
+//   cert: fs.readFileSync("/app/fullchain.pem"),
+// };
+// https.createServer(options, app).listen(PORT, async () => {
+//   try {
+//     AUTH_DATA = await reset(true, true);
+//     APP_DATA = await reset(false, true);
+//     let rawdata = fs.readFileSync("public/app_data.json");
+//     APP_DATA = JSON.parse(rawdata);
+//     rawdata = fs.readFileSync("public/auth_data.json");
+//     AUTH_DATA = JSON.parse(rawdata);
+//   } catch (error) {
+//     console.error("Error", error);
+//   }
+
+//   console.log(`Server listening at port ${PORT}`);
+// });
