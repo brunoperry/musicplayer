@@ -181,7 +181,29 @@ const reset = async (isAuthenticated, andSave = false) => {
   return data_out;
 }; // Start the server
 
-app.listen(PORT, async () => {
+// app.listen(PORT, async () => {
+//   try {
+//     AUTH_DATA = await reset(true, true);
+//     APP_DATA = await reset(false, true);
+//     let rawdata = fs.readFileSync("public/app_data.json");
+//     APP_DATA = JSON.parse(rawdata);
+//     rawdata = fs.readFileSync("public/auth_data.json");
+//     AUTH_DATA = JSON.parse(rawdata);
+//   } catch (error) {
+//     console.error("Error", error);
+//   }
+
+//   console.log(`Server listening at port ${PORT}`);
+// });
+
+// const writeFileAsync = util.promisify(fs.writeFile);
+
+const options = {
+  key: fs.readFileSync("/app/privkey.pem"),
+  cert: fs.readFileSync("/app/fullchain.pem"),
+};
+
+https.createServer(options, app).listen(PORT, async () => {
   try {
     AUTH_DATA = await reset(true, true);
     APP_DATA = await reset(false, true);
@@ -195,23 +217,6 @@ app.listen(PORT, async () => {
 
   console.log(`Server listening at port ${PORT}`);
 });
-
-// const writeFileAsync = util.promisify(fs.writeFile);
-
-// // const options = {
-// //   key: fs.readFileSync("/app/privkey.pem"),
-// //   cert: fs.readFileSync("/app/fullchain.pem"),
-// // };
-
-// // https.createServer(options, app).listen(PORT, () => {
-// //   try {
-// //     let rawdata = fs.readFileSync("public/app_data.json");
-// //     APP_DATA = JSON.parse(rawdata);
-// //   } catch (error) {
-// //     console.error("Error", error);
-// //   }
-// //   console.log(`Server listening on port ${PORT}`);
-// // });
 // app.listen(PORT, async () => {
 // try {
 //   let rawdata = fs.readFileSync("public/app_data.json");
