@@ -40,11 +40,12 @@
       "label": "Desktop Music Player PWA"
     }
   ],
-  "id": "/etic_mobile/",
-  "start_url": "/etic_mobile/",
-  "scope": "/etic_mobile/",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
   "background_color": "#053160",
   "theme_color": "#053160",
+  "color": "#ffc80b",
   "display": "fullscreen",
   "orientation": "portrait",
   "description": "PWA Javascript music player"
