@@ -71,9 +71,10 @@ export default class AudioPlayer {
     this.play(this.#playlist[this.#trackIndex], this.#playlist);
   }
 
-  scrub(value) {
-    this.#audio.currentTime = (this.#audio.duration * value) / 100;
-  }
+  // scrub(value) {
+  //   console.log((this.#audio.duration * value) / 100, this.#audio.currentTime);
+  //   this.#audio.currentTime = (this.#audio.duration * value) / 100;
+  // }
 
   get currentTrack() {
     return this.#playlist[this.#trackIndex];
@@ -106,5 +107,8 @@ export default class AudioPlayer {
   }
   get currentTime() {
     return this.#audio.currentTime;
+  }
+  set currentTime(val) {
+    this.#audio.currentTime = (this.#audio.duration * val) / 100;
   }
 }

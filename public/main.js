@@ -150,10 +150,13 @@ const setupLayout = () => {
         volumeBar.translateY(0);
         break;
       case "share":
-        if (audioPlayer.currentTrack.type === "file") {
-        } else {
-          await navigator.clipboard.writeText(window.location.href);
-          peekaboo.show("Copied to clipboard!");
+        if (audioPlayer.currentTrack?.type !== "file") {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            peekaboo.show("Copied to clipboard!");
+          } catch (error) {
+            peekaboo.show(error, "error");
+          }
         }
         break;
     }
@@ -177,7 +180,7 @@ const setupLayout = () => {
   });
 
   scrub = new RangeBar("#scrub", (value) => {
-    audioPlayer.scrub(value);
+    audioPlayer.currentTime = value;
   });
 
   volumeBar = new RangeBar("#volume", (value) => {
@@ -297,6 +300,32 @@ const fetchPlaylist = (node, itemID) => {
   return item;
 };
 
+const getPlaylistFromPath = () => {
+  const out_path = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+
+  if (out_path.path === null || out_path.path === "none") return null;
+
+  const pl = fetchPlaylist(appData, out_path.path);
+  let trk = null;
+  if (pl) {
+    for (let i = 0; i < pl.length; i++) {
+      const t = pl[i];
+      if (t.id === out_path.path) {
+        trk = t;
+        break;
+      }
+    }
+  }
+  return trk
+    ? {
+        playlist: pl,
+        track: trk,
+      }
+    : null;
+};
+
 const addUpdateButton = (message) => {
   peekaboo.show(message);
   appData.push({
@@ -333,30 +362,4 @@ const isMobileDevice = () => {
 
 const setURL = (path = "none") => {
   history.replaceState({}, "", `?path=${path}`);
-};
-
-const getPlaylistFromPath = () => {
-  const out_path = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop),
-  });
-
-  if (out_path.path === null || out_path.path === "none") return null;
-
-  const pl = fetchPlaylist(appData, out_path.path);
-  let trk = null;
-  if (pl) {
-    for (let i = 0; i < pl.length; i++) {
-      const t = pl[i];
-      if (t.id === out_path.path) {
-        trk = t;
-        break;
-      }
-    }
-  }
-  return trk
-    ? {
-        playlist: pl,
-        track: trk,
-      }
-    : null;
 };

@@ -26,16 +26,14 @@ export default class Info extends Component {
       this.callback({ type: "share" });
     });
     this.#shareButton.setElement(this.#infoContainer.querySelector(".share-button"));
-
-    // this.#infoContainer.querySelector(".share-button").onclick = () => {
-    //   this.callback({ type: "share" });
-    // };
   }
 
   update(data) {
     this.#infoButton.text = data.name;
     this.#nameLabel.innerText = data.name;
     this.#typeLabel.innerText = data.type;
+
+    this.#shareButton.element.style.display = data.type === "file" ? "none" : "flex";
 
     let col;
     switch (data.type) {

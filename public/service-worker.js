@@ -1,5 +1,5 @@
 //Current version
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 
 //Name for our app cache
 const CACHE_NAME = "musicplayer";
@@ -7,8 +7,8 @@ const CACHE_NAME = "musicplayer";
 //Assets to be cached
 const cachedAssets = [
   "/",
-  // "/index.html",
-  "/index_dev.html",
+  "/index.html",
+  // "/index_dev.html",
   "/app_logo.svg",
   "/manifest.json",
   "/images/icons-192.png",
