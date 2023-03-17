@@ -25,10 +25,10 @@ export default class Modal extends Component {
       this.element.style.transform = "scaleY(1)";
       setTimeout(() => {
         this.#currentChild.style.display = "flex";
-        requestAnimationFrame(() => {
+        setTimeout(() => {
           this.#currentChild.style.transform = "translateY(0)";
           this.#currentChild.style.opacity = 1;
-        });
+        }, this.SPEED);
       }, this.SPEED);
     });
   }
