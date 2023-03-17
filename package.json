@@ -9,7 +9,7 @@
     "clear": "docker rmi musicplayer && docker rmi brunoperry/musicplayer:latest",
     "build_docker": "docker build -t musicplayer . && docker tag musicplayer brunoperry/musicplayer:latest",
     "push_docker": "docker login && docker push brunoperry/musicplayer:latest",
-    "push": "git add --all && git commit -m 'update' && git push -u origin v2",
+    "push": "git add --all && git commit -m 'update' && git push -u origin main",
     "dev": "nodemon --ignore public/app_data.json --ignore public/auth_data.json server.js",
     "production": "pm2 start server.js && pm2 log 0",
     "build": "npm run pack && npm run clear && npm run build_docker && npm run push_docker && npm run push"
