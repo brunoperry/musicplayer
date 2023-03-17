@@ -1,6 +1,6 @@
 # PWA Music Player
 
-![alt text](https://musicplayer.brunoperry.net/images/icon-512.png)
+![alt text](https://raw.githubusercontent.com/brunoperry/musicplayer/main/public/images/icons-512.png)
 
 JavaScript Music Player.
 
