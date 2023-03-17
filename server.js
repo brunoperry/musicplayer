@@ -15,7 +15,7 @@ const writeFileAsync = util.promisify(fs.writeFile);
 const app = express();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-let isDEV = true;
+let isDEV = false;
 const PORT = config.PORT;
 const PORT_DEV = 3000;
 const INDEX = __dirname + "/public/index.html";
@@ -71,10 +71,6 @@ passport.deserializeUser((id, done) => {
 });
 
 // Set up home page
-app.get("/", (req, res) => {
-  isDEV ? res.sendFile(INDEX) : res.sendFile(INDEX_DEV);
-  // res.sendFile(INDEX);
-});
 app.get("/data", async (req, res) => {
   let data_out;
   if (req.isAuthenticated()) {
@@ -109,6 +105,10 @@ app.get("/logout", (req, res) => {
     }
     res.redirect("/");
   });
+});
+
+app.get("*", (req, res) => {
+  isDEV ? res.sendFile(INDEX_DEV) : res.sendFile(INDEX);
 });
 
 const reset = async (isAuthenticated, andSave = false) => {

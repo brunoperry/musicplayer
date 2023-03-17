@@ -1,6 +1,6 @@
 {
   "short_name": "Music Player",
-  "name": "Music Player PWA",
+  "name": "Music Player",
   "icons": [
     {
       "src": "images/icons-vector.svg",

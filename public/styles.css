@@ -147,6 +147,12 @@ input[type="file"] {
   transition: opacity var(--speed) ease;
 }
 
+#info-container .share-button {
+  max-height: var(--button-height);
+  margin-top: auto;
+  justify-content: space-between;
+}
+
 
 /* CONTROLLER */
 #controller {

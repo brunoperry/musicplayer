@@ -1,9 +1,11 @@
+import Button from "./Button.js";
 import Component from "./Component.js";
 import ToggleButton from "./ToggleButton.js";
 
 export default class Info extends Component {
   #infoContainer;
   #infoButton;
+  #shareButton;
   #isOpened = false;
 
   #nameLabel;
@@ -19,6 +21,15 @@ export default class Info extends Component {
     this.#infoButton = new ToggleButton("#info-button", (value) => {
       this.#isOpened ? this.close() : this.open();
     });
+
+    this.#shareButton = new Button(null, () => {
+      this.callback({ type: "share" });
+    });
+    this.#shareButton.setElement(this.#infoContainer.querySelector(".share-button"));
+
+    // this.#infoContainer.querySelector(".share-button").onclick = () => {
+    //   this.callback({ type: "share" });
+    // };
   }
 
   update(data) {

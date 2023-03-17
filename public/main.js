@@ -48,6 +48,13 @@ window.onload = async () => {
   if (peekabooMessage) {
     addUpdateButton(peekabooMessage);
   }
+
+  const URLData = getPlaylistFromPath();
+
+  if (URLData) {
+    audioPlayer.pl = URLData.playlist;
+    audioPlayer.currentTrack = URLData.track;
+  }
 };
 
 const setupPWA = () => {
@@ -107,7 +114,6 @@ const initialize = async (api_url = API_URL, withSplash = false) => {
     return;
   }
   try {
-    console.log(api_url);
     const req = await fetch(api_url, {
       headers: {
         "Accept-Encoding": "gzip",
@@ -131,7 +137,7 @@ const setupLayout = () => {
     console.log("modal", value);
   });
 
-  info = new Info("#info", (value) => {
+  info = new Info("#info", async (value) => {
     switch (value.type) {
       case "opening":
         controller.translateY(20);
@@ -142,6 +148,13 @@ const setupLayout = () => {
         controller.translateY(0);
         scrub.translateY(0);
         volumeBar.translateY(0);
+        break;
+      case "share":
+        if (audioPlayer.currentTrack.type === "file") {
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          peekaboo.show("Copied to clipboard!");
+        }
         break;
     }
   });
@@ -256,6 +269,7 @@ const setupAudio = () => {
         scrub.element.style.display = audioPlayer.duration === Infinity ? "none" : "flex";
         info.update(audioPlayer.currentTrack);
         menu.setTrail(audioPlayer.currentTrack.id);
+        setURL(audioPlayer.currentTrack.id);
         break;
       case "pause":
         menu.setTrail(null);
@@ -315,4 +329,34 @@ const isMobileDevice = () => {
     typeof window.orientation !== "undefined" ||
     navigator.userAgent.indexOf("IEMobile") !== -1
   );
+};
+
+const setURL = (path = "none") => {
+  history.replaceState({}, "", `?path=${path}`);
+};
+
+const getPlaylistFromPath = () => {
+  const out_path = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+
+  if (out_path.path === null || out_path.path === "none") return null;
+
+  const pl = fetchPlaylist(appData, out_path.path);
+  let trk = null;
+  if (pl) {
+    for (let i = 0; i < pl.length; i++) {
+      const t = pl[i];
+      if (t.id === out_path.path) {
+        trk = t;
+        break;
+      }
+    }
+  }
+  return trk
+    ? {
+        playlist: pl,
+        track: trk,
+      }
+    : null;
 };

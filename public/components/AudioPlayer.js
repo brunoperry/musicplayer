@@ -87,6 +87,13 @@ export default class AudioPlayer {
     }
   }
 
+  get pl() {
+    return this.#playlist;
+  }
+  set pl(val) {
+    this.#playlist = val;
+  }
+
   get volume() {
     return this.#audio.volume;
   }

@@ -7,6 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="JavaScript PWA Music Player">
   <meta name="theme-color" content="#053160" />
+  <meta property="og:title" content="JavaScript PWA Music Player" />
+  <meta property="og:description" content="Mobile app to play streamed and local music files" />
+  <meta property="og:image" content="https://musicplayer.brunoperry.net/app_logo.svg" />
+  <meta property="og:url" content="https://musicplayer.brunoperry.net" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/svg+xml" href="app_logo.svg" />
   <link rel="apple-touch-icon" href="app_logo.svg" />
@@ -23,6 +27,17 @@
       <p class="name">Music Player PWA</p>
       <h2>Type</h2>
       <p class="type">JavaScript PWA audio player</p>
+
+      <button class="share-button">
+        <label>share</label>
+        <svg width="45px" height="45px" viewBox="0 0 11 11" fill="var(--primary-color)">
+          <path
+            d="M2.219,5.917l1.564,-1.564l-1.109,-1.11l-2.674,2.674l4.438,4.438l2.674,-2.674l-1.11,-1.109l-1.564,1.564l-2.219,-2.219Z" />
+          <path
+            d="M5.917,2.219l2.219,2.219l-1.564,1.564l1.109,1.11l2.674,-2.674l-4.438,-4.438l-2.674,2.674l1.11,1.109l1.564,-1.564Z" />
+          <path d="M5.917,3.328l1.11,1.11l-2.589,2.589l-1.11,-1.11l2.589,-2.589Z" />
+        </svg>
+      </button>
     </div>
     <button id="info-button" class="toggle" aria-label="Info">
       <label>MUSIC PLAYER</label>
