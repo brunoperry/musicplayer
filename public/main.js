@@ -54,6 +54,7 @@ window.onload = async () => {
   if (URLData) {
     audioPlayer.pl = URLData.playlist;
     audioPlayer.currentTrack = URLData.track;
+    info.update(audioPlayer.currentTrack);
   }
 };
 
