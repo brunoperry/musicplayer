@@ -7,8 +7,8 @@ const CACHE_NAME = "musicplayer";
 //Assets to be cached
 const cachedAssets = [
   "/",
-  "/index.html",
-  // "/index_dev.html",
+  // "/index.html",
+  "/index_dev.html",
   "/app_logo.svg",
   "/manifest.json",
   "/images/icons-192.png",
