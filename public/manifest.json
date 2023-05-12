@@ -46,7 +46,7 @@
   "background_color": "#053160",
   "theme_color": "#053160",
   "color": "#ffc80b",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "description": "PWA Javascript music player"
 }

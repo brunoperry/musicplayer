@@ -28,8 +28,6 @@ export default class Splash {
     clearInterval(this.#intervalID);
     this.#intervalID = null;
 
-    console.log("wqhjkd");
-
     this.#label.innerText = "Error connecting to server.";
     this.#label.style.color = "var(--error-color)";
 
@@ -40,7 +38,7 @@ export default class Splash {
       img.style.transform = "translateY(50px)";
       img.style.opacity = 0;
       setTimeout(() => {
-        document.body.removeChild(this.#element);
+        document.querySelector("#fullscreen").removeChild(this.#element);
       }, this.#SPEED * 3);
     }, 2000);
   }
@@ -58,7 +56,7 @@ export default class Splash {
       img.style.transform = "translateY(50px)";
       img.style.opacity = 0;
       setTimeout(() => {
-        document.body.removeChild(this.#element);
+        document.querySelector("#fullscreen").removeChild(this.#element);
       }, this.#SPEED * 3);
     }, 1000);
   }
