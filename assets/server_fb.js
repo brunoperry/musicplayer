@@ -37,7 +37,7 @@ app.use(cors());
 app.get("/", async (req, res) => {
   if (!APP_DATA) {
     APP_DATA = await reset();
-  }
+  }rmSync
   res.json(APP_DATA);
 });
 app.get("/reset", async (req, res) => {

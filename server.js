@@ -1,31 +1,31 @@
-import fs from "fs";
-import https from "https";
-import util from "util";
-import express from "express";
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
-import session from "express-session";
-import bodyParser from "body-parser";
-import { config } from "./config.js";
-import { reset_firebase } from "./firebase.js";
-import path from "path";
+import fs from 'fs';
+import https from 'https';
+import util from 'util';
+import express from 'express';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import { config } from './config.js';
+import { reset_firebase } from './firebase.js';
+import path from 'path';
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const writeFileAsync = util.promisify(fs.writeFile);
 const app = express();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-let isDEV = false;
+let isDEV = true;
 const PORT = config.PORT;
-const PORT_DEV = 3000;
-const INDEX = __dirname + "/public/index.html";
-const INDEX_DEV = __dirname + "/public/index_dev.html";
+const PORT_DEV = 3001;
+const INDEX = __dirname + '/public/index.html';
+const INDEX_DEV = __dirname + '/public/index_dev.html';
 
 const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/");
+  res.redirect('/');
 };
 
 let APP_DATA = null;
@@ -54,7 +54,7 @@ app.use(
 // Initialize passport and session middleware
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static("public"));
+app.use(express.static('public'));
 
 // Set up serialization and deserialization of user object
 passport.serializeUser((user, done) => {
@@ -66,12 +66,12 @@ passport.deserializeUser((id, done) => {
   if (id === 1) {
     done(null, { id: 1, username: config.USER });
   } else {
-    done(new Error("User not found"));
+    done(new Error('User not found'));
   }
 });
 
 // Set up home page
-app.get("/data", async (req, res) => {
+app.get('/data', async (req, res) => {
   let data_out;
   if (req.isAuthenticated()) {
     if (!AUTH_DATA) AUTH_DATA = await reset(true);
@@ -82,7 +82,7 @@ app.get("/data", async (req, res) => {
   }
   res.json(data_out);
 });
-app.get("/reset", isAuthenticated, async (req, res) => {
+app.get('/reset', isAuthenticated, async (req, res) => {
   AUTH_DATA = await reset(true);
   APP_DATA = await reset(false);
   res.json(AUTH_DATA);
@@ -90,24 +90,25 @@ app.get("/reset", isAuthenticated, async (req, res) => {
 
 // Set up login and logout routes
 app.post(
-  "/do_login",
+  '/do_login',
   urlencodedParser,
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/',
   })
 );
-app.get("/logout", (req, res) => {
+app.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
-      console.error("Error logging out:", err);
+      console.error('Error logging out:', err);
       return next(err);
     }
-    res.redirect("/");
+    res.redirect('/');
   });
 });
 
-app.get("*", (req, res) => {
+app.get('*', (req, res) => {
+  console.log(isDEV);
   isDEV ? res.sendFile(INDEX_DEV) : res.sendFile(INDEX);
 });
 
@@ -115,72 +116,72 @@ const reset = async (isAuthenticated, andSave = false) => {
   const firebase_data = await reset_firebase();
   let data_out = [
     {
-      id: "radios",
-      type: "folder",
-      name: "radios",
+      id: 'radios',
+      type: 'folder',
+      name: 'radios',
       children: firebase_data.radios,
     },
     {
-      id: "music",
-      type: "folder",
-      name: "music",
+      id: 'music',
+      type: 'folder',
+      name: 'music',
       children: firebase_data.music,
     },
     {
-      id: "open",
-      type: "open",
-      name: "open...",
+      id: 'open',
+      type: 'open',
+      name: 'open...',
     },
   ];
   if (isAuthenticated) {
     data_out.push({
-      id: "settings",
-      type: "folder",
-      name: "settings",
+      id: 'settings',
+      type: 'folder',
+      name: 'settings',
       children: [
         {
-          id: "logout",
-          type: "logout",
-          name: "logout",
+          id: 'logout',
+          type: 'logout',
+          name: 'logout',
         },
         {
-          id: "reset",
-          type: "reset",
-          name: "reset",
+          id: 'reset',
+          type: 'reset',
+          name: 'reset',
         },
       ],
     });
   } else {
     data_out.push({
-      id: "settings",
-      type: "folder",
-      name: "settings",
+      id: 'settings',
+      type: 'folder',
+      name: 'settings',
       children: [
         {
-          id: "login",
-          type: "login",
-          name: "login",
+          id: 'login',
+          type: 'login',
+          name: 'login',
         },
       ],
     });
   }
 
   data_out.push({
-    id: "exit",
-    type: "exit",
-    name: "exit",
+    id: 'exit',
+    type: 'exit',
+    name: 'exit',
   });
 
   isAuthenticated ? (AUTH_DATA = data_out) : (APP_DATA = data_out);
 
   if (andSave) {
     try {
-      const fileName = isAuthenticated ? "/auth_data.json" : "/app_data.json";
-      const publicDirPath = path.join(__dirname, "public");
+      const fileName = isAuthenticated ? '/auth_data.json' : '/app_data.json';
+      const publicDirPath = path.join(__dirname, 'public');
       const app_data_path = path.join(publicDirPath, fileName);
       await writeFileAsync(app_data_path, JSON.stringify(data_out));
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   }
 
@@ -190,36 +191,37 @@ const reset = async (isAuthenticated, andSave = false) => {
 // Start the server
 
 if (isDEV) {
+  console.log(isDEV);
   app.listen(PORT_DEV, async () => {
     try {
       AUTH_DATA = await reset(true, true);
       APP_DATA = await reset(false, true);
-      let rawdata = fs.readFileSync("public/app_data.json");
+      let rawdata = fs.readFileSync('public/app_data.json');
       APP_DATA = JSON.parse(rawdata);
-      rawdata = fs.readFileSync("public/auth_data.json");
+      rawdata = fs.readFileSync('public/auth_data.json');
       AUTH_DATA = JSON.parse(rawdata);
     } catch (error) {
-      console.error("DEV Error", error);
+      console.error('DEV Error', error);
     }
 
     console.log(`DEV Server listening at port ${PORT_DEV}`);
   });
 } else {
   const options = {
-    key: fs.readFileSync("/app/privkey.pem"),
-    cert: fs.readFileSync("/app/fullchain.pem"),
+    key: fs.readFileSync('/app/privkey.pem'),
+    cert: fs.readFileSync('/app/fullchain.pem'),
   };
 
   https.createServer(options, app).listen(PORT, async () => {
     try {
       AUTH_DATA = await reset(true, true);
       APP_DATA = await reset(false, true);
-      let rawdata = fs.readFileSync("public/app_data.json");
+      let rawdata = fs.readFileSync('public/app_data.json');
       APP_DATA = JSON.parse(rawdata);
-      rawdata = fs.readFileSync("public/auth_data.json");
+      rawdata = fs.readFileSync('public/auth_data.json');
       AUTH_DATA = JSON.parse(rawdata);
     } catch (error) {
-      console.error("Error", error);
+      console.error('Error', error);
     }
     console.log(`DEV Server listening at port ${PORT}`);
   });
