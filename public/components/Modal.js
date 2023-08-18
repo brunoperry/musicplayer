@@ -28,7 +28,7 @@ export default class Modal extends Component {
         password: loginForm.querySelector('#password').value,
       };
 
-      const req = await fetch('http://localhost:3000/user/login', {
+      const req = await fetch('https://api.brunoperry.net/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

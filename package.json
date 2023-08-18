@@ -5,6 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "pack": "gulp --gulpfile deploy/gulpfile.js",
     "dev": "nodemon --ignore public/app_data.json --ignore public/auth_data.json server.js",
     "build": "rm -rf deploy/html && mkdir deploy/html && cp -r public/images deploy/html/images && cp public/manifest.json deploy/html/manifest.json && cp public/service-worker.js deploy/html/service-worker.js && cp public/app_logo.svg deploy/html/app_logo.svg && npm run pack"
   },
