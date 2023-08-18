@@ -5,14 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "pack": "gulp --gulpfile deploy/gulpfile.js",
-    "clear": "docker rmi musicplayer && docker rmi brunoperry/musicplayer:latest",
-    "build_docker": "docker build -t musicplayer . && docker tag musicplayer brunoperry/musicplayer:latest",
-    "push_docker": "docker login && docker push brunoperry/musicplayer:latest",
-    "push": "git add --all && git commit -m 'update' && git push -u origin main",
     "dev": "nodemon --ignore public/app_data.json --ignore public/auth_data.json server.js",
-    "production": "pm2 start server.js && pm2 log 0",
-    "build": "npm run pack && npm run clear && npm run build_docker && npm run push_docker && npm run push"
+    "build": "rm -rf deploy/html && mkdir deploy/html && cp -r public/images deploy/html/images && cp public/manifest.json deploy/html/manifest.json && cp public/service-worker.js deploy/html/service-worker.js && cp public/app_logo.svg deploy/html/app_logo.svg && npm run pack"
   },
   "repository": {
     "type": "git",

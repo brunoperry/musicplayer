@@ -1,25 +1,18 @@
-#FROM alpine
-FROM alpine
+# Use the Alpine Linux base image
+FROM alpine:latest
 
-RUN apk add --update nodejs npm
-RUN npm install pm2 -g
+# Install NGINX
+RUN apk update && \
+    apk add --no-cache nginx
 
-# Setup project structure
-COPY public/index.html /app/public/index.html
-COPY public/manifest.json /app/public/manifest.json
-COPY public/service-worker.js /app/public/service-worker.js
-COPY public/app_logo.svg /app/public/app_logo.svg
-COPY public/images /app/public/images
-COPY package.json /app/package.json
-COPY package-lock.json /app/package-lock.json
-COPY .env /app/.env
-COPY config.js /app/config.js
-COPY firebase.js /app/firebase.js
-COPY server.js /app/server.js
-WORKDIR /app
+# Copy the NGINX configuration
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Build project code (in the image itself)
-RUN npm ci
+# Copy the contents of the 'html' folder to the NGINX document root
+COPY deploy/html/ /usr/share/nginx/html/
 
-# Run app
-CMD npm run production
+# Expose port 80 for the web server
+EXPOSE 80
+
+# Start the NGINX web server
+CMD ["nginx", "-g", "daemon off;"]
