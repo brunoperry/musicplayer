@@ -21,14 +21,14 @@ let menu;
 
 // const API_URL = "https://musicplayer.brunoperry.net";
 // const API_URL = 'http://localhost:3001';
-const API_URL = 'http://localhost:3000/music/data';
+const API_URL = 'http://localhost:3000/music';
 
 let isOnline = navigator.onLine;
 let peekabooMessage = null;
 
 window.onload = async () => {
   if (setupPWA()) {
-    await initialize(API_URL, true);
+    await initialize(`${API_URL}/data`, true);
   }
 
   if (!isOnline) {
@@ -116,13 +116,22 @@ const initialize = async (api_url = API_URL, withSplash = false) => {
     return;
   }
   try {
-    const req = await fetch(api_url, {
-      headers: {
+    let headerConfig;
+    const token = localStorage.getItem('musicplayertoken');
+    if (token) {
+      headerConfig = {
+        Authorization: `Bearer ${token}`,
         'Accept-Encoding': 'gzip',
-      },
+      };
+    } else {
+      headerConfig = {
+        'Accept-Encoding': 'gzip',
+      };
+    }
+    const req = await fetch(api_url, {
+      headers: headerConfig,
     });
     appData = await req.json();
-    console.log(appData);
 
     if (withSplash) splash.delete();
   } catch (error) {
@@ -207,7 +216,7 @@ const setupLayout = () => {
         scrub.scale(1);
         break;
       case 'music':
-      case 'radio':
+      case 'stream':
       case 'file':
         menu.close();
         await audioPlayer.play(value, fetchPlaylist(appData, value.id));
@@ -225,6 +234,7 @@ const setupLayout = () => {
         modal.show('login');
         break;
       case 'logout':
+        localStorage.removeItem('musicplayertoken');
         window.location = '/logout';
         break;
       case 'exit':

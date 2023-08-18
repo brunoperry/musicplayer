@@ -106,7 +106,6 @@ export default class Menu extends Component {
   }
 
   set data(val) {
-    console.log(val);
     if (this.#isOpen) {
       this.close();
       setTimeout(() => (this.#menuData = val), this.SPEED);

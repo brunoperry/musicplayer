@@ -3,7 +3,7 @@ export default class AudioPlayer {
   #playlist = [];
   #trackIndex = 0;
 
-  currentState = "pause";
+  currentState = 'pause';
   callback;
   constructor(callback) {
     this.#audio = new Audio();
@@ -13,29 +13,29 @@ export default class AudioPlayer {
   }
   #setupEvents() {
     this.#audio.onended = () => {
-      this.currentState = "ended";
+      this.currentState = 'ended';
       this.callback(this.currentState);
       this.next();
     };
     this.#audio.onpause = () => {
-      this.currentState = "pause";
+      this.currentState = 'pause';
       this.callback(this.currentState);
     };
     this.#audio.onerror = (e) => {
       e.preventDefault();
-      this.currentState = "error";
+      this.currentState = 'error';
       this.callback(this.currentState, this.#audio.error);
     };
     this.#audio.onloadstart = () => {
-      this.currentState = "loading";
+      this.currentState = 'loading';
       this.callback(this.currentState);
     };
     this.#audio.onplaying = () => {
-      this.currentState = "play";
+      this.currentState = 'play';
       this.callback(this.currentState);
     };
     this.#audio.ontimeupdate = () => {
-      this.currentState = "progress";
+      this.currentState = 'progress';
       this.callback(this.currentState);
     };
   }
@@ -58,7 +58,7 @@ export default class AudioPlayer {
       await this.#audio.play();
       return true;
     } catch (error) {
-      this.currentState = "error";
+      this.currentState = 'error';
       return false;
     }
   }
