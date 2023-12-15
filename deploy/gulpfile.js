@@ -1,20 +1,20 @@
-import pkg from 'gulp';
+import pkg from "gulp";
 const { src, dest, series } = pkg;
-import terser from 'gulp-terser';
-import concat from 'gulp-concat';
-import strReplace from 'gulp-string-replace';
-import each from 'gulp-each';
-import inlinesource from 'gulp-source-injector';
-import cleanCSS from 'gulp-clean-css';
-import rename from 'gulp-rename';
-import { deleteAsync } from 'del';
+import terser from "gulp-terser";
+import concat from "gulp-concat";
+import strReplace from "gulp-string-replace";
+import each from "gulp-each";
+import inlinesource from "gulp-source-injector";
+import cleanCSS from "gulp-clean-css";
+import rename from "gulp-rename";
+import { deleteAsync } from "del";
 
 //PROPS
-let INDEX_DEV = '../public/index_dev.html';
-let headName = 'head.html';
-let bodyName = 'body.html';
-let stylesName = 'styles.css';
-let scriptName = 'script.js';
+let INDEX_DEV = "../public/index_dev.html";
+let headName = "head.html";
+let bodyName = "body.html";
+let stylesName = "styles.css";
+let scriptName = "script.js";
 
 const terser_config = {
   compress: {
@@ -41,20 +41,22 @@ const terser_config = {
 };
 
 const modules = [
-  '../public/components/AudioPlayer.js',
-  '../public/components/Component.js',
-  '../public/components/List.js',
-  '../public/components/Button.js',
-  '../public/components/Modal.js',
-  '../public/components/ToggleButton.js',
-  '../public/components/ListButton.js',
-  '../public/components/PeekABoo.js',
-  '../public/components/Info.js',
-  '../public/components/Controller.js',
-  '../public/components/RangeBar.js',
-  '../public/components/Splash.js',
-  '../public/components/Menu.js',
-  '../public/main.js',
+  "../public/components/Component.js",
+  "../public/components/AudioPlayer.js",
+  "../public/components/Button.js",
+  "../public/components/Controller.js",
+  "../public/components/Info.js",
+  "../public/components/List.js",
+  "../public/components/ListButton.js",
+  "../public/components/Login.js",
+  "../public/components/Menu.js",
+  "../public/components/Modal.js",
+  "../public/components/PeekABoo.js",
+  "../public/components/RangeBar.js",
+  "../public/components/Search.js",
+  "../public/components/Splash.js",
+  "../public/components/ToggleButton.js",
+  "../public/main.js",
 ];
 
 //METHODS
@@ -64,13 +66,13 @@ const minifyHead = () => {
       each((content, file, callback) => {
         let out = [];
         let collect = false;
-        content.split('\n').forEach((ln) => {
-          if (ln.includes('<head>')) collect = true;
+        content.split("\n").forEach((ln) => {
+          if (ln.includes("<head>")) collect = true;
           if (collect) out.push(ln);
-          if (ln === '') collect = false;
+          if (ln === "") collect = false;
         });
-        content = out.join('\n');
-        content = content.replace(/<head>/g, '');
+        content = out.join("\n");
+        content = content.replace(/<head>/g, "");
         callback(null, content);
       })
     )
@@ -83,13 +85,13 @@ const minifyBody = () => {
       each((content, file, callback) => {
         let out = [];
         let collect = false;
-        content.split('\n').forEach((ln) => {
-          if (ln.includes('<body>')) collect = true;
+        content.split("\n").forEach((ln) => {
+          if (ln.includes("<body>")) collect = true;
           if (collect) out.push(ln);
-          if (ln.includes('</body>')) collect = true;
+          if (ln.includes("</body>")) collect = true;
         });
-        content = out.join('\n');
-        content = content.replace(/<body>/g, '');
+        content = out.join("\n");
+        content = content.replace(/<body>/g, "");
         callback(null, content);
       })
     )
@@ -98,7 +100,7 @@ const minifyBody = () => {
 };
 
 const minifyCSS = () => {
-  return src('../public/styles.css')
+  return src("../public/styles.css")
     .pipe(cleanCSS())
     .pipe(concat(stylesName))
     .pipe(dest(`./`));
@@ -108,39 +110,29 @@ const minifyJS = () => {
     .pipe(
       each((content, file, callback) => {
         let out = [];
-        content.split('\n').forEach((ln) => {
-          if (ln.includes('import ')) ln = `//${ln}`;
+        content.split("\n").forEach((ln) => {
+          if (ln.includes("import ")) ln = `//${ln}`;
           out.push(ln);
         });
-        content = out.join('\n');
+        content = out.join("\n");
         callback(null, content);
       })
     )
-    .pipe(strReplace('export default', ''))
+    .pipe(strReplace("export default", ""))
     .pipe(concat(scriptName))
     .pipe(terser(terser_config))
     .pipe(dest(`./`));
 };
 const inject2HTML = () => {
   return src(`index_deploy.html`)
-    .pipe(rename('index.html'))
+    .pipe(rename("index.html"))
     .pipe(inlinesource())
-    .pipe(dest('./html/'));
+    .pipe(dest("./html/"));
 };
 const cleanup = () => {
-  return deleteAsync(
-    [`${headName}`, `${bodyName}`, `${stylesName}`, `${scriptName}`],
-    {
-      force: true,
-    }
-  );
+  return deleteAsync([`${headName}`, `${bodyName}`, `${stylesName}`, `${scriptName}`], {
+    force: true,
+  });
 };
 
-export default series(
-  minifyHead,
-  minifyBody,
-  minifyCSS,
-  minifyJS,
-  inject2HTML,
-  cleanup
-);
+export default series(minifyHead, minifyBody, minifyCSS, minifyJS, inject2HTML, cleanup);

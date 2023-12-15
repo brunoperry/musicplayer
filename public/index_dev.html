@@ -1,271 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="JavaScript PWA Music Player" />
-    <meta name="theme-color" content="#053160" />
-    <meta property="og:title" content="JavaScript PWA Music Player" />
-    <meta
-      property="og:description"
-      content="Mobile app to play streamed and local music files"
-    />
-    <meta
-      property="og:image"
-      content="https://musicplayer.brunoperry.net/images/icons-192.png"
-    />
-    <meta property="og:url" content="https://musicplayer.brunoperry.net" />
-    <link rel="manifest" href="manifest.json" />
-    <link rel="icon" type="image/svg+xml" href="app_logo.svg" />
-    <link rel="apple-touch-icon" href="app_logo.svg" />
-    <title>Music Player</title>
 
-    <link rel="stylesheet" href="styles.css" />
-    <script src="main.js" type="module"></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="JavaScript PWA Music Player" />
+  <meta name="theme-color" content="#053160" />
+  <meta property="og:title" content="JavaScript PWA Music Player" />
+  <meta property="og:description" content="Mobile app to play streamed and local music files" />
+  <meta property="og:image" content="https://musicplayer.brunoperry.net/images/icons-192.png" />
+  <meta property="og:url" content="https://musicplayer.brunoperry.net" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="app_logo.svg" />
+  <link rel="apple-touch-icon" href="app_logo.svg" />
+  <title>Music Player dev</title>
 
-  <body>
-    <div id="fullscreen">
-      <div id="info">
-        <div id="info-container">
-          <h2>Name</h2>
-          <p class="name">Music Player PWA</p>
-          <h2>Type</h2>
-          <p class="type">JavaScript PWA audio player</p>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="main.js" type="module"></script>
+</head>
 
-          <button class="share-button">
-            <label>share</label>
-            <svg
-              width="45px"
-              height="45px"
-              viewBox="0 0 11 11"
-              fill="var(--primary-color)"
-            >
-              <path
-                d="M2.219,5.917l1.564,-1.564l-1.109,-1.11l-2.674,2.674l4.438,4.438l2.674,-2.674l-1.11,-1.109l-1.564,1.564l-2.219,-2.219Z"
-              />
-              <path
-                d="M5.917,2.219l2.219,2.219l-1.564,1.564l1.109,1.11l2.674,-2.674l-4.438,-4.438l-2.674,2.674l1.11,1.109l1.564,-1.564Z"
-              />
-              <path
-                d="M5.917,3.328l1.11,1.11l-2.589,2.589l-1.11,-1.11l2.589,-2.589Z"
-              />
-            </svg>
-          </button>
-        </div>
-        <button id="info-button" class="toggle" aria-label="Info">
-          <label>MUSIC PLAYER</label>
-          <svg
-            width="45px"
-            height="45px"
-            viewBox="0 0 6 6"
-            fill="var(--primary-color)"
-          >
+<body>
+  <div id="fullscreen">
+    <div id="info">
+      <div id="info-container">
+        <h2>Name</h2>
+        <p class="name">Music Player PWA</p>
+        <h2>Type</h2>
+        <p class="type">JavaScript PWA audio player</p>
+
+        <button class="share-button">
+          <label>share</label>
+          <svg width="45px" height="45px" viewBox="0 0 11 11" fill="var(--primary-color)">
             <path
-              d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z"
-            />
+              d="M2.219,5.917l1.564,-1.564l-1.109,-1.11l-2.674,2.674l4.438,4.438l2.674,-2.674l-1.11,-1.109l-1.564,1.564l-2.219,-2.219Z" />
+            <path
+              d="M5.917,2.219l2.219,2.219l-1.564,1.564l1.109,1.11l2.674,-2.674l-4.438,-4.438l-2.674,2.674l1.11,1.109l1.564,-1.564Z" />
+            <path d="M5.917,3.328l1.11,1.11l-2.589,2.589l-1.11,-1.11l2.589,-2.589Z" />
           </svg>
         </button>
       </div>
-      <div id="controller">
-        <button id="previous-button" aria-label="Previous">
-          <svg
-            width="30%"
-            height="40%"
-            viewBox="0 0 9 12"
-            fill="var(--primary-color)"
-          >
-            <path
-              d="M1.899,6.024l0,4.961l-1.899,-0l0,-10.985l1.899,0l0,4.996l7,-4.978l-0,10.984l-7,-4.978Z"
-            />
-          </svg>
-        </button>
-        <button id="action-button" class="toggle" aria-label="Action">
-          <svg
-            width="90%"
-            height="100%"
-            viewBox="0 0 23 23"
-            fill="var(--primary-color)"
-          >
-            <path d="M22.164,11.082l-22.164,11.082l0,-22.164l22.164,11.082Z" />
-          </svg>
-          <svg
-            width="90%"
-            height="100%"
-            viewBox="0 0 23 23"
-            fill="var(--primary-color)"
-          >
-            <rect x="-0" y="0" width="9.339" height="22.166" />
-            <rect x="12.825" y="0" width="9.339" height="22.166" />
-          </svg>
-
-          <svg
-            width="90%"
-            height="100%"
-            viewBox="0 0 23 23"
-            fill="var(--terciary-color)"
-          >
-            <rect x="0" y="8.29" width="5.585" height="5.585" />
-            <rect x="8.29" y="8.29" width="5.585" height="5.585" />
-            <rect x="16.58" y="8.29" width="5.585" height="5.585" />
-          </svg>
-          <svg
-            width="90%"
-            height="100%"
-            viewBox="0 0 6 6"
-            fill="var(--error-color)"
-          >
-            <path
-              d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z"
-            />
-          </svg>
-        </button>
-        <button id="next-button" aria-label="Next">
-          <svg
-            width="30%"
-            height="40%"
-            viewBox="0 0 9 12"
-            fill="var(--primary-color)"
-          >
-            <path
-              d="M7,4.978l-0,-4.96l1.899,-0l-0,10.984l-1.899,0l-0,-4.995l-7,4.978l-0,-10.985l7,4.978Z"
-            />
-          </svg>
-        </button>
-      </div>
-
-      <div id="scrub" class="range">
-        <div class="range-bar"></div>
-        <input type="range" min="0" max="100" value="10" aria-label="Srcub" />
-      </div>
-
-      <div id="volume" class="range">
-        <div class="range-bar"></div>
-        <input type="range" min="0" max="100" value="10" aria-label="Volume" />
-      </div>
-
-      <div id="menu">
-        <div id="menu-container"></div>
-        <button
-          id="menu-back-button"
-          class="back-button"
-          aria-label="Menu Back"
-        >
-          <svg
-            width="100%"
-            height="45px"
-            viewBox="0 0 7 5"
-            fill="var(--primary-color)"
-          >
-            <path
-              d="M3.083,0.855l-0.832,-0.855l-2.251,2.251l2.221,2.279l0.844,-0.844l-1.377,-1.435l1.395,-1.396Z"
-            />
-            <path
-              d="M6.247,0.855l-0.832,-0.855l-2.251,2.251l2.221,2.279l0.844,-0.844l-1.377,-1.435l1.395,-1.396Z"
-            />
-          </svg>
-        </button>
-        <button id="menu-button" class="toggle" aria-label="Menu">
-          <svg
-            width="45"
-            height="45"
-            viewBox="0 0 11 11"
-            fill="var(--primary-color)"
-          >
-            <rect x="0" y="0" width="10.355" height="3.876" />
-            <rect x="0" y="6.485" width="10.355" height="3.87" />
-          </svg>
-          <svg
-            width="45px"
-            height="45px"
-            viewBox="0 0 6 6"
-            fill="var(--primary-color)"
-          >
-            <path
-              d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z"
-            />
-          </svg>
-        </button>
-      </div>
-
-      <input
-        type="file"
-        id="file-input"
-        multiple
-        accept="audio/*"
-        class="hidden"
-        aria-label="Files"
-      />
-
-      <div id="modal">
-        <form id="login">
-          <button class="cancel">
-            <svg
-              width="45px"
-              height="45px"
-              viewBox="0 0 6 6"
-              fill="var(--terciary-color)"
-            >
-              <path
-                d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z"
-              />
-            </svg>
-          </button>
-          <label for="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            name="username"
-            autocomplete="username"
-          />
-          <label for="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            autocomplete="current-password"
-          />
-          <button><label>Login</label></button>
-        </form>
-      </div>
-      <div id="peek-a-boo">peekaboo</div>
-
-      <div id="splash">
-        <img
-          src="images/icons-vector.svg"
-          width="330px"
-          height="330px"
-          alt=""
-          srcset=""
-        />
-        <p></p>
-      </div>
+      <button id="info-button" class="toggle" aria-label="Info">
+        <label>MUSIC PLAYER</label>
+        <svg width="45px" height="45px" viewBox="0 0 6 6" fill="var(--primary-color)">
+          <path
+            d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z" />
+        </svg>
+      </button>
     </div>
-    <template class="list-item">
-      <li>
-        <label>Item default</label>
-        <div class="toggle">
-          <svg
-            width="31px"
-            height="45px"
-            viewBox="0 0 6 8"
-            fill="var(--secondary-color)"
-          >
-            <path
-              d="M1.403,0l3.613,3.64l-3.661,3.641l-1.355,-1.374l2.27,-2.243l-2.24,-2.308l1.373,-1.356Z"
-            />
-          </svg>
-          <svg
-            width="31"
-            height="31"
-            viewBox="0 0 6 6"
-            fill="var(--error-color)"
-          >
-            <rect x="-0" y="0" width="5.016" height="5.016" />
-          </svg>
+    <div id="controller">
+      <button id="previous-button" aria-label="Previous">
+        <svg width="30%" height="40%" viewBox="0 0 9 12" fill="var(--primary-color)">
+          <path d="M1.899,6.024l0,4.961l-1.899,-0l0,-10.985l1.899,0l0,4.996l7,-4.978l-0,10.984l-7,-4.978Z" />
+        </svg>
+      </button>
+      <button id="action-button" class="toggle" aria-label="Action">
+        <svg width="90%" height="100%" viewBox="0 0 23 23" fill="var(--primary-color)">
+          <path d="M22.164,11.082l-22.164,11.082l0,-22.164l22.164,11.082Z" />
+        </svg>
+        <svg width="90%" height="100%" viewBox="0 0 23 23" fill="var(--primary-color)">
+          <rect x="-0" y="0" width="9.339" height="22.166" />
+          <rect x="12.825" y="0" width="9.339" height="22.166" />
+        </svg>
+
+        <svg width="90%" height="100%" viewBox="0 0 23 23" fill="var(--terciary-color)">
+          <rect x="0" y="8.29" width="5.585" height="5.585" />
+          <rect x="8.29" y="8.29" width="5.585" height="5.585" />
+          <rect x="16.58" y="8.29" width="5.585" height="5.585" />
+        </svg>
+        <svg width="90%" height="100%" viewBox="0 0 6 6" fill="var(--error-color)">
+          <path
+            d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z" />
+        </svg>
+      </button>
+      <button id="next-button" aria-label="Next">
+        <svg width="30%" height="40%" viewBox="0 0 9 12" fill="var(--primary-color)">
+          <path d="M7,4.978l-0,-4.96l1.899,-0l-0,10.984l-1.899,0l-0,-4.995l-7,4.978l-0,-10.985l7,4.978Z" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="scrub" class="range">
+      <div class="range-bar"></div>
+      <input type="range" min="0" max="100" value="10" aria-label="Srcub" />
+    </div>
+
+    <div id="volume" class="range">
+      <div class="range-bar"></div>
+      <input type="range" min="0" max="100" value="10" aria-label="Volume" />
+    </div>
+
+    <div id="menu">
+      <div id="menu-container"></div>
+      <button id="menu-back-button" class="back-button" aria-label="Menu Back">
+        <svg width="100%" height="45px" viewBox="0 0 7 5" fill="var(--primary-color)">
+          <path d="M3.083,0.855l-0.832,-0.855l-2.251,2.251l2.221,2.279l0.844,-0.844l-1.377,-1.435l1.395,-1.396Z" />
+          <path d="M6.247,0.855l-0.832,-0.855l-2.251,2.251l2.221,2.279l0.844,-0.844l-1.377,-1.435l1.395,-1.396Z" />
+        </svg>
+      </button>
+      <button id="menu-button" class="toggle" aria-label="Menu">
+        <svg width="45" height="45" viewBox="0 0 11 11" fill="var(--primary-color)">
+          <rect x="0" y="0" width="10.355" height="3.876" />
+          <rect x="0" y="6.485" width="10.355" height="3.87" />
+        </svg>
+        <svg width="45px" height="45px" viewBox="0 0 6 6" fill="var(--primary-color)">
+          <path
+            d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z" />
+        </svg>
+      </button>
+    </div>
+
+    <input type="file" id="file-input" multiple accept="audio/*" class="hidden" aria-label="Files" />
+
+    <div id="modal">
+
+      <form id="login" action="do_login" method="post">
+
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" autocomplete="username">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" autocomplete="current-password">
+        <button><label>Login</label></button>
+
+      </form>
+      <div id="search">
+        <div id="search-container">
+          <ul id="search-results">
+
+          </ul>
         </div>
-      </li>
-    </template>
-  </body>
+        <div id="search-box">
+          <input id="search-input" type="text" placeholder="find...">
+          <button>
+            <svg width="100%" height="100%" viewBox="0 0 11 11" fill="var(--primary-color)">
+              <path
+                d="M 4.1523438 0 A 4.1527543 4.1527543 0 0 0 0 4.1523438 A 4.1527543 4.1527543 0 0 0 4.1523438 8.3046875 A 4.1527543 4.1527543 0 0 0 6.2871094 7.7070312 L 9.5800781 11 L 11 9.5800781 L 7.7070312 6.2871094 A 4.1527543 4.1527543 0 0 0 8.3046875 4.1523438 A 4.1527543 4.1527543 0 0 0 4.1523438 0 z M 4.1523438 2.0078125 A 2.1447544 2.1447544 0 0 1 6.296875 4.1523438 A 2.1447544 2.1447544 0 0 1 4.1523438 6.296875 A 2.1447544 2.1447544 0 0 1 2.0078125 4.1523438 A 2.1447544 2.1447544 0 0 1 4.1523438 2.0078125 z " />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+      <button class="cancel">
+        <label class="modal-title">Login</label>
+        <svg width="45px" height="45px" viewBox="0 0 6 6" fill="var(--terciary-color)">
+          <path
+            d="M2.831,1.858l1.802,-1.858l1.03,1.062l-1.716,1.769l1.716,1.77l-1.03,1.062l-1.802,-1.858l-1.801,1.858l-1.03,-1.062l1.716,-1.77l-1.716,-1.769l1.03,-1.062l1.801,1.858Z" />
+        </svg>
+      </button>
+    </div>
+    <div id="peek-a-boo">peekaboo</div>
+
+    <div id="splash">
+      <img src="images/icons-vector.svg" width="330px" height="330px" alt="" srcset="" />
+      <p></p>
+    </div>
+  </div>
+  <template class="list-item">
+    <li>
+      <label>Item default</label>
+      <div class="toggle">
+        <svg width="31px" height="45px" viewBox="0 0 6 8" fill="var(--secondary-color)">
+          <path d="M1.403,0l3.613,3.64l-3.661,3.641l-1.355,-1.374l2.27,-2.243l-2.24,-2.308l1.373,-1.356Z" />
+        </svg>
+        <svg width="31" height="31" viewBox="0 0 6 6" fill="var(--error-color)">
+          <rect x="-0" y="0" width="5.016" height="5.016" />
+        </svg>
+      </div>
+    </li>
+  </template>
+  <template class="search-item">
+    <li><label></label></li>
+  </template>
+</body>
+
 </html>

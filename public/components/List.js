@@ -10,7 +10,9 @@ export default class List extends Component {
     this.#listData = data;
     const ul = document.createElement("ul");
     this.#listData.forEach((itemData) => {
-      const listButton = new ListButton(itemData, () => this.callback(itemData));
+      const listButton = new ListButton(itemData, () => {
+        this.callback(itemData);
+      });
 
       if (itemData.type === "update") listButton.className = "update";
       if (itemData.type === "retry") listButton.className = "retry";
@@ -18,6 +20,10 @@ export default class List extends Component {
       ul.appendChild(listButton.element);
     });
     this.setElement(ul);
+  }
+
+  get buttons() {
+    return this.#items;
   }
 
   highlight(id) {

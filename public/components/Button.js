@@ -21,6 +21,10 @@ export default class Button extends Component {
     };
   }
 
+  click() {
+    this.element.onclick();
+  }
+
   setElement(element) {
     super.setElement(element);
     this.#setupEvents();

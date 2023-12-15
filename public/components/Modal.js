@@ -1,90 +1,65 @@
-import Component from './Component.js';
+import Component from "./Component.js";
+import Login from "./Login.js";
+import Search from "./Search.js";
 
 export default class Modal extends Component {
-  #currentChild = null;
-  constructor(elemID, callback) {
+  #currentView = null;
+  #title;
+
+  #loginView;
+  #searchView;
+
+  constructor(elemID, data, callback) {
     super(elemID, callback);
 
-    this.element.querySelector('.cancel').onclick = (e) => {
+    this.element.querySelector(".cancel").onclick = (e) => {
       e.preventDefault();
       e.stopPropagation();
 
       this.hide();
     };
 
-    this.#setupLayout();
-  }
+    this.#title = this.element.querySelector(".modal-title");
 
-  #setupLayout() {
-    //LOGIN FORM
-
-    const loginForm = this.element.querySelector('#login');
-    loginForm.onsubmit = async (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-
-      const credentials = {
-        username: loginForm.querySelector('#username').value,
-        password: loginForm.querySelector('#password').value,
-      };
-
-      const req = await fetch('https://api.brunoperry.net/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-      const res = await req.json();
-      if (res.status === 200) {
-        localStorage.setItem('musicplayertoken', res.token);
-
-        // To retrieve the JWT token from local storage
-        // const storedJwtToken = localStorage.getItem('jwtToken');
-
-        // // To remove the JWT token from local storage (e.g., on logout)
-        // localStorage.removeItem('jwtToken');
-        window.location.reload();
-      } else {
-        console.log(res.message);
-      }
-
-      // if (res.status === 1) {
-      //   window.location.reload();
-      // } else {
-      //   console.log('there was an error:', res.message);
-      // }
-    };
+    this.#loginView = new Login((action) => {
+      console.log("login action", action);
+    });
+    this.#searchView = new Search(data, (action) => {
+      this.callback("search", action);
+      this.hide();
+    });
   }
 
   show(elemID) {
-    this.#currentChild = this.element.querySelector(`#${elemID}`);
+    switch (elemID) {
+      case "login":
+        this.#currentView = this.#loginView;
+        break;
+      case "search":
+        this.#currentView = this.#searchView;
+        break;
 
-    if (!this.#currentChild) {
+      default:
+        break;
+    }
+    this.#title.innerText = elemID;
+    if (!this.#currentView) {
       return;
     }
 
-    this.element.style.display = 'flex';
+    this.element.style.display = "flex";
     requestAnimationFrame(() => {
-      this.element.style.transform = 'scaleY(1)';
+      this.element.style.transform = "scaleY(1)";
       setTimeout(() => {
-        this.#currentChild.style.display = 'flex';
-        setTimeout(() => {
-          this.#currentChild.style.transform = 'translateY(0)';
-          this.#currentChild.style.opacity = 1;
-        }, this.SPEED);
+        this.#currentView.show();
       }, this.SPEED);
     });
   }
 
   hide() {
-    if (this.#currentChild) {
-      this.#currentChild.style.display = 'none';
-      this.#currentChild.style.transform = 'translateY(20px)';
-      this.#currentChild.style.opacity = 0;
+    if (this.#currentView) {
+      this.#currentView.hide();
     }
-    this.element.style.transform = 'scaleY(0)';
+    this.element.style.transform = "scaleY(0)";
   }
-
-  do;
 }

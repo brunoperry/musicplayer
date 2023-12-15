@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    
+
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,19 +15,426 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/svg+xml" href="app_logo.svg" />
   <link rel="apple-touch-icon" href="app_logo.svg" />
-  <title>PWA Music Player dev</title>
+  <title>PWA Music Player devss</title>
 
 
-    <style>
-        :root{--primary-color:#ffc80b;--secondary-color:#053160;--terciary-color:#031e3c;--quadriary-color:#FFE96D;--success-color:#2ca105;--warning-color:#ff9e03;--error-color:#d40a0a;--speed:150ms;--font-size:clamp(2.5rem, 3vw, 3.5rem);--font-bold:600;--font-light:300;--button-height:92px;--nav-height:env(safe-area-inset-bottom)}::-webkit-scrollbar{width:0;opacity:0}*{padding:0;margin:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent}body,html{background-color:var(--terciary-color);overscroll-behavior-y:contain;overflow:hidden}body{position:relative;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;background-color:var(--secondary-color);max-width:800px;margin:0 auto;overscroll-behavior-y:contain}#fullscreen{display:flex;flex-direction:column;justify-content:space-between;height:100dvh;row-gap:10px}h2{color:var(--primary-color)}label{color:var(--primary-color);font-size:var(--font-size);font-weight:var(--font-bold);text-transform:uppercase;font-weight:700;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}li label{color:var(--secondary-color)}p{font-weight:500;font-size:18px;color:var(--quadriary-color)}button{display:flex;align-items:center;justify-content:center;border:none;background-color:transparent;cursor:pointer;max-width:100%;flex:1;padding:10px}button:active>*,li:active>*{transform:scale3d(.9,.9,1)}input[type=range]{position:absolute;inset:0;opacity:0}input[type=file]{position:absolute;top:0;left:0;visibility:hidden;pointer-events:none}#info{display:flex;max-height:var(--button-height);flex:1}#info-button{transition:transform var(--speed) ease}#info-container{display:flex;flex-direction:column;position:absolute;inset:0;padding:10px;row-gap:10px;top:var(--button-height);bottom:var(--button-height);overflow-x:hidden;overflow-y:scroll;background-color:var(--terciary-color);transform:scaleY(0);transform-origin:top;transition:transform var(--speed) ease;z-index:100}#info-container>*{visibility:hidden;opacity:0;transition:opacity var(--speed) ease}#info-container .share-button{max-height:var(--button-height);margin-top:auto;justify-content:space-between}#controller{display:flex;justify-content:space-between;align-items:center;gap:10px;flex:1;transition:var(--speed) ease;transition-property:transform}#scrub{flex:1;max-height:16px;display:none;transition:var(--speed) ease;transition-property:transform}#volume{flex:1;transition:var(--speed) ease;transition-property:transform}.range{position:relative;display:flex;background-color:var(--terciary-color)}.range-bar{flex:1;transform-origin:left;transform:scaleX(.5);background-color:var(--primary-color);pointer-events:none;width:100%}#menu{display:flex;max-height:var(--button-height);flex:1;justify-self:end}#menu-container{position:absolute;inset:0;bottom:var(--button-height);display:flex;overflow-x:hidden;overflow-y:scroll;background-color:var(--quadriary-color);transform:scaleY(0);transform-origin:bottom;transition:transform var(--speed) ease;z-index:101}#menu-back-button{display:none}#menu-container ul{position:absolute;inset:0;display:flex;flex-direction:column;flex:1;list-style:none;background-color:var(--quadriary-color);transform:translateX(100%);transition:transform var(--speed) ease}#menu-container li{display:grid;grid-template-columns:auto 45px;max-height:72px;cursor:pointer;gap:10px;padding:10px;flex:1}#menu-container li.leaf{display:flex}li .toggle{justify-content:flex-end}#modal{position:absolute;display:none;inset:0;justify-content:center;transform:scaleY(0);transition:transform var(--speed) ease;background-color:var(--secondary-color);z-index:200}#modal form{position:relative;display:none;justify-self:center;max-width:375px;flex-direction:column;justify-content:center;align-items:center;transition-duration:var(--speed);transition-timing-function:ease;transition-property:transform,opacity;opacity:0;transform:translateY(20px);padding:10px}#modal label{width:100%}#modal input{font-size:var(--font-size);padding:10px;border:none;width:100%;margin-top:5px;margin-bottom:20px}#modal button{width:100%;max-height:72px;background-color:var(--primary-color);margin-top:30px}#modal button label{text-transform:uppercase;font-size:var(--font-size);font-weight:700;color:var(--secondary-color);pointer-events:none}#modal button.cancel{position:absolute;align-self:flex-end;top:10px;width:auto;color:var(--terciary-color);background-color:var(--secondary-color)}#peek-a-boo{display:flex;justify-content:center;align-items:center;position:absolute;inset:0;max-height:32px;color:#fff;font-weight:500;font-size:12px;z-index:200;transform:translateY(-100%);animation-duration:var(--speed);animation-fill-mode:forwards;pointer-events:none}#splash{position:absolute;display:flex;flex-direction:column;inset:0;row-gap:10px;background-color:var(--secondary-color);align-items:center;justify-content:center}#splash img{transform:scale(.9)}#splash img,#splash p{transition:var(--speed) cubic-bezier(.25,.1,.76,1.52);transition-property:transform,opacity}#splash p{height:24px;width:100%;text-align:center;animation-duration:var(--speed);animation-direction:alternate;animation-iteration-count:infinite}.toggle{display:flex;align-items:center}.toggle>*{display:none}.highlight{background-color:var(--secondary-color)}.highlight label{color:var(--primary-color)}.highlight svg{fill:var(--primary-color)}.update{background-color:var(--success-color)}.retry label,.update label{color:#fff}.retry{background-color:var(--error-color)}@keyframes peekaboo{0%{transform:translateY(-100%)}100%{transform:translateY(0)}}@keyframes pulse{0%{transform:scale3d(1,1,1)}100%{transform:scale3d(1.1,1.1,1)}}
-    </style>
-    <script>
-        class AudioPlayer{#t;#e=[];#s=0;currentState="pause";callback;constructor(t){this.#t=new Audio,this.callback=t,this.#n()}#n(){this.#t.onended=()=>{this.currentState="ended",this.callback(this.currentState),this.next()},this.#t.onpause=()=>{this.currentState="pause",this.callback(this.currentState)},this.#t.onerror=t=>{t.preventDefault(),this.currentState="error",this.callback(this.currentState,this.#t.error)},this.#t.onloadstart=()=>{this.currentState="loading",this.callback(this.currentState)},this.#t.onplaying=()=>{this.currentState="play",this.callback(this.currentState)},this.#t.ontimeupdate=()=>{this.currentState="progress",this.callback(this.currentState)}}previous(){this.#s--,this.#s<0&&(this.#s=this.#e.length-1),this.play(this.#e[this.#s],this.#e)}async play(t=null,e=null){this.#e=e||this.#e,this.currentTrack=t||this.currentTrack,this.#t.paused||this.#t.pause();try{return this.#t.src=this.#e[this.#s].url,await this.#t.play(),!0}catch(t){return this.currentState="error",!1}}pause(){this.#t.pause()}next(){this.#s++,this.#s>=this.#e.length&&(this.#s=0),this.play(this.#e[this.#s],this.#e)}get currentTrack(){return this.#e[this.#s]}set currentTrack(t){for(let e=0;e<this.#e.length;e++)if(this.#e[e].id===t.id){this.#s=e;break}}get pl(){return this.#e}set pl(t){this.#e=t}get volume(){return this.#t.volume}set volume(t){this.#t.volume=t/100}get duration(){return this.#t.duration}get currentTime(){return this.#t.currentTime}set currentTime(t){this.#t.currentTime=this.#t.duration*t/100}}class Component{element;callback;SPEED=0;constructor(t=null,e=(()=>{})){this.element=document.querySelector(t),this.callback=e,this.SPEED=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--speed").replace(/(ms|s)/g,""))}setElement(t){this.element=t}scale(t){this.element.style.transform=`scale3d(${t},${t},1)`}translateY(t){this.element.style.transform=`translateY(${t}px)`}transform(t){this.element.style.transform=t}get displayed(){return"initial"===this.element.style.display}set displayed(t){let e;e=t?"initial":"none",this.element.style.display=e}}class List extends Component{#i=null;#a=[];constructor(t,e){super(null,e),this.#i=t;const s=document.createElement("ul");this.#i.forEach((t=>{const e=new ListButton(t,(()=>this.callback(t)));"update"===t.type&&(e.className="update"),"retry"===t.type&&(e.className="retry"),this.#a.push(e),s.appendChild(e.element)})),this.setElement(s)}highlight(t){this.#a.forEach((e=>{e.highlight=t.includes(e.data.id)}))}}class Button extends Component{#l=!1;constructor(t,e){super(t,e),this.element&&this.#n()}#n(){this.element.onclick=()=>{this.#l||(this.callback(),this.#l=!0,setTimeout((()=>{this.#l=!1}),this.SPEED))}}setElement(t){super.setElement(t),this.#n()}get text(){return this.element.querySelector("label").innerText}set text(t){this.element.querySelector("label").innerText=t}get color(){return this.element.querySelector("label").style.color}set color(t){this.element.querySelector("label").style.color=t}}class Modal extends Component{#r=null;constructor(t,e){super(t,e),this.element.querySelector(".cancel").onclick=t=>{t.preventDefault(),t.stopPropagation(),this.hide()}}show(t){this.#r=this.element.querySelector(`#${t}`),this.#r&&(this.element.style.display="flex",requestAnimationFrame((()=>{this.element.style.transform="scaleY(1)",setTimeout((()=>{this.#r.style.display="flex",setTimeout((()=>{this.#r.style.transform="translateY(0)",this.#r.style.opacity=1}),this.SPEED)}),this.SPEED)})))}hide(){this.#r&&(this.#r.style.display="none",this.#r.style.transform="translateY(20px)",this.#r.style.opacity=0),this.element.style.transform="scaleY(0)"}}class ToggleButton extends Button{#o;#c=0;constructor(t,e){super(t,e),this.#o=this.element.children,this.toggle(0)}toggle(t=null){this.#o[this.#c].style.display="none",null!==t?this.#c=t:(this.#c++,this.#c>=this.#o.length&&(this.#c=0)),this.#o[this.#c].style.display="block"}}class ListButton extends Button{#h;constructor(t,e){super(null,e),this.#h=t;const s=document.createElement("div"),n=document.querySelector(".list-item").content.cloneNode(!0);n.querySelector("label").textContent=this.#h.name,s.appendChild(n),this.setElement(s.children[0]);const i=s.querySelector(".toggle");"folder"===t.type?i.children[0].style.display="initial":(this.element.className="leaf",this.element.removeChild(i))}get data(){return this.#h}get highlight(){this.element.className.includes(" hightlight")}set highlight(t){t?this.element.className+=" highlight":this.element.className=this.element.className.replace(" highlight","")}get className(){return this.element.className}set className(t){this.element.className=t}}class PeekABoo extends Component{#u=null;#p=2500;constructor(t){super(t)}show(t="",e="success"){this.#u&&this.hide();let s="transparent";switch(this.element.style.backgroundColor="transparent",e){case"success":s="var(--success-color)";break;case"warning":s="var(--warning-color)";break;case"error":s="var(--error-color)"}this.element.style.backgroundColor=s,requestAnimationFrame((()=>{this.element.innerText=t,this.element.style.animationName="peekaboo",this.#u=setTimeout((()=>{this.hide()}),this.#p)}))}hide(){this.#u&&clearTimeout(this.#u),this.#u=null,this.element.innerText="",this.element.style.animationName=""}}class Info extends Component{#d;#m;#y;#g=!1;#b;#k;constructor(t,e){super(t,e),this.#d=this.element.querySelector("#info-container"),this.#b=this.#d.querySelector(".name"),this.#k=this.#d.querySelector(".type"),this.#m=new ToggleButton("#info-button",(()=>{this.#g?this.close():this.open()})),this.#y=new Button(null,(()=>{this.callback({type:"share"})})),this.#y.setElement(this.#d.querySelector(".share-button"))}update(t){let e;switch(this.#m.text=t.name,this.#b.innerText=t.name,this.#k.innerText=t.type,this.#y.element.style.display="file"===t.type?"none":"flex",t.type){case"error":e="var(--error-color)";break;case"loading":e="var(--terciary-color)";break;default:e="var(--primary-color)"}this.#m.color=e}open(){this.#g||(this.#d.style.transform="scaleY(1)",this.#m.toggle(1),this.#g=!0,this.callback({type:"opening"}),setTimeout((()=>{for(let t=0;t<this.#d.children.length;t++){const e=this.#d.children[t];e.style.visibility="visible",e.style.opacity=1}}),this.SPEED))}close(){if(this.#g){this.callback({type:"closing"});for(let t=0;t<this.#d.children.length;t++){const e=this.#d.children[t];e.style.visibility="hidden",e.style.opacity=0}this.#d.style.transform="scaleY(0)",this.#m.toggle(0),this.#g=!1}}translateY(t){this.#m.translateY(t)}scale(t){this.#m.scale(t)}}class Controller extends Component{currentState="pause";#f;constructor(t,e){super(t,e);new Button("#previous-button",(()=>{this.callback("previous")}));this.#f=new ToggleButton("#action-button",(()=>{"loading"!==this.currentState&&("pause"===this.currentState?this.callback("play"):this.callback("pause"))}));new Button("#next-button",(()=>{this.callback("next")}))}setState(t){this.currentState=t;let e=0;switch(this.currentState){case"play":e=1;break;case"pause":e=0;break;case"loading":e=2;break;case"error":e=3}this.#f.toggle(e)}}class RangeBar extends Component{#S;#w;constructor(t,e){super(t,e),this.#S=this.element.querySelector("input[type='range']"),this.#w=this.element.querySelector(".range-bar"),this.#S.oninput=()=>{this.value=this.#S.value,this.callback(this.value)},this.value=parseFloat(this.#S.value)}get value(){return parseFloat(this.#S.value)}set value(t){this.#w.style.transform=`scaleX(${t/100})`}}class Splash{#v;#x;#T=["Loading, please wait...","Still loading, hang on!","Loading, zzzz..."];#E=null;#C;constructor(){this.#v=document.querySelector("#splash"),this.#x=this.#v.querySelector("p"),this.#C=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--speed").replace(/(ms|s)/g,""));let t=0;this.#x.innerText=this.#T[t],this.#E=setInterval((()=>{t++,t>=this.#T.length&&(t=0),this.#x.innerText=this.#T[t]}),5e3)}error(){clearInterval(this.#E),this.#E=null,this.#x.innerText="Error connecting to server.",this.#x.style.color="var(--error-color)";const t=this.#v.querySelector("img");t.style.transform="scale(1)",setTimeout((()=>{this.#v.removeChild(this.#x),t.style.transform="translateY(50px)",t.style.opacity=0,setTimeout((()=>{document.querySelector("#fullscreen").removeChild(this.#v)}),3*this.#C)}),2e3)}delete(){clearInterval(this.#E),this.#E=null,this.#x.innerText="App loaded!",this.#x.style.animationName="pulse";const t=this.#v.querySelector("img");t.style.transform="scale(1)",setTimeout((()=>{this.#v.removeChild(this.#x),t.style.transform="translateY(50px)",t.style.opacity=0,setTimeout((()=>{document.querySelector("#fullscreen").removeChild(this.#v)}),3*this.#C)}),1e3)}static OFFLINE(){const t=document.querySelector("#splash");if(!t)return;const e=t.querySelector("p");e.style.animationName="pulse",e.innerText="Offline...",setTimeout((()=>{document.body.removeChild(t)}),2e3)}}class Menu extends Component{#B;#I;#D;#L;#q=[];#Y=null;#P=!1;#O=null;constructor(t,e){super(t,e),this.#D=new ToggleButton("#menu-button",(()=>{this.#P?this.close():this.open()})),this.#L=new Button("#menu-back-button",(()=>{const t=this.#I.children.length-1;this.#N(t)})),this.#I=this.element.querySelector("#menu-container")}#A(t){const e=new List(t,(t=>{"folder"===t.type?this.#A(t.children):this.callback(t)}));this.#O&&e.highlight(this.#O),this.#Y&&this.#Y.transform("translateX(-100%)"),this.#q.push(e),this.#I.appendChild(e.element),this.#Y=e,setTimeout((()=>{this.#Y.transform("translateX(0)")}),100),this.#L.displayed=this.#I.children.length>1}#N(t=null){if(null!==t){const e=this.#q[t];e.transform("translateX(100%)"),this.#Y=this.#q[t-1],this.#Y.transform("translateX(0)"),this.#I.children.length-1>1?this.#L.displayed=!0:this.#L.displayed=!1,setTimeout((()=>{this.#I.removeChild(e.element);for(let e=t;e<this.#q.length-1;e++)this.#q[e]=this.#q[e+1];this.#q.length=this.#q.length-1}),this.SPEED)}else this.#I.innerHTML="",this.#Y=null,this.#q=[],this.#L.displayed=!1}open(){this.#D.toggle(1),this.#I.style.transform="scaleY(1)",this.callback({type:"opening"}),this.#A(this.#B),this.#P=!0}close(){this.#D.toggle(0),this.#N(),this.#I.style.transform="scaleY(0)",this.#P=!1,this.callback({type:"closing"})}setTrail(t){this.#O=t,this.#P&&this.#O&&this.#q.forEach((e=>e.highlight(t)))}get data(){return this.#B}set data(t){this.#P?(this.close(),setTimeout((()=>this.#B=t),this.SPEED)):this.#B=t}}let t,e,s,n,i,a,l,r,o,c;const h="https://musicplayer.brunoperry.net";let u=navigator.onLine,p=null;window.onload=async()=>{d()&&await m(`${h}/data`,!0),u||(Splash.OFFLINE(),t=[{type:"open",name:"open..."},{type:"exit",name:"exit"}]),y(),g(),p&&f(p);const s=k();s&&(e.pl=s.playlist,e.currentTrack=s.track,a.update(e.currentTrack))};const d=()=>"serviceWorker"in navigator?(navigator.serviceWorker.register("service-worker.js"),navigator.serviceWorker.addEventListener("message",(t=>{if("update"===t.data.type)n?f(t.data.message):p=t.data.message})),w(),window.ononline=async()=>{u=!0,n.show("You are online"),await m(`${h}/data`),c.data=t},window.onoffline=async()=>{u=!1,n.show("You are offline","warning"),await m(`${h}/data`),c.data=t},!0):(alert("Your browser does not support this app..."),!1),m=async(e=h,i=!1)=>{if(i&&(s=new Splash),u)try{const n=await fetch(e,{headers:{"Accept-Encoding":"gzip"}}),a=await n.json();t=a,i&&s.delete()}catch(t){i?s.error():n.show("Something went wrong...","error"),S()}else t=[{type:"open",name:"open..."},{type:"exit",name:"exit"}]},y=()=>{n=new PeekABoo("#peek-a-boo"),i=new Modal("#modal",(()=>{})),a=new Info("#info",(async t=>{switch(t.type){case"opening":l.translateY(20),r.translateY(20),o.translateY(10);break;case"closing":l.translateY(0),r.translateY(0),o.translateY(0);break;case"share":if("file"!==e.currentTrack?.type)try{await navigator.clipboard.writeText(window.location.href),n.show("Copied to clipboard!")}catch(t){n.show(t,"error")}}})),l=new Controller("#controller",(t=>{switch(t){case"play":e.currentTrack?e.play():c.open();break;case"pause":e.pause();break;case"next":e.next();break;case"previous":e.previous()}})),r=new RangeBar("#scrub",(t=>{e.currentTime=t})),o=new RangeBar("#volume",(t=>{e.volume=t})),c=new Menu("#menu",(async s=>{switch(s.type){case"opening":a.close(),a.scale(.9),l.scale(.9),o.scale(.9),r.scale(.9);break;case"closing":a.scale(1),l.scale(1),o.scale(1),r.scale(1);break;case"music":case"radio":case"file":c.close(),await e.play(s,b(t,s.id));break;case"open":document.querySelector("#file-input").click();break;case"reset":c.close(),await m(`${h}/reset`),c.data=t,n.show("Data updated!");break;case"login":i.show("login");break;case"logout":window.location="/logout";break;case"exit":window.close();break;case"retry":case"update":location.reload()}})),c.data=t;const s=document.querySelector("#file-input");s.onchange=async()=>{const t=[];Array.from(s.files).forEach((e=>{t.push({id:e.name,name:e.name,type:"file",url:URL.createObjectURL(e)})})),c.close(),await e.play(t[0],t)}},g=()=>{e=new AudioPlayer(((t,s=null)=>{switch("progress"!==t&&l.setState(t),t){case"loading":a.update({name:e.currentTrack.name,type:"loading"});break;case"error":a.update({name:e.currentTrack.name,type:"error",error:s});break;case"play":r.element.style.display=e.duration===1/0?"none":"flex",a.update(e.currentTrack),c.setTrail(e.currentTrack.id),v(e.currentTrack.id);break;case"pause":c.setTrail(null);break;case"progress":r.value=e.currentTime/e.duration*100}})),e.volume=o.value},b=(t,e)=>{let s=null;for(let n=0;n<t.length;n++){const i=t[n];if(i.children?s=b(i.children,e):i.id===e&&(s=t),s)break}return s},k=()=>{const e=new Proxy(new URLSearchParams(window.location.search),{get:(t,e)=>t.get(e)});if(null===e.path||"none"===e.path)return null;const s=b(t,e.path);let n=null;if(s)for(let t=0;t<s.length;t++){const i=s[t];if(i.id===e.path){n=i;break}}return n?{playlist:s,track:n}:null},f=e=>{n.show(e),t.push({type:"update",name:"update"}),c.data=t},S=()=>{t=[{type:"open",name:"open..."},{type:"exit",name:"exit"},{type:"retry",name:"retry"}],c&&(c.data=t)},w=()=>void 0!==window.orientation||-1!==navigator.userAgent.indexOf("IEMobile"),v=(t="none")=>{history.replaceState({},"",`?path=${t}`)};
-    </script>
+  <style>
+    :root {
+      --primary-color: #ffc80b;
+      --secondary-color: #053160;
+      --terciary-color: #031e3c;
+      --quadriary-color: #FFE96D;
+      --success-color: #2ca105;
+      --warning-color: #ff9e03;
+      --error-color: #d40a0a;
+      --speed: 150ms;
+      --font-size: clamp(2.5rem, 3vw, 3.5rem);
+      --font-bold: 600;
+      --font-light: 300;
+      --button-height: 92px;
+      --nav-height: env(safe-area-inset-bottom)
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+      opacity: 0
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body,
+    html {
+      background-color: var(--terciary-color);
+      overscroll-behavior-y: contain;
+      overflow: hidden
+    }
+
+    body {
+      position: relative;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--secondary-color);
+      max-width: 800px;
+      margin: 0 auto;
+      overscroll-behavior-y: contain
+    }
+
+    #fullscreen {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100dvh;
+      row-gap: 10px
+    }
+
+    h2 {
+      color: var(--primary-color)
+    }
+
+    label {
+      color: var(--primary-color);
+      font-size: var(--font-size);
+      font-weight: var(--font-bold);
+      text-transform: uppercase;
+      font-weight: 700;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis
+    }
+
+    li label {
+      color: var(--secondary-color)
+    }
+
+    p {
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--quadriary-color)
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      max-width: 100%;
+      flex: 1;
+      padding: 10px
+    }
+
+    button:active>*,
+    li:active>* {
+      transform: scale3d(.9, .9, 1)
+    }
+
+    input[type=range] {
+      position: absolute;
+      inset: 0;
+      opacity: 0
+    }
+
+    input[type=file] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      visibility: hidden;
+      pointer-events: none
+    }
+
+    #info {
+      display: flex;
+      max-height: var(--button-height);
+      flex: 1
+    }
+
+    #info-button {
+      transition: transform var(--speed) ease
+    }
+
+    #info-container {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      inset: 0;
+      padding: 10px;
+      row-gap: 10px;
+      top: var(--button-height);
+      bottom: var(--button-height);
+      overflow-x: hidden;
+      overflow-y: scroll;
+      background-color: var(--terciary-color);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform var(--speed) ease;
+      z-index: 100
+    }
+
+    #info-container>* {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity var(--speed) ease
+    }
+
+    #info-container .share-button {
+      max-height: var(--button-height);
+      margin-top: auto;
+      justify-content: space-between
+    }
+
+    #controller {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      transition: var(--speed) ease;
+      transition-property: transform
+    }
+
+    #scrub {
+      flex: 1;
+      max-height: 16px;
+      display: none;
+      transition: var(--speed) ease;
+      transition-property: transform
+    }
+
+    #volume {
+      flex: 1;
+      transition: var(--speed) ease;
+      transition-property: transform
+    }
+
+    .range {
+      position: relative;
+      display: flex;
+      background-color: var(--terciary-color)
+    }
+
+    .range-bar {
+      flex: 1;
+      transform-origin: left;
+      transform: scaleX(.5);
+      background-color: var(--primary-color);
+      pointer-events: none;
+      width: 100%
+    }
+
+    #menu {
+      display: flex;
+      max-height: var(--button-height);
+      flex: 1;
+      justify-self: end
+    }
+
+    #menu-container {
+      position: absolute;
+      inset: 0;
+      bottom: var(--button-height);
+      display: flex;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      background-color: var(--quadriary-color);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform var(--speed) ease;
+      z-index: 101
+    }
+
+    #menu-back-button {
+      display: none
+    }
+
+    #menu-container ul {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      list-style: none;
+      background-color: var(--quadriary-color);
+      transform: translateX(100%);
+      transition: transform var(--speed) ease
+    }
+
+    #menu-container li {
+      display: grid;
+      grid-template-columns: auto 45px;
+      max-height: 72px;
+      cursor: pointer;
+      gap: 10px;
+      padding: 10px;
+      flex: 1
+    }
+
+    #menu-container li.leaf {
+      display: flex
+    }
+
+    li .toggle {
+      justify-content: flex-end
+    }
+
+    #modal {
+      position: absolute;
+      display: none;
+      inset: 0;
+      justify-content: center;
+      transform: scaleY(0);
+      transition: transform var(--speed) ease;
+      background-color: var(--secondary-color);
+      z-index: 200
+    }
+
+    #modal form {
+      position: relative;
+      display: none;
+      justify-self: center;
+      max-width: 375px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition-duration: var(--speed);
+      transition-timing-function: ease;
+      transition-property: transform, opacity;
+      opacity: 0;
+      transform: translateY(20px);
+      padding: 10px
+    }
+
+    #modal label {
+      width: 100%
+    }
+
+    #modal input {
+      font-size: var(--font-size);
+      padding: 10px;
+      border: none;
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 20px
+    }
+
+    #modal button {
+      width: 100%;
+      max-height: 72px;
+      background-color: var(--primary-color);
+      margin-top: 30px
+    }
+
+    #modal button label {
+      text-transform: uppercase;
+      font-size: var(--font-size);
+      font-weight: 700;
+      color: var(--secondary-color);
+      pointer-events: none
+    }
+
+    #modal button.cancel {
+      position: absolute;
+      align-self: flex-end;
+      top: 10px;
+      width: auto;
+      color: var(--terciary-color);
+      background-color: var(--secondary-color)
+    }
+
+    #peek-a-boo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      inset: 0;
+      max-height: 32px;
+      color: #fff;
+      font-weight: 500;
+      font-size: 12px;
+      z-index: 200;
+      transform: translateY(-100%);
+      animation-duration: var(--speed);
+      animation-fill-mode: forwards;
+      pointer-events: none
+    }
+
+    #splash {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      inset: 0;
+      row-gap: 10px;
+      background-color: var(--secondary-color);
+      align-items: center;
+      justify-content: center
+    }
+
+    #splash img {
+      transform: scale(.9)
+    }
+
+    #splash img,
+    #splash p {
+      transition: var(--speed) cubic-bezier(.25, .1, .76, 1.52);
+      transition-property: transform, opacity
+    }
+
+    #splash p {
+      height: 24px;
+      width: 100%;
+      text-align: center;
+      animation-duration: var(--speed);
+      animation-direction: alternate;
+      animation-iteration-count: infinite
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center
+    }
+
+    .toggle>* {
+      display: none
+    }
+
+    .highlight {
+      background-color: var(--secondary-color)
+    }
+
+    .highlight label {
+      color: var(--primary-color)
+    }
+
+    .highlight svg {
+      fill: var(--primary-color)
+    }
+
+    .update {
+      background-color: var(--success-color)
+    }
+
+    .retry label,
+    .update label {
+      color: #fff
+    }
+
+    .retry {
+      background-color: var(--error-color)
+    }
+
+    @keyframes peekaboo {
+      0% {
+        transform: translateY(-100%)
+      }
+
+      100% {
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale3d(1, 1, 1)
+      }
+
+      100% {
+        transform: scale3d(1.1, 1.1, 1)
+      }
+    }
+  </style>
+  <script>
+    class AudioPlayer { #t; #e = []; #s = 0; currentState = "pause"; callback; constructor(t) { this.#t = new Audio, this.callback = t, this.#n() } #n() { this.#t.onended = () => { this.currentState = "ended", this.callback(this.currentState), this.next() }, this.#t.onpause = () => { this.currentState = "pause", this.callback(this.currentState) }, this.#t.onerror = t => { t.preventDefault(), this.currentState = "error", this.callback(this.currentState, this.#t.error) }, this.#t.onloadstart = () => { this.currentState = "loading", this.callback(this.currentState) }, this.#t.onplaying = () => { this.currentState = "play", this.callback(this.currentState) }, this.#t.ontimeupdate = () => { this.currentState = "progress", this.callback(this.currentState) } } previous() { this.#s--, this.#s < 0 && (this.#s = this.#e.length - 1), this.play(this.#e[this.#s], this.#e) } async play(t = null, e = null) { this.#e = e || this.#e, this.currentTrack = t || this.currentTrack, this.#t.paused || this.#t.pause(); try { return this.#t.src = this.#e[this.#s].url, await this.#t.play(), !0 } catch (t) { return this.currentState = "error", !1 } } pause() { this.#t.pause() } next() { this.#s++, this.#s >= this.#e.length && (this.#s = 0), this.play(this.#e[this.#s], this.#e) } get currentTrack() { return this.#e[this.#s] } set currentTrack(t) { for (let e = 0; e < this.#e.length; e++)if (this.#e[e].id === t.id) { this.#s = e; break } } get pl() { return this.#e } set pl(t) { this.#e = t } get volume() { return this.#t.volume } set volume(t) { this.#t.volume = t / 100 } get duration() { return this.#t.duration } get currentTime() { return this.#t.currentTime } set currentTime(t) { this.#t.currentTime = this.#t.duration * t / 100 } } class Component { element; callback; SPEED = 0; constructor(t = null, e = (() => { })) { this.element = document.querySelector(t), this.callback = e, this.SPEED = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--speed").replace(/(ms|s)/g, "")) } setElement(t) { this.element = t } scale(t) { this.element.style.transform = `scale3d(${t},${t},1)` } translateY(t) { this.element.style.transform = `translateY(${t}px)` } transform(t) { this.element.style.transform = t } get displayed() { return "initial" === this.element.style.display } set displayed(t) { let e; e = t ? "initial" : "none", this.element.style.display = e } } class List extends Component { #i = null; #a = []; constructor(t, e) { super(null, e), this.#i = t; const s = document.createElement("ul"); this.#i.forEach((t => { const e = new ListButton(t, (() => this.callback(t))); "update" === t.type && (e.className = "update"), "retry" === t.type && (e.className = "retry"), this.#a.push(e), s.appendChild(e.element) })), this.setElement(s) } highlight(t) { this.#a.forEach((e => { e.highlight = t.includes(e.data.id) })) } } class Button extends Component { #l = !1; constructor(t, e) { super(t, e), this.element && this.#n() } #n() { this.element.onclick = () => { this.#l || (this.callback(), this.#l = !0, setTimeout((() => { this.#l = !1 }), this.SPEED)) } } setElement(t) { super.setElement(t), this.#n() } get text() { return this.element.querySelector("label").innerText } set text(t) { this.element.querySelector("label").innerText = t } get color() { return this.element.querySelector("label").style.color } set color(t) { this.element.querySelector("label").style.color = t } } class Modal extends Component { #r = null; constructor(t, e) { super(t, e), this.element.querySelector(".cancel").onclick = t => { t.preventDefault(), t.stopPropagation(), this.hide() } } show(t) { this.#r = this.element.querySelector(`#${t}`), this.#r && (this.element.style.display = "flex", requestAnimationFrame((() => { this.element.style.transform = "scaleY(1)", setTimeout((() => { this.#r.style.display = "flex", setTimeout((() => { this.#r.style.transform = "translateY(0)", this.#r.style.opacity = 1 }), this.SPEED) }), this.SPEED) }))) } hide() { this.#r && (this.#r.style.display = "none", this.#r.style.transform = "translateY(20px)", this.#r.style.opacity = 0), this.element.style.transform = "scaleY(0)" } } class ToggleButton extends Button { #o; #c = 0; constructor(t, e) { super(t, e), this.#o = this.element.children, this.toggle(0) } toggle(t = null) { this.#o[this.#c].style.display = "none", null !== t ? this.#c = t : (this.#c++, this.#c >= this.#o.length && (this.#c = 0)), this.#o[this.#c].style.display = "block" } } class ListButton extends Button { #h; constructor(t, e) { super(null, e), this.#h = t; const s = document.createElement("div"), n = document.querySelector(".list-item").content.cloneNode(!0); n.querySelector("label").textContent = this.#h.name, s.appendChild(n), this.setElement(s.children[0]); const i = s.querySelector(".toggle"); "folder" === t.type ? i.children[0].style.display = "initial" : (this.element.className = "leaf", this.element.removeChild(i)) } get data() { return this.#h } get highlight() { this.element.className.includes(" hightlight") } set highlight(t) { t ? this.element.className += " highlight" : this.element.className = this.element.className.replace(" highlight", "") } get className() { return this.element.className } set className(t) { this.element.className = t } } class PeekABoo extends Component { #u = null; #p = 2500; constructor(t) { super(t) } show(t = "", e = "success") { this.#u && this.hide(); let s = "transparent"; switch (this.element.style.backgroundColor = "transparent", e) { case "success": s = "var(--success-color)"; break; case "warning": s = "var(--warning-color)"; break; case "error": s = "var(--error-color)" }this.element.style.backgroundColor = s, requestAnimationFrame((() => { this.element.innerText = t, this.element.style.animationName = "peekaboo", this.#u = setTimeout((() => { this.hide() }), this.#p) })) } hide() { this.#u && clearTimeout(this.#u), this.#u = null, this.element.innerText = "", this.element.style.animationName = "" } } class Info extends Component { #d; #m; #y; #g = !1; #b; #k; constructor(t, e) { super(t, e), this.#d = this.element.querySelector("#info-container"), this.#b = this.#d.querySelector(".name"), this.#k = this.#d.querySelector(".type"), this.#m = new ToggleButton("#info-button", (() => { this.#g ? this.close() : this.open() })), this.#y = new Button(null, (() => { this.callback({ type: "share" }) })), this.#y.setElement(this.#d.querySelector(".share-button")) } update(t) { let e; switch (this.#m.text = t.name, this.#b.innerText = t.name, this.#k.innerText = t.type, this.#y.element.style.display = "file" === t.type ? "none" : "flex", t.type) { case "error": e = "var(--error-color)"; break; case "loading": e = "var(--terciary-color)"; break; default: e = "var(--primary-color)" }this.#m.color = e } open() { this.#g || (this.#d.style.transform = "scaleY(1)", this.#m.toggle(1), this.#g = !0, this.callback({ type: "opening" }), setTimeout((() => { for (let t = 0; t < this.#d.children.length; t++) { const e = this.#d.children[t]; e.style.visibility = "visible", e.style.opacity = 1 } }), this.SPEED)) } close() { if (this.#g) { this.callback({ type: "closing" }); for (let t = 0; t < this.#d.children.length; t++) { const e = this.#d.children[t]; e.style.visibility = "hidden", e.style.opacity = 0 } this.#d.style.transform = "scaleY(0)", this.#m.toggle(0), this.#g = !1 } } translateY(t) { this.#m.translateY(t) } scale(t) { this.#m.scale(t) } } class Controller extends Component { currentState = "pause"; #f; constructor(t, e) { super(t, e); new Button("#previous-button", (() => { this.callback("previous") })); this.#f = new ToggleButton("#action-button", (() => { "loading" !== this.currentState && ("pause" === this.currentState ? this.callback("play") : this.callback("pause")) })); new Button("#next-button", (() => { this.callback("next") })) } setState(t) { this.currentState = t; let e = 0; switch (this.currentState) { case "play": e = 1; break; case "pause": e = 0; break; case "loading": e = 2; break; case "error": e = 3 }this.#f.toggle(e) } } class RangeBar extends Component { #S; #w; constructor(t, e) { super(t, e), this.#S = this.element.querySelector("input[type='range']"), this.#w = this.element.querySelector(".range-bar"), this.#S.oninput = () => { this.value = this.#S.value, this.callback(this.value) }, this.value = parseFloat(this.#S.value) } get value() { return parseFloat(this.#S.value) } set value(t) { this.#w.style.transform = `scaleX(${t / 100})` } } class Splash { #v; #x; #T = ["Loading, please wait...", "Still loading, hang on!", "Loading, zzzz..."]; #E = null; #C; constructor() { this.#v = document.querySelector("#splash"), this.#x = this.#v.querySelector("p"), this.#C = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--speed").replace(/(ms|s)/g, "")); let t = 0; this.#x.innerText = this.#T[t], this.#E = setInterval((() => { t++, t >= this.#T.length && (t = 0), this.#x.innerText = this.#T[t] }), 5e3) } error() { clearInterval(this.#E), this.#E = null, this.#x.innerText = "Error connecting to server.", this.#x.style.color = "var(--error-color)"; const t = this.#v.querySelector("img"); t.style.transform = "scale(1)", setTimeout((() => { this.#v.removeChild(this.#x), t.style.transform = "translateY(50px)", t.style.opacity = 0, setTimeout((() => { document.querySelector("#fullscreen").removeChild(this.#v) }), 3 * this.#C) }), 2e3) } delete() { clearInterval(this.#E), this.#E = null, this.#x.innerText = "App loaded!", this.#x.style.animationName = "pulse"; const t = this.#v.querySelector("img"); t.style.transform = "scale(1)", setTimeout((() => { this.#v.removeChild(this.#x), t.style.transform = "translateY(50px)", t.style.opacity = 0, setTimeout((() => { document.querySelector("#fullscreen").removeChild(this.#v) }), 3 * this.#C) }), 1e3) } static OFFLINE() { const t = document.querySelector("#splash"); if (!t) return; const e = t.querySelector("p"); e.style.animationName = "pulse", e.innerText = "Offline...", setTimeout((() => { document.body.removeChild(t) }), 2e3) } } class Menu extends Component { #B; #I; #D; #L; #q = []; #Y = null; #P = !1; #O = null; constructor(t, e) { super(t, e), this.#D = new ToggleButton("#menu-button", (() => { this.#P ? this.close() : this.open() })), this.#L = new Button("#menu-back-button", (() => { const t = this.#I.children.length - 1; this.#N(t) })), this.#I = this.element.querySelector("#menu-container") } #A(t) { const e = new List(t, (t => { "folder" === t.type ? this.#A(t.children) : this.callback(t) })); this.#O && e.highlight(this.#O), this.#Y && this.#Y.transform("translateX(-100%)"), this.#q.push(e), this.#I.appendChild(e.element), this.#Y = e, setTimeout((() => { this.#Y.transform("translateX(0)") }), 100), this.#L.displayed = this.#I.children.length > 1 } #N(t = null) { if (null !== t) { const e = this.#q[t]; e.transform("translateX(100%)"), this.#Y = this.#q[t - 1], this.#Y.transform("translateX(0)"), this.#I.children.length - 1 > 1 ? this.#L.displayed = !0 : this.#L.displayed = !1, setTimeout((() => { this.#I.removeChild(e.element); for (let e = t; e < this.#q.length - 1; e++)this.#q[e] = this.#q[e + 1]; this.#q.length = this.#q.length - 1 }), this.SPEED) } else this.#I.innerHTML = "", this.#Y = null, this.#q = [], this.#L.displayed = !1 } open() { this.#D.toggle(1), this.#I.style.transform = "scaleY(1)", this.callback({ type: "opening" }), this.#A(this.#B), this.#P = !0 } close() { this.#D.toggle(0), this.#N(), this.#I.style.transform = "scaleY(0)", this.#P = !1, this.callback({ type: "closing" }) } setTrail(t) { this.#O = t, this.#P && this.#O && this.#q.forEach((e => e.highlight(t))) } get data() { return this.#B } set data(t) { this.#P ? (this.close(), setTimeout((() => this.#B = t), this.SPEED)) : this.#B = t } } let t, e, s, n, i, a, l, r, o, c; const h = "https://musicplayer.brunoperry.net"; let u = navigator.onLine, p = null; window.onload = async () => { d() && await m(`${h}/data`, !0), u || (Splash.OFFLINE(), t = [{ type: "open", name: "open..." }, { type: "exit", name: "exit" }]), y(), g(), p && f(p); const s = k(); s && (e.pl = s.playlist, e.currentTrack = s.track, a.update(e.currentTrack)) }; const d = () => "serviceWorker" in navigator ? (navigator.serviceWorker.register("service-worker.js"), navigator.serviceWorker.addEventListener("message", (t => { if ("update" === t.data.type) n ? f(t.data.message) : p = t.data.message })), w(), window.ononline = async () => { u = !0, n.show("You are online"), await m(`${h}/data`), c.data = t }, window.onoffline = async () => { u = !1, n.show("You are offline", "warning"), await m(`${h}/data`), c.data = t }, !0) : (alert("Your browser does not support this app..."), !1), m = async (e = h, i = !1) => { if (i && (s = new Splash), u) try { const n = await fetch(e, { headers: { "Accept-Encoding": "gzip" } }), a = await n.json(); t = a, i && s.delete() } catch (t) { i ? s.error() : n.show("Something went wrong...", "error"), S() } else t = [{ type: "open", name: "open..." }, { type: "exit", name: "exit" }] }, y = () => { n = new PeekABoo("#peek-a-boo"), i = new Modal("#modal", (() => { })), a = new Info("#info", (async t => { switch (t.type) { case "opening": l.translateY(20), r.translateY(20), o.translateY(10); break; case "closing": l.translateY(0), r.translateY(0), o.translateY(0); break; case "share": if ("file" !== e.currentTrack?.type) try { await navigator.clipboard.writeText(window.location.href), n.show("Copied to clipboard!") } catch (t) { n.show(t, "error") } } })), l = new Controller("#controller", (t => { switch (t) { case "play": e.currentTrack ? e.play() : c.open(); break; case "pause": e.pause(); break; case "next": e.next(); break; case "previous": e.previous() } })), r = new RangeBar("#scrub", (t => { e.currentTime = t })), o = new RangeBar("#volume", (t => { e.volume = t })), c = new Menu("#menu", (async s => { switch (s.type) { case "opening": a.close(), a.scale(.9), l.scale(.9), o.scale(.9), r.scale(.9); break; case "closing": a.scale(1), l.scale(1), o.scale(1), r.scale(1); break; case "music": case "radio": case "file": c.close(), await e.play(s, b(t, s.id)); break; case "open": document.querySelector("#file-input").click(); break; case "reset": c.close(), await m(`${h}/reset`), c.data = t, n.show("Data updated!"); break; case "login": i.show("login"); break; case "logout": window.location = "/logout"; break; case "exit": window.close(); break; case "retry": case "update": location.reload() } })), c.data = t; const s = document.querySelector("#file-input"); s.onchange = async () => { const t = []; Array.from(s.files).forEach((e => { t.push({ id: e.name, name: e.name, type: "file", url: URL.createObjectURL(e) }) })), c.close(), await e.play(t[0], t) } }, g = () => { e = new AudioPlayer(((t, s = null) => { switch ("progress" !== t && l.setState(t), t) { case "loading": a.update({ name: e.currentTrack.name, type: "loading" }); break; case "error": a.update({ name: e.currentTrack.name, type: "error", error: s }); break; case "play": r.element.style.display = e.duration === 1 / 0 ? "none" : "flex", a.update(e.currentTrack), c.setTrail(e.currentTrack.id), v(e.currentTrack.id); break; case "pause": c.setTrail(null); break; case "progress": r.value = e.currentTime / e.duration * 100 } })), e.volume = o.value }, b = (t, e) => { let s = null; for (let n = 0; n < t.length; n++) { const i = t[n]; if (i.children ? s = b(i.children, e) : i.id === e && (s = t), s) break } return s }, k = () => { const e = new Proxy(new URLSearchParams(window.location.search), { get: (t, e) => t.get(e) }); if (null === e.path || "none" === e.path) return null; const s = b(t, e.path); let n = null; if (s) for (let t = 0; t < s.length; t++) { const i = s[t]; if (i.id === e.path) { n = i; break } } return n ? { playlist: s, track: n } : null }, f = e => { n.show(e), t.push({ type: "update", name: "update" }), c.data = t }, S = () => { t = [{ type: "open", name: "open..." }, { type: "exit", name: "exit" }, { type: "retry", name: "retry" }], c && (c.data = t) }, w = () => void 0 !== window.orientation || -1 !== navigator.userAgent.indexOf("IEMobile"), v = (t = "none") => { history.replaceState({}, "", `?path=${t}`) };
+  </script>
 </head>
 
 <body>
-    
+
 
   <div id="fullscreen">
     <div id="info">

@@ -1,7 +1,7 @@
-import https from 'https';
-import express from 'express';
-import { config } from './config.js';
-import path from 'path';
+import https from "https";
+import express from "express";
+import { config } from "./config.js";
+import path from "path";
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const app = express();
@@ -9,12 +9,13 @@ const app = express();
 let isDEV = true;
 const PORT = config.PORT;
 const PORT_DEV = 3001;
-const INDEX = __dirname + '/public/index.html';
-const INDEX_DEV = __dirname + '/public/index_dev.html';
+const INDEX = __dirname + "/public/index_prod.html";
+const INDEX_DEV = __dirname + "/public/index_dev.html";
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
+  console.log("lksjd");
   isDEV ? res.sendFile(INDEX_DEV) : res.sendFile(INDEX);
 });
 
