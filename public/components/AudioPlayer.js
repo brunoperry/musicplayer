@@ -1,9 +1,15 @@
 export default class AudioPlayer {
+  FileTypes = {
+    RADIO: 0,
+    AUDIO: 1,
+  };
   #audio;
   #playlist = [];
   #trackIndex = 0;
+  #currentTime = 0;
+  #fileType;
 
-  currentState = 'pause';
+  currentState = "pause";
   callback;
   constructor(callback) {
     this.#audio = new Audio();
@@ -13,35 +19,44 @@ export default class AudioPlayer {
   }
   #setupEvents() {
     this.#audio.onended = () => {
-      this.currentState = 'ended';
+      this.currentState = "ended";
       this.callback(this.currentState);
       this.next();
     };
     this.#audio.onpause = () => {
-      this.currentState = 'pause';
+      this.currentState = "pause";
       this.callback(this.currentState);
     };
     this.#audio.onerror = (e) => {
       e.preventDefault();
-      this.currentState = 'error';
+      this.currentState = "error";
       this.callback(this.currentState, this.#audio.error);
     };
     this.#audio.onloadstart = () => {
-      this.currentState = 'loading';
+      this.currentState = "loading";
       this.callback(this.currentState);
     };
     this.#audio.onplaying = () => {
-      this.currentState = 'play';
+      this.currentState = "play";
       this.callback(this.currentState);
     };
     this.#audio.ontimeupdate = () => {
-      this.currentState = 'progress';
+      this.currentState = "progress";
       this.callback(this.currentState);
     };
   }
 
   previous() {
-    this.#trackIndex--;
+    console.log(this.#fileType);
+    if (this.#fileType === this.FileTypes.AUDIO) {
+      this.#currentTime = 0;
+      if (this.#audio.currentTime < 3) {
+        this.#trackIndex--;
+      }
+    } else {
+      this.#currentTime = 0;
+      this.#trackIndex--;
+    }
     if (this.#trackIndex < 0) this.#trackIndex = this.#playlist.length - 1;
     this.play(this.#playlist[this.#trackIndex], this.#playlist);
   }
@@ -56,14 +71,18 @@ export default class AudioPlayer {
       this.#audio.src = this.#playlist[this.#trackIndex].url;
 
       await this.#audio.play();
+      this.#fileType =
+        this.#audio.duration === Infinity ? this.FileTypes.RADIO : this.FileTypes.AUDIO;
       return true;
     } catch (error) {
-      this.currentState = 'error';
+      this.currentState = "error";
       return false;
     }
   }
   pause() {
     this.#audio.pause();
+    this.#currentTime =
+      this.#fileType === this.FileTypes.AUDIO ? this.#audio.currentTime : null;
   }
   next() {
     this.#trackIndex++;
