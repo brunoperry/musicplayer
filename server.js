@@ -15,7 +15,6 @@ const INDEX_DEV = __dirname + "/public/index_dev.html";
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  console.log("lksjd");
   isDEV ? res.sendFile(INDEX_DEV) : res.sendFile(INDEX);
 });
 

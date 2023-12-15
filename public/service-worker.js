@@ -8,7 +8,6 @@ const CACHE_NAME = "musicplayer";
 const cachedAssets = [
   "/",
   "/index.html",
-  // "/index_dev.html",
   "/app_logo.svg",
   "/manifest.json",
   "/images/icons-192.png",

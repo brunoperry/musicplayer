@@ -148,6 +148,9 @@ const setupLayout = () => {
       case "search":
         menu.buildMenu(value, true);
         break;
+      case "closed":
+        menu.close();
+        break;
     }
   });
 

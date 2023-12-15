@@ -94,8 +94,8 @@ button {
   padding: 10px;
 }
 
-li:active > *,
-button:active > * {
+li:active>*,
+button:active>* {
   transform: scale3d(0.9, 0.9, 1);
 }
 
@@ -142,7 +142,7 @@ input[type='file'] {
   z-index: 100;
 }
 
-#info-container > * {
+#info-container>* {
   visibility: hidden;
   opacity: 0;
   transition: opacity var(--speed) ease;
@@ -256,8 +256,9 @@ li .toggle {
 #modal {
   position: absolute;
   display: none;
+  flex-direction: column;
   inset: 0;
-  justify-content: center;
+  align-items: center;
   transform: scaleY(0);
   transition: transform var(--speed) ease;
   background-color: var(--secondary-color);
@@ -271,34 +272,36 @@ li .toggle {
   width: 100%;
 }
 
-#modal button label {
+#modal .top {
+  display: flex;
+  justify-content: space-between;
+  height: 66px;
+  width: 100%;
+  padding: 10px;
+}
+
+#modal .top label {
   text-transform: uppercase;
   font-size: var(--font-size);
   font-weight: bold;
-  color: var(--secondary-color);
-  pointer-events: none;
+  color: var(--terciary-color);
+  flex: 1;
 }
 
 #modal button.cancel {
   display: flex;
-  justify-content: space-between;
-  position: absolute;
-  align-self: flex-end;
-  top: 0;
-  right: 0;
-  left: 0;
-  margin: 0;
-  height: 66px;
-  background-color: var(--secondary-color);
+  justify-content: flex-end;
+  padding: 0;
+  max-width: 64px;
 }
 
-#modal button.cancel label {
+/* #modal button.cancel label {
   color: var(--terciary-color);
-}
+} */
 
-.modal-title {
+/* .modal-title {
   color: var(--terciary-color);
-}
+} */
 
 #login,
 #search {
@@ -313,7 +316,7 @@ li .toggle {
   position: relative;
   display: none;
   justify-self: center;
-  max-width: 375px;
+  max-width: 80%;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -332,11 +335,16 @@ li .toggle {
   margin-top: 30px;
 }
 
+#login button label {
+  color: var(--secondary-color);
+}
+
 #search {
   display: none;
   flex-direction: column;
   flex: 1;
   padding: 10px;
+  padding-top: 0;
   overflow-x: hidden;
 }
 
@@ -350,7 +358,6 @@ li .toggle {
   flex: 1;
   list-style: none;
   margin-bottom: 10px;
-  margin-top: 56px;
   overflow-y: scroll;
 }
 
@@ -371,7 +378,6 @@ li .toggle {
 #search-box {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
 }
 
 #search button {
@@ -438,7 +444,7 @@ input::placeholder,
   align-items: center;
 }
 
-.toggle > * {
+.toggle>* {
   display: none;
 }
 

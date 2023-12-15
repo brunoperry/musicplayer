@@ -67,6 +67,7 @@ export default class Search {
 
   show() {
     this.#element.style.display = "flex";
+    this.#rebuildSearchResults([]);
     setTimeout(() => {
       this.#element.style.transform = "translateY(0)";
       this.#element.style.opacity = 1;

@@ -61,5 +61,6 @@ export default class Modal extends Component {
       this.#currentView.hide();
     }
     this.element.style.transform = "scaleY(0)";
+    this.callback("closed");
   }
 }

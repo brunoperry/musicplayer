@@ -38,6 +38,13 @@
       "type": "image/png",
       "platform": "wide",
       "label": "Desktop Music Player PWA"
+    },
+    {
+      "src": "images/screenshot3.png",
+      "sizes": "640x320",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop Music Player PWA Widgets"
     }
   ],
   "id": "/",
