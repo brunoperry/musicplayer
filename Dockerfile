@@ -1,5 +1,5 @@
 # Use the Alpine Linux base image
-FROM arm64v8/alpine
+FROM arm64v8/alpine:latest
 # FROM alpine:latest
 
 RUN apk update && \

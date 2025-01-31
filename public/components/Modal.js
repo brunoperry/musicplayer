@@ -26,7 +26,7 @@ export default class Modal extends Component {
     });
     this.#searchView = new Search(data, (action) => {
       this.callback("search", action);
-      this.hide();
+      this.hide(action);
     });
   }
 
@@ -56,11 +56,12 @@ export default class Modal extends Component {
     });
   }
 
-  hide() {
+  hide(action = null) {
     if (this.#currentView) {
       this.#currentView.hide();
     }
     this.element.style.transform = "scaleY(0)";
-    this.callback("closed");
+
+    this.callback("closed", action);
   }
 }

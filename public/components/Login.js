@@ -2,7 +2,6 @@ export default class Login {
   #element;
   constructor() {
     this.#element = document.querySelector("#login");
-
     this.#element.onsubmit = async (e) => {
       e.stopPropagation();
       e.preventDefault();

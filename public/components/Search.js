@@ -24,9 +24,11 @@ export default class Search {
   async #searchData(keyword) {
     const results = [];
 
+    const word = keyword.toLowerCase();
     const searchRecursively = async (items) => {
       for (const item of items) {
-        if (item.name.includes(keyword)) {
+        const name = item.name.toLowerCase();
+        if (name.includes(word)) {
           results.push(item);
         }
 
@@ -68,6 +70,7 @@ export default class Search {
   show() {
     this.#element.style.display = "flex";
     this.#rebuildSearchResults([]);
+    this.#searchInput.focus();
     setTimeout(() => {
       this.#element.style.transform = "translateY(0)";
       this.#element.style.opacity = 1;

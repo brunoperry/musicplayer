@@ -47,16 +47,14 @@ export default class AudioPlayer {
   }
 
   previous() {
-    console.log(this.#fileType);
     if (this.#fileType === this.FileTypes.AUDIO) {
-      this.#currentTime = 0;
       if (this.#audio.currentTime < 3) {
         this.#trackIndex--;
       }
     } else {
-      this.#currentTime = 0;
       this.#trackIndex--;
     }
+    this.#currentTime = 0;
     if (this.#trackIndex < 0) this.#trackIndex = this.#playlist.length - 1;
     this.play(this.#playlist[this.#trackIndex], this.#playlist);
   }
@@ -73,6 +71,7 @@ export default class AudioPlayer {
       await this.#audio.play();
       this.#fileType =
         this.#audio.duration === Infinity ? this.FileTypes.RADIO : this.FileTypes.AUDIO;
+      this.#audio.currentTime = this.#currentTime;
       return true;
     } catch (error) {
       this.currentState = "error";
@@ -85,6 +84,7 @@ export default class AudioPlayer {
       this.#fileType === this.FileTypes.AUDIO ? this.#audio.currentTime : null;
   }
   next() {
+    this.#currentTime = 0;
     this.#trackIndex++;
     if (this.#trackIndex >= this.#playlist.length) this.#trackIndex = 0;
     this.play(this.#playlist[this.#trackIndex], this.#playlist);

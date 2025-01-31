@@ -36,7 +36,9 @@ export default class Menu extends Component {
         this.callback(event);
       }
     });
-    if (this.#trail) list.highlight(this.#trail);
+    if (this.#trail) {
+      list.highlight(this.#trail);
+    }
 
     if (this.#currentList) {
       this.#currentList.transform("translateX(-100%)");
@@ -82,7 +84,8 @@ export default class Menu extends Component {
     this.#menuContainer.style.transform = "scaleY(1)";
     this.callback({ type: "opening" });
 
-    this.#createList(this.#menuData);
+    if (this.#trail) this.buildMenu(this.#trail);
+    else this.#createList(this.#menuData);
     this.#isOpen = true;
   }
 
@@ -97,8 +100,6 @@ export default class Menu extends Component {
   setTrail(trail, andPlay = false) {
     this.#trail = trail;
     if (!this.#isOpen || !this.#trail) return;
-
-    // if (andBuild) this.#buildMenu();
 
     this.#lists.forEach((list) => list.highlight(trail, andPlay));
 
@@ -115,16 +116,18 @@ export default class Menu extends Component {
   buildMenu(dataPath, andPlay = false) {
     const path = dataPath.split("/");
     let currentID = "";
-    let found = false;
+    // let found = false;
 
     const lists = [];
+    lists.push(this.#menuData);
     const fetchList = (data) => {
       for (let i = 0; i < path.length; i++) {
-        if (found) break;
-        if (i === 0) currentID = path[i];
-        else currentID = currentID + "/" + path[i];
+        // if (found) break;
+        if (i === 0) {
+          currentID = path[i];
+        } else currentID = currentID + "/" + path[i];
         for (let j = 0; j < data.length; j++) {
-          if (found) break;
+          // if (found) break;
           if (currentID === data[j].id) {
             if (data[j].type === "folder") {
               lists.push(data[j].children);
