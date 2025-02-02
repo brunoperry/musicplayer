@@ -387,5 +387,6 @@ const setURL = (path = "none") => {
 };
 
 window.addEventListener("resize", () => {
+  console.log(modal);
   modal.style.height = `${window.innerHeight}px`;
 });
