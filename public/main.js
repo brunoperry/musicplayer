@@ -385,3 +385,7 @@ const isMobileDevice = () => {
 const setURL = (path = "none") => {
   history.replaceState({}, "", `?path=${path}`);
 };
+
+window.addEventListener("resize", () => {
+  modal.style.height = `${window.innerHeight}px`;
+});
