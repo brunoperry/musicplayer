@@ -46,7 +46,6 @@ export default class Modal extends Component {
     if (!this.#currentView) {
       return;
     }
-
     this.element.style.display = "flex";
     requestAnimationFrame(() => {
       this.element.style.transform = "scaleY(1)";
@@ -61,7 +60,6 @@ export default class Modal extends Component {
       this.#currentView.hide();
     }
     this.element.style.transform = "scaleY(0)";
-
     this.callback("closed", action);
   }
 }

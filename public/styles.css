@@ -57,6 +57,7 @@ body {
   justify-content: space-between;
   flex: 1;
   row-gap: 10px;
+  width: 100%;
 }
 
 h2 {
@@ -269,8 +270,7 @@ li .toggle {
   transition: transform var(--speed) ease;
   background-color: var(--secondary-color);
   z-index: 200;
-  height: auto;
-  min-height: 100dvh;
+  height: 100%;
 }
 
 #modal input {

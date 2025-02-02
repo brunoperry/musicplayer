@@ -26,9 +26,9 @@ let isOnline = navigator.onLine;
 let peekabooMessage = null;
 
 window.onload = async () => {
-  // if (setupPWA()) {
-  await initialize(`${API_URL}/data`, true);
-  // }
+  if (setupPWA()) {
+    await initialize(`${API_URL}/data`, true);
+  }
 
   if (!isOnline) {
     Splash.OFFLINE();
@@ -387,6 +387,7 @@ const setURL = (path = "none") => {
 };
 
 window.addEventListener("resize", () => {
-  console.log("outter", window.outerHeight);
-  modal.element.style.height = `${window.innerHeight}px`;
+  const h = `${window.visualViewport.height}px`;
+  document.body.style.height = h;
+  modal.element.style.height = h;
 });
