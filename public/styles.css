@@ -70,3 +70,7 @@ label {
   padding: 10px;
   cursor: pointer;
 }
+
+input {
+  height: var(--button-height);
+}

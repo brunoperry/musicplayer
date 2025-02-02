@@ -3,51 +3,33 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="description" content="JavaScript PWA Music Player" />
-  <meta name="theme-color" content="#053160" />
-  <meta property="og:title" content="JavaScript PWA Music Player" />
-  <meta property="og:description" content="Mobile app to play streamed and local music files" />
-  <meta property="og:image" content="https://musicplayer.brunoperry.net/images/icons-192.png" />
-  <meta property="og:url" content="https://musicplayer.brunoperry.net" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/svg+xml" href="app_logo.svg" />
-  <link rel="apple-touch-icon" href="app_logo.svg" />
   <title>Music Player dev</title>
-
-  <link rel="stylesheet" href="styles.css" />
-  <script src="components.js"></script>
   <script src="main.js" type="module"></script>
+
+  <style>
+    html {
+      background-color: black;
+    }
+
+    html,
+    body {
+      height: 100dvh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: blue;
+    }
+
+
+    body {
+      background-color: orangered;
+    }
+  </style>
 </head>
 
 <body>
-
-  <mp-header label="Music Player"></mp-header>
-  <mp-controller></mp-controller>
-  <mp-scrub></mp-scrub>
-  <mp-volume></mp-volume>
-  <mp-menu></mp-menu>
-  <mp-modal></mp-modal>
-
-  <template class="list-item">
-    <li>
-      <label>Item default</label>
-      <div class="toggle">
-        <svg width="31px" height="45px" viewBox="0 0 6 8" fill="var(--secondary-color)">
-          <path d="M1.403,0l3.613,3.64l-3.661,3.641l-1.355,-1.374l2.27,-2.243l-2.24,-2.308l1.373,-1.356Z" />
-        </svg>
-        <svg width="31" height="31" viewBox="0 0 6 6" fill="var(--error-color)">
-          <rect x="-0" y="0" width="5.016" height="5.016" />
-        </svg>
-      </div>
-    </li>
-  </template>
-  <template class="search-item">
-    <li><label></label></li>
-  </template>
+  <input type="text">
 </body>
 
 </html>

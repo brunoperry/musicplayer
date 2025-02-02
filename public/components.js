@@ -3,7 +3,6 @@ MPHeaderTemplate.innerHTML = `
 <style>
     @import url('styles.css');
     :host {
-        flex: 1;
         background-color: var(--secondary-color);
     }
     label {
