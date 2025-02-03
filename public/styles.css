@@ -417,10 +417,11 @@ input::placeholder,
   align-items: center;
   position: absolute;
   inset: 0;
-  max-height: 32px;
+  padding: 10px;
+  height: fit-content;
   color: white;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 24px;
   z-index: 200;
   transform: translateY(-100%);
   animation-duration: var(--speed);

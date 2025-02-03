@@ -7,6 +7,8 @@
   "scripts": {
     "pack": "gulp --gulpfile deploy/gulpfile.js",
     "dev": "nodemon --ignore public/app_data.json --ignore public/auth_data.json server.js",
+    "clear_docker": "docker rmi docker.brunoperry.net/musicplayer:latest && docker rmi musicplayer",
+    "deploy_docker": "docker build --platform linux/arm64 -t musicplayer . && docker tag musicplayer docker.brunoperry.net/musicplayer:latest && docker push docker.brunoperry.net/musicplayer:latest",
     "build": "rm -rf deploy/html && mkdir deploy/html && cp -r public/images deploy/html/images && cp public/manifest.json deploy/html/manifest.json && cp public/service-worker.js deploy/html/service-worker.js && cp public/app_logo.svg deploy/html/app_logo.svg && npm run pack"
   },
   "repository": {

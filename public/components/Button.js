@@ -1,7 +1,7 @@
 import Component from "./Component.js";
 
 export default class Button extends Component {
-  #wait_click = false;
+  #clickTimeout = false;
   constructor(elemID, callback) {
     super(elemID, callback);
 
@@ -12,11 +12,11 @@ export default class Button extends Component {
 
   #setupEvents() {
     this.element.onclick = () => {
-      if (this.#wait_click) return;
+      if (this.#clickTimeout) return;
       this.callback();
-      this.#wait_click = true;
+      this.#clickTimeout = true;
       setTimeout(() => {
-        this.#wait_click = false;
+        this.#clickTimeout = false;
       }, this.SPEED);
     };
   }
