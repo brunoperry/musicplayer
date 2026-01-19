@@ -1,6 +1,8 @@
 # Use the Alpine Linux base image
-FROM arm64v8/alpine:latest
+#FROM arm64v8/alpine:latest
 # FROM alpine:latest
+FROM --platform=linux/arm64 alpine
+
 
 RUN apk update && \
     apk add --no-cache nginx

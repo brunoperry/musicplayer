@@ -30,6 +30,20 @@ window.onload = async () => {
     await initialize(`${API_URL}/data`, true);
   }
 
+  window.ononline = async () => {
+    isOnline = true;
+    peekaboo.show("You are online");
+    console.log("api_url");
+    await initialize(`${API_URL}/data`);
+    menu.data = appData;
+  };
+  window.onoffline = async () => {
+    isOnline = false;
+    peekaboo.show("You are offline", "warning");
+    await initialize(`${API_URL}/data`);
+    menu.data = appData;
+  };
+
   if (!isOnline) {
     Splash.OFFLINE();
     appData = [
@@ -59,6 +73,8 @@ window.onload = async () => {
 };
 
 const setupPWA = () => {
+  return true;
+
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
     navigator.serviceWorker.addEventListener("message", (event) => {
@@ -82,19 +98,7 @@ const setupPWA = () => {
     alert("Your browser does not support this app...");
     return false;
   }
-  window.ononline = async () => {
-    isOnline = true;
-    peekaboo.show("You are online");
-    console.log("api_url");
-    await initialize(`${API_URL}/data`);
-    menu.data = appData;
-  };
-  window.onoffline = async () => {
-    isOnline = false;
-    peekaboo.show("You are offline", "warning");
-    await initialize(`${API_URL}/data`);
-    menu.data = appData;
-  };
+
   return true;
 };
 
